@@ -1,0 +1,34 @@
+# params.yaml
+# Hyperparamètres versionnés par DVC
+# Modifiez ces valeurs et relancez `dvc repro` pour comparer les expériences
+
+train:
+  # Algorithme principal : 'svd' ou 'knn'
+  algorithme: svd
+
+  # SVD : nombre de dimensions latentes
+  # Plus élevé = plus précis mais plus lent
+  n_components: 10
+
+  # KNN : nombre de voisins similaires
+  n_neighbors: 5
+
+  # Nombre de recommandations par défaut
+  n_recommendations: 5
+
+preprocess:
+  # Score minimal pour conserver un emprunt
+  score_min: 0.5
+
+  # Nombre minimal d'emprunts par utilisateur
+  min_emprunts_utilisateur: 1
+
+  # Nombre minimal d'emprunts par livre
+  min_emprunts_livre: 1
+
+evaluate:
+  # K pour Précision@K et Rappel@K
+  k: 5
+
+  # Proportion du jeu de test
+  test_size: 0.2

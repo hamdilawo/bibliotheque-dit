@@ -1,0 +1,255 @@
+# docker-compose.yml — Bibliothèque Numérique DIT
+# =====================================================
+# Lancement dev  : docker compose --profile dev up --build
+# Lancement prod : docker compose --profile prod up --build -d
+# =====================================================
+
+name: bibliotheque-dit
+
+# ── Variables communes ─────────────────────────────────────────
+x-django-common: &django-common
+  restart: unless-stopped
+  networks:
+    - bibliotheque-network
+  depends_on:
+    db:
+      condition: service_healthy
+  environment: &django-env
+    DB_USER: ${DB_USER:-postgres}
+    DB_PASSWORD: ${DB_PASSWORD:-postgres}
+    DEBUG: ${DEBUG:-True}
+    SECRET_KEY: ${SECRET_KEY:-changeme-in-production}
+    ALLOWED_HOSTS: "*"
+
+services:
+
+  # ── Base de données PostgreSQL ───────────────────────────────
+  db:
+    image: postgres:16-alpine
+    container_name: dit-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
+      POSTGRES_MULTIPLE_DATABASES: livres_db,utilisateurs_db,emprunts_db
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./scripts/init-multi-db.sh:/docker-entrypoint-initdb.d/init-multi-db.sh
+    ports:
+      - "5432:5432"
+    networks:
+      - bibliotheque-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ── Service Livres ───────────────────────────────────────────
+  livres:
+    container_name: dit-livres
+    <<: *django-common
+    environment:
+      <<: *django-env
+      DB_NAME: livres_db
+      DB_HOST: db
+    ports:
+      - "8001:8001"
+    profiles: ["dev", "prod"]
+
+    # DEV : hot-reload avec volume monté
+    build:
+      context: ./services/livres
+      dockerfile: Dockerfile
+    volumes:
+      - ./services/livres:/app:ro  # lecture seule en prod
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8001"
+    profiles: ["dev"]
+
+  livres-prod:
+    container_name: dit-livres-prod
+    <<: *django-common
+    build:
+      context: ./services/livres
+      dockerfile: Dockerfile
+    environment:
+      <<: *django-env
+      DB_NAME: livres_db
+      DB_HOST: db
+      DEBUG: "False"
+    ports:
+      - "8001:8001"
+    profiles: ["prod"]
+
+  # ── Service Utilisateurs ─────────────────────────────────────
+  utilisateurs:
+    container_name: dit-utilisateurs
+    <<: *django-common
+    build:
+      context: ./services/utilisateurs
+      dockerfile: Dockerfile
+    environment:
+      <<: *django-env
+      DB_NAME: utilisateurs_db
+      DB_HOST: db
+    volumes:
+      - ./services/utilisateurs:/app
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8002"
+    ports:
+      - "8002:8002"
+    profiles: ["dev"]
+
+  utilisateurs-prod:
+    container_name: dit-utilisateurs-prod
+    <<: *django-common
+    build:
+      context: ./services/utilisateurs
+      dockerfile: Dockerfile
+    environment:
+      <<: *django-env
+      DB_NAME: utilisateurs_db
+      DB_HOST: db
+      DEBUG: "False"
+    ports:
+      - "8002:8002"
+    profiles: ["prod"]
+
+  # ── Service Emprunts ─────────────────────────────────────────
+  emprunts:
+    container_name: dit-emprunts
+    <<: *django-common
+    build:
+      context: ./services/emprunts
+      dockerfile: Dockerfile
+    environment:
+      <<: *django-env
+      DB_NAME: emprunts_db
+      DB_HOST: db
+      SERVICE_LIVRES_URL: http://livres:8001
+      SERVICE_UTILISATEURS_URL: http://utilisateurs:8002
+    volumes:
+      - ./services/emprunts:/app
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8003"
+    ports:
+      - "8003:8003"
+    depends_on:
+      db:
+        condition: service_healthy
+    profiles: ["dev"]
+
+  emprunts-prod:
+    container_name: dit-emprunts-prod
+    <<: *django-common
+    build:
+      context: ./services/emprunts
+      dockerfile: Dockerfile
+    environment:
+      <<: *django-env
+      DB_NAME: emprunts_db
+      DB_HOST: db
+      DEBUG: "False"
+      SERVICE_LIVRES_URL: http://livres-prod:8001
+      SERVICE_UTILISATEURS_URL: http://utilisateurs-prod:8002
+    ports:
+      - "8003:8003"
+    profiles: ["prod"]
+
+  # ── Service Recommandation ───────────────────────────────────
+  recommandation:
+    container_name: dit-recommandation
+    restart: unless-stopped
+    networks:
+      - bibliotheque-network
+    build:
+      context: ./services/recommandation
+      dockerfile: Dockerfile
+    environment:
+      SERVICE_LIVRES_URL: http://livres:8001
+      SERVICE_EMPRUNTS_URL: http://emprunts:8003
+      MODEL_PATH: /app/model/model.pkl
+      DATA_PATH: /app/data/loans.csv
+    volumes:
+      - ./services/recommandation:/app          # hot-reload
+      - model-data:/app/model                   # modèle ML persistant
+      - training-data:/app/data                 # données d'entraînement
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8004 --reload
+    ports:
+      - "8004:8004"
+    profiles: ["dev"]
+
+  recommandation-prod:
+    container_name: dit-recommandation-prod
+    restart: unless-stopped
+    networks:
+      - bibliotheque-network
+    build:
+      context: ./services/recommandation
+      dockerfile: Dockerfile
+    environment:
+      SERVICE_LIVRES_URL: http://livres-prod:8001
+      SERVICE_EMPRUNTS_URL: http://emprunts-prod:8003
+      MODEL_PATH: /app/model/model.pkl
+      DATA_PATH: /app/data/loans.csv
+    volumes:
+      - model-data:/app/model
+      - training-data:/app/data
+    ports:
+      - "8004:8004"
+    profiles: ["prod"]
+
+  # ── Frontend React ───────────────────────────────────────────
+  frontend:
+    container_name: dit-frontend
+    restart: unless-stopped
+    networks:
+      - bibliotheque-network
+    build:
+      context: ./services/frontend
+      dockerfile: Dockerfile
+    environment:
+      REACT_APP_LIVRES_URL: http://localhost:8001
+      REACT_APP_USERS_URL: http://localhost:8002
+      REACT_APP_EMPRUNTS_URL: http://localhost:8003
+      REACT_APP_RECO_URL: http://localhost:8004
+      CHOKIDAR_USEPOLLING: "true"   # hot-reload Docker
+    volumes:
+      - ./services/frontend/src:/app/src           # hot-reload
+      - ./services/frontend/public:/app/public
+      - /app/node_modules                          # isolation node_modules
+    command: npm start
+    ports:
+      - "3000:3000"
+    profiles: ["dev"]
+
+  frontend-prod:
+    container_name: dit-frontend-prod
+    restart: unless-stopped
+    networks:
+      - bibliotheque-network
+    build:
+      context: ./services/frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    profiles: ["prod"]
+
+# ── Volumes persistants ──────────────────────────────────────
+volumes:
+  postgres-data:
+    name: dit-postgres-data
+  model-data:
+    name: dit-model-data
+  training-data:
+    name: dit-training-data
+
+# ── Réseau dédié ─────────────────────────────────────────────
+networks:
+  bibliotheque-network:
+    name: dit-network
+    driver: bridge

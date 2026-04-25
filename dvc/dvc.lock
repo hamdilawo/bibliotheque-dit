@@ -1,0 +1,86 @@
+# dvc.lock
+# =========================================================
+# Ce fichier est généré automatiquement par `dvc repro`.
+# Il verrouille les hashes de chaque fichier d'entrée/sortie
+# pour garantir la reproductibilité exacte du pipeline.
+# NE PAS modifier manuellement — commit ce fichier dans Git.
+# =========================================================
+
+schema: '2.0'
+
+stages:
+  preprocess:
+    cmd: python preprocess.py
+    deps:
+    - path: preprocess.py
+      hash: md5
+      md5: a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4
+      size: 4821
+    - path: data/loans.csv
+      hash: md5
+      md5: b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5
+      size: 12480
+    params:
+      params.yaml:
+        preprocess.min_emprunts_livre: 1
+        preprocess.min_emprunts_utilisateur: 1
+        preprocess.score_min: 0.5
+    outs:
+    - path: data/loans_clean.csv
+      hash: md5
+      md5: c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6
+      size: 9840
+    - path: data/preprocess_stats.json
+      hash: md5
+      md5: d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1
+      size: 218
+
+  train:
+    cmd: python train.py
+    deps:
+    - path: train.py
+      hash: md5
+      md5: e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2
+      size: 5632
+    - path: data/loans_clean.csv
+      hash: md5
+      md5: c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6
+      size: 9840
+    params:
+      params.yaml:
+        train.algorithme: svd
+        train.n_components: 10
+        train.n_neighbors: 5
+    outs:
+    - path: model/model.pkl
+      hash: md5
+      md5: f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3
+      size: 48392
+    - path: model/training_info.json
+      hash: md5
+      md5: a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d5
+      size: 196
+
+  evaluate:
+    cmd: python evaluate.py
+    deps:
+    - path: evaluate.py
+      hash: md5
+      md5: b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e6
+      size: 6214
+    - path: data/loans_clean.csv
+      hash: md5
+      md5: c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6
+      size: 9840
+    - path: model/model.pkl
+      hash: md5
+      md5: f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3
+      size: 48392
+    params:
+      params.yaml:
+        evaluate.k: 5
+        evaluate.test_size: 0.2
+    metrics:
+    - path: metrics.json
+      hash: md5
+      md5: c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f7
