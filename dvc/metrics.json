@@ -1,13 +1,13 @@
 {
-  "rmse": 0.4123,
-  "mae": 0.3187,
-  "precision_at_5": 0.3200,
-  "rappel_at_5": 0.2850,
-  "variance_expliquee_svd": 0.7842,
-  "couverture_catalogue": 0.8667,
-  "n_utilisateurs": 20,
-  "n_livres": 30,
-  "n_emprunts": 185,
+  "rmse": 1.5665,
+  "mae": 1.1616,
+  "precision_at_5": 0.2,
+  "rappel_at_5": 1.0,
+  "variance_expliquee_svd": 0.9901,
+  "couverture_catalogue": 1.0,
+  "n_utilisateurs": 6,
+  "n_livres": 7,
+  "n_emprunts": 57,
   "hyperparams": {
     "n_components": 10,
     "n_neighbors": 5
