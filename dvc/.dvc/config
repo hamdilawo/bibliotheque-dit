@@ -3,4 +3,5 @@
 ['remote "myremote"']
     url = gdrive://1X-22WFVUs6DUGHB7v6jtitkx3nvbEfVW
     gdrive_acknowledge_abuse = true
-    gdrive_use_service_account = false
+    gdrive_use_service_account = true
+    gdrive_service_account_json_file_path = ../dvc-bibliotheque-dit-f14b85a9bf54.json
