@@ -8,7 +8,9 @@ train:
 
   # SVD : nombre de dimensions latentes
   # Plus élevé = plus précis mais plus lent
-  n_components: 10
+  # Note : avec 6 utilisateurs / 7 livres, le rang max de la matrice est 6.
+  # n_components doit etre <= rang(matrice). Experience V2 : 2
+  n_components: 2
 
   # KNN : nombre de voisins similaires
   n_neighbors: 5
