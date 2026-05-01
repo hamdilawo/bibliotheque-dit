@@ -1,15 +1,15 @@
 {
-  "rmse": 1.5765,
-  "mae": 1.175,
+  "rmse": 1.5657,
+  "mae": 1.1613,
   "precision_at_5": 0.2,
   "rappel_at_5": 1.0,
-  "variance_expliquee_svd": 0.6167,
+  "variance_expliquee_svd": 0.9735,
   "couverture_catalogue": 1.0,
   "n_utilisateurs": 6,
   "n_livres": 7,
   "n_emprunts": 57,
   "hyperparams": {
-    "n_components": 2,
+    "n_components": 4,
     "n_neighbors": 5
   }
 }

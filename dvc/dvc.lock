@@ -39,16 +39,16 @@ stages:
     params:
       params.yaml:
         train.algorithme: svd
-        train.n_components: 2
+        train.n_components: 4
         train.n_neighbors: 5
     outs:
     - path: model/model.pkl
       hash: md5
-      md5: 5b1c973d16458191bd6de1e687213f9a
-      size: 2387
+      md5: 743b638150cb6adbc46848d45450ca0b
+      size: 2643
     - path: model/training_info.json
       hash: md5
-      md5: 1d3dee5db66ad82b4aefe1b2242385ab
+      md5: 52a8064f60ad1ae362ac75d0e91e2798
       size: 121
   evaluate:
     cmd: python evaluate.py
@@ -63,8 +63,8 @@ stages:
       size: 6978
     - path: model/model.pkl
       hash: md5
-      md5: 5b1c973d16458191bd6de1e687213f9a
-      size: 2387
+      md5: 743b638150cb6adbc46848d45450ca0b
+      size: 2643
     params:
       params.yaml:
         evaluate.k: 5
@@ -72,5 +72,5 @@ stages:
     outs:
     - path: metrics.json
       hash: md5
-      md5: a8767b74dfe499f8b23da3d31d54ad2a
-      size: 292
+      md5: 6edab194c7a751378e430e978d99d9cf
+      size: 293

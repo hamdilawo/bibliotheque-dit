@@ -9,10 +9,13 @@ train:
   # SVD : nombre de dimensions latentes
   # Plus élevé = plus précis mais plus lent
   # Note : avec 6 utilisateurs / 7 livres, le rang max de la matrice est 6.
-  # n_components doit etre <= rang(matrice). Experience V2 : 2
-  n_components: 2
+  # Experiences :
+  #   V1 : n_components=10 (sur-parametrise)
+  #   V2 : n_components=2  (rang minimal, sous-parametrise)
+  #   V3 : n_components=4  (point intermediaire, meilleur compromis attendu)
+  n_components: 4
 
-  # KNN : nombre de voisins similaires
+  # KNN : nombre de voisins similaires (utilise par le service reco, pas par DVC eval)
   n_neighbors: 5
 
   # Nombre de recommandations par défaut
