@@ -49,13 +49,22 @@ dvc metrics diff model-v1 model-v3
 
 ## Tableau de comparaison
 
+### Phase 1 — Petit dataset (6 utilisateurs / 7 livres / 57 emprunts)
+
 | Version | Algorithme | n_components | RMSE | MAE | P@5 | R@5 | Variance SVD |
 |---|---|---:|---:|---:|---:|---:|---:|
 | `model-v1` | SVD | 10 | 1.5665 | 1.1616 | 0.20 | 1.00 | **99.01 %** |
 | `model-v2` | SVD | 2 | 1.5765 | 1.1750 | 0.20 | 1.00 | 61.67 % |
-| **`model-v3`** ⭐ | SVD | 4 | **1.5657** | **1.1613** | 0.20 | 1.00 | 97.35 % |
+| `model-v3` | SVD | 4 | **1.5657** | **1.1613** | 0.20 | 1.00 | 97.35 % |
 
-> **Échantillon** : 6 utilisateurs, 7 livres, 57 emprunts.
+### Phase 2 — Dataset enrichi (30 utilisateurs / 50 livres / 463 emprunts)
+
+| Version | Algorithme | n_components | RMSE | MAE | P@5 | R@5 | Variance SVD |
+|---|---|---:|---:|---:|---:|---:|---:|
+| **`model-v4`** ⭐ | SVD | 15 | **1.5315** | **1.1197** | **0.227** | 0.678 | 87.15 % |
+
+> **Phase 1** : matrice 6×7, rang max 5. Métriques saturées (R@5=1.0 car top-5 sur 7 livres).
+> **Phase 2** : matrice 30×50, rang max 29. Métriques discriminantes.
 > Test split : 20 %. K = 5 pour Précision@K et Rappel@K.
 
 ---
@@ -73,14 +82,27 @@ Choix volontairement bas pour matérialiser l'erreur opposée. La variance expli
 chute à 61 %, le RMSE augmente légèrement (1.5765). Le modèle perd du signal
 réellement utile.
 
-### V3 — n_components=4 (compromis retenu) ⭐
-Le bon point dans la courbe en U RMSE = f(n_components) :
+### V3 — n_components=4 (meilleur sur petit dataset)
+Le bon point dans la courbe en U RMSE = f(n_components) sur le petit dataset :
 - Capture 97 % de variance utile (proche de V1)
 - Sans le sur-ajustement aux 4 dimensions parasites
-- **RMSE et MAE les plus bas des 3 versions**
+- **RMSE et MAE les plus bas des 3 premières versions**
 
-C'est cette version qui est promue comme **modèle de production** via le tag
-`model-prod` (alias de `model-v3`).
+### V4 — n_components=15 sur dataset enrichi (modèle de production retenu) ⭐
+Après enrichissement du seed (×8 emprunts, ×7 livres, ×5 utilisateurs), le rang
+max de la matrice passe de 5 à 29. **L'optimum de `n_components` change avec
+le dataset.** V4 démontre que :
+- RMSE descend à **1.5315** (vs 1.5657 pour V3) malgré un dataset 8× plus grand
+  → preuve que le modèle **généralise** au lieu de mémoriser
+- MAE descend à **1.1197** (vs 1.1613 pour V3)
+- Précision@5 monte à **22.7 %** (vs saturé à 20 % en phase 1)
+- Rappel@5 descend à 67.8 % : valeur réaliste (sur petit dataset, R@5=1.0
+  était une saturation : top-5 sur 7 livres = 71 % du catalogue)
+- Couverture du catalogue à 84 % : largement suffisant
+
+**Conclusion pédagogique :** le bon `n_components` n'est pas absolu, il dépend
+de la taille de la matrice. C'est `model-v4` qui devient le **modèle de
+production** (`model-prod` est un alias pointant sur V4 après cette phase).
 
 ---
 
@@ -102,20 +124,23 @@ git add dvc/params.yaml dvc/dvc.lock dvc/metrics.json
 git commit -m "experiment(dvc): SVD n_components=4 - V3 (meilleur compromis)"
 git tag -a model-v3 -m "Modele V3 - SVD n_components=4"
 
-# Alias production
-git tag -a model-prod model-v3 -m "Modele de production = V3"
+# V4 : enrichissement du seed -> 30 utilisateurs / 50 livres / 500 emprunts
+# Modifier params.yaml -> n_components: 15 puis dvc repro
+docker compose --profile dev down -v
+docker compose --profile dev up --build      # ré-applique les seeds enrichis
+curl http://localhost:8003/api/emprunts/export_csv/ -o dvc/data/loans.csv
+cd dvc && dvc repro
+git add services/*/seed.py dvc/params.yaml dvc/dvc.lock dvc/metrics.json \
+        dvc/model/training_info.json dvc/data/preprocess_stats.json
+git commit -m "feat(seed): enrichissement dataset (50 livres / 30 utilisateurs / 500 emprunts)"
+git tag -a model-v4 -m "Modele V4 - SVD n_components=15 sur dataset enrichi"
+
+# Re-pointage de l'alias production sur V4
+git tag -d model-prod
+git push origin :refs/tags/model-prod
+git tag -a model-prod model-v4 -m "Modele de production = V4 (dataset enrichi)"
 
 # Pousser tags + artefacts DVC
 git push origin develop --tags
 dvc push
 ```
-
----
-
-## Limite connue
-
-Avec seulement 57 emprunts pour 6 utilisateurs et 7 livres, les métriques
-Précision@5 et Rappel@5 saturent (P@5=0.2 et R@5=1.0 systématiquement).
-Une expérience future avec un volume de données accru (~500 emprunts,
-~30 utilisateurs, ~50 livres) est planifiée pour produire des métriques
-statistiquement plus discriminantes (étape 7 du plan d'amélioration).
