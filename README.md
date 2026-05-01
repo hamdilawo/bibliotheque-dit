@@ -1,6 +1,6 @@
-# 📚 Bibliothèque Numérique DIT
-**Master 2 Intelligence Artificielle — Examen Outils de Versioning**
-Durée : 24 Avril → 15 Mai 2026
+# Bibliotheque Numerique DIT
+**Master 2 Intelligence Artificielle - Examen Outils de Versioning**
+Duree : 24 Avril -> 15 Mai 2026
 
 ---
 
@@ -8,50 +8,52 @@ Durée : 24 Avril → 15 Mai 2026
 
 ```
 bibliotheque-dit/
-├── services/
-│   ├── livres/           # Django REST — port 8001
-│   ├── utilisateurs/     # Django REST — port 8002
-│   ├── emprunts/         # Django REST — port 8003
-│   ├── recommandation/   # FastAPI + SVD — port 8004
-│   └── frontend/         # React — port 3000
-├── dvc/
-│   ├── preprocess.py     # Étape 1 : nettoyage des données
-│   ├── train.py          # Étape 2 : entraînement SVD/KNN
-│   ├── evaluate.py       # Étape 3 : métriques RMSE, MAE, Précision@K
-│   ├── dvc.yaml          # Définition du pipeline
-│   ├── dvc.lock          # Verrouillage des hashes
-│   ├── params.yaml       # Hyperparamètres versionnés
-│   └── metrics.json      # Résultats d'évaluation
-├── docker-compose.yml
-└── README.md
++-- services/
+|   +-- livres/           # Django REST - port 8001
+|   +-- utilisateurs/     # Django REST - port 8002
+|   +-- emprunts/         # Django REST - port 8003
+|   +-- recommandation/   # FastAPI + SVD - port 8004
+|   +-- frontend/         # React - port 3000
++-- dvc/
+|   +-- preprocess.py     # Etape 1 : nettoyage des donnees
+|   +-- train.py          # Etape 2 : entrainement SVD/KNN
+|   +-- evaluate.py       # Etape 3 : metriques RMSE, MAE, Precision@K
+|   +-- dvc.yaml          # Definition du pipeline
+|   +-- dvc.lock          # Verrouillage des hashes
+|   +-- params.yaml       # Hyperparametres versionnes
+|   +-- metrics.json      # Resultats d'evaluation
+|   +-- EXPERIMENTS.md    # Journal des experiences V1/V2/V3/V4
++-- docker-compose.yml
++-- Jenkinsfile
++-- README.md
 ```
 
 ---
 
 ## 1. Lancement avec Docker Compose
 
-### Prérequis
+### Prerequis
 - Docker >= 24.0
 - Docker Compose >= 2.20
 
-### Lancer en mode développement
+### Lancer en mode developpement
 ```bash
-# Cloner le dépôt
-git clone https://github.com/votre-compte/bibliotheque-dit.git
+# Cloner le depot
+git clone https://github.com/hamdilawo/bibliotheque-dit.git
 cd bibliotheque-dit
 
 # Copier les variables d'environnement
 cp .env.example .env
 
-# Lancer tous les services (hot-reload activé)
+# Lancer tous les services (hot-reload active)
 docker compose --profile dev up --build
 
-# Accès :
-#   Frontend          → http://localhost:3000
-#   Service Livres    → http://localhost:8001/api/docs/
-#   Service Utilisateurs → http://localhost:8002/api/docs/
-#   Service Emprunts  → http://localhost:8003/api/docs/
-#   Recommandation    → http://localhost:8004/docs
+# Acces :
+#   Frontend          -> http://localhost:3000
+#   Service Livres    -> http://localhost:8001/api/docs/
+#   Service Utilisateurs -> http://localhost:8002/api/docs/
+#   Service Emprunts  -> http://localhost:8003/api/docs/
+#   Recommandation    -> http://localhost:8004/docs
 ```
 
 ### Lancer en mode production
@@ -61,26 +63,27 @@ docker compose --profile prod up --build -d
 
 ---
 
-## 2. Initialisation de la base de données
+## 2. Initialisation de la base de donnees
 
-```bash
-# Appliquer les migrations
-docker compose exec livres python manage.py migrate
-docker compose exec utilisateurs python manage.py migrate
-docker compose exec emprunts python manage.py migrate
+Les migrations Django et le peuplement initial sont declenches
+automatiquement au demarrage de chaque conteneur via le `command` defini
+dans `docker-compose.yml`. Aucune commande manuelle n'est necessaire.
 
-# Peupler avec des données initiales
-docker compose exec livres python seed.py
-docker compose exec utilisateurs python seed.py
-docker compose exec emprunts python seed.py
-```
+Volume de donnees peuple au seed :
+- **50 livres** repartis sur 5 categories (IA, Informatique, Mathematiques, Sciences, Litterature)
+- **30 utilisateurs** : 1 admin, 5 professeurs, 22 etudiants, 2 personnels
+- **500 emprunts** generes avec patterns de comportement (chaque utilisateur a une
+  categorie favorite, 70 % de ses emprunts y sont, 30 % disperses ailleurs)
+- ~ 463 emprunts retournes / 37 en cours / 114 avec retard
 
-**Comptes de démonstration :**
-| Email | Mot de passe | Rôle |
+**Comptes de demonstration :**
+
+| Email | Mot de passe | Role |
 |---|---|---|
 | admin@dit.sn | DIT@Admin2026! | Administrateur |
 | amadou.diallo@dit.sn | Prof@2026! | Professeur |
-| moussa.ba@etu.dit.sn | Etu@2026! | Étudiant |
+| moussa.ba@etu.dit.sn | Etu@2026! | Etudiant |
+| bibliothecaire@dit.sn | Pers@2026! | Personnel |
 
 ---
 
@@ -89,58 +92,66 @@ docker compose exec emprunts python seed.py
 ### Installation
 ```bash
 cd dvc/
-pip install dvc[gdrive] pandas numpy scikit-learn joblib pyyaml
+pip install dvc pandas numpy scikit-learn joblib pyyaml
 ```
 
-### Initialisation (première fois)
+### Configuration du remote (deja faite - pour info)
+
+Le remote DVC est configure en **local** sur ce poste, dans un dossier au-dessus
+du repo (hors versioning Git) :
+
 ```bash
-# Initialiser DVC
-dvc init
-
-# Configurer le remote Google Drive
-dvc remote add -d myremote gdrive://VOTRE_ID_DOSSIER_GDRIVE
-dvc remote modify myremote gdrive_acknowledge_abuse true
+dvc remote add -d myremote /chemin/local/dvc-remote
 ```
 
-### Exporter les données depuis le service Emprunts
+Pour reproduire depuis un autre poste, il suffit de redefinir l'URL :
+```bash
+dvc remote modify myremote url /chemin/local/de/votre/choix
+```
+
+### Exporter les donnees depuis le service Emprunts
 ```bash
 curl http://localhost:8003/api/emprunts/export_csv/ -o data/loans.csv
 ```
 
-### Exécuter le pipeline complet
+### Executer le pipeline complet
 ```bash
 dvc repro
 ```
-Cela exécute les 3 étapes dans l'ordre :
-1. `preprocess.py` → `data/loans_clean.csv`
-2. `train.py`      → `model/model.pkl`
-3. `evaluate.py`   → `metrics.json`
+Cela execute les 3 etapes dans l'ordre :
+1. `preprocess.py` -> `data/loans_clean.csv`
+2. `train.py`      -> `model/model.pkl`
+3. `evaluate.py`   -> `metrics.json`
 
-### Afficher les métriques
+### Metriques du modele de production (`model-prod` = `model-v4`)
+
 ```bash
 dvc metrics show
 ```
-Exemple de sortie :
-```
-Path          rmse    mae    precision_at_5  rappel_at_5  variance_expliquee_svd
-metrics.json  0.4123  0.3187  0.3200         0.2850        0.7842
-```
 
-### Comparer deux versions du modèle
+| Metrique | Valeur |
+|---|---:|
+| RMSE | 1.5315 |
+| MAE | 1.1197 |
+| Precision@5 | 22.7 % |
+| Rappel@5 | 67.8 % |
+| Variance expliquee SVD | 87.15 % |
+| Couverture catalogue | 84 % |
+
+Sur un dataset de 30 utilisateurs * 50 livres * 463 emprunts retournes
+(`hyperparams.n_components = 15`).
+
+### Comparer les versions du modele
 ```bash
-# Version v1 : n_components=10 (par défaut)
-dvc repro
-git tag model-v1
+# Comparer V3 (petit dataset) vs V4 (dataset enrichi)
+dvc metrics diff model-v3 model-v4
 
-# Modifier les hyperparamètres dans params.yaml
-# n_components: 10 → 20
-
-# Ré-entraîner
-dvc repro
-
-# Comparer
-dvc metrics diff model-v1
+# Comparer V1 (sur-parametre) vs V3 (compromis)
+dvc metrics diff model-v1 model-v3
 ```
+
+L'historique complet des experiences et les analyses sont consignes dans
+[`dvc/EXPERIMENTS.md`](dvc/EXPERIMENTS.md).
 
 ### Visualiser le pipeline (DAG)
 ```bash
@@ -165,30 +176,42 @@ dvc dag
 +------------------+
 ```
 
-### Rôle de dvc.lock
-`dvc.lock` est généré par `dvc repro`. Il enregistre les **hashes MD5** de chaque fichier d'entrée et de sortie à un instant donné. Cela permet de :
-- **Reproduire exactement** le même pipeline (même données, même modèle)
-- **Détecter** si une étape doit être ré-exécutée (si un hash change)
-- **Auditer** l'historique des expériences via Git
+### Role de dvc.lock
+`dvc.lock` est genere par `dvc repro`. Il enregistre les **hashes MD5** de chaque fichier d'entree et de sortie a un instant donne. Cela permet de :
+- **Reproduire exactement** le meme pipeline (memes donnees, meme modele)
+- **Detecter** si une etape doit etre re-executee (si un hash change)
+- **Auditer** l'historique des experiences via Git
 
 ```bash
-# Rollback vers une version précédente
+# Rollback vers une version precedente
 git checkout model-v1 -- dvc.lock params.yaml
-dvc pull   # récupère model.pkl correspondant
+dvc pull   # recupere model.pkl correspondant
 ```
 
-### Versionner et pousser le modèle
+### Versionner et pousser le modele
+Le `model.pkl` est deja declare comme output du stage `train` dans `dvc.yaml`,
+donc DVC le tracke automatiquement a chaque `dvc repro` (pas besoin de
+`dvc add` manuel). Pour publier sur le remote :
+
 ```bash
-dvc add model/model.pkl
-git add model/model.pkl.dvc
-git commit -m "model: SVD v2 — n_components=20"
-dvc push   # envoie vers Google Drive
+dvc push   # envoie vers le remote local configure
 ```
 
-### Récupérer un modèle versionné
+### Recuperer un modele versionne
+
+**Option 1 - Recuperer l'artefact depuis le remote :**
 ```bash
-git checkout model-v1
-dvc pull   # télécharge le model.pkl correspondant à v1
+git checkout model-v3   # ou model-v1, model-v2, model-v4, model-prod
+dvc pull
+dvc metrics show
+```
+
+**Option 2 - Re-generer via le pipeline (plus propre, demontre la reproductibilite) :**
+```bash
+git checkout model-v3
+dvc repro       # regenere un model.pkl bit-pour-bit identique
+                # grace aux hashes de dvc.lock + random_state=42
+dvc metrics show
 ```
 
 ---
@@ -245,10 +268,10 @@ curl http://localhost:8003/api/emprunts/export_csv/ -o data/loans.csv
 # Recommandations pour l'utilisateur #1
 curl http://localhost:8004/recommendations/1
 
-# Ré-entraîner le modèle
+# Re-entrainer le modele
 curl -X POST http://localhost:8004/train
 
-# Métriques du modèle
+# Metriques du modele
 curl http://localhost:8004/metrics
 ```
 
@@ -258,27 +281,42 @@ curl http://localhost:8004/metrics
 
 ```
 main
- └── develop
-      ├── feature/service-livres
-      ├── feature/service-utilisateurs
-      ├── feature/service-emprunts
-      ├── feature/service-recommandation
-      ├── feature/frontend-react
-      └── feature/pipeline-dvc
+ \-- develop
+      |-- feature/service-livres
+      |-- feature/service-utilisateurs
+      |-- feature/service-emprunts
+      |-- feature/service-recommandation
+      |-- feature/frontend-react
+      \-- feature/pipeline-dvc
 ```
 
-Tags de versions du modèle ML :
-- `model-v1` → SVD, n_components=10, RMSE=0.4123
-- `model-v2` → SVD, n_components=20, RMSE=0.3891
+Tags de versions du modele ML (par ordre chronologique) :
+
+| Tag | Algorithme | n_components | Dataset | RMSE | Statut |
+|---|---|---:|---|---:|---|
+| `model-v1` | SVD | 10 | 6x7 / 57 emprunts | 1.5665 | sur-parametre |
+| `model-v2` | SVD | 2 | 6x7 / 57 emprunts | 1.5765 | sous-parametre |
+| `model-v3` | SVD | 4 | 6x7 / 57 emprunts | 1.5657 | meilleur sur petit dataset |
+| `model-v4` | SVD | 15 | 30x50 / 463 emprunts | **1.5315** | **production** |
+| `model-prod` | (alias de `model-v4`) | | | | pointeur production |
+| `v1.0.0` | (release applicative) | | | | merge dans main |
+
+Voir [`dvc/EXPERIMENTS.md`](dvc/EXPERIMENTS.md) pour l'analyse detaillee
+des 4 experiences et la justification du choix de V4.
 
 ---
 
-## Barème couvert
+## Bareme couvert
 
 | Partie | Points |
 |---|---|
 | Application (services + reco + frontend) | 6/6 |
-| Git Avancé | 4/4 |
+| Git Avance | 4/4 |
 | Docker & Docker Compose | 4/4 |
 | DVC | 6/6 |
 | **Total** | **20/20** |
+
+## Changelog v1.0.0
+- Services Livres, Utilisateurs, Emprunts, Recommandation, Frontend
+- Pipeline DVC : preprocess -> train (SVD) -> evaluate
+- Docker Compose profils dev/prod
