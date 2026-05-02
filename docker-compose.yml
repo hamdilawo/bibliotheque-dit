@@ -1,5 +1,9 @@
 # docker-compose.yml — Bibliothèque Numérique DIT
 
+# NOTE: MAnque le service minio
+# NOTE: Une instance de psql par MS
+# NOTE: Une
+
 name: bibliotheque-dit
 
 services:
