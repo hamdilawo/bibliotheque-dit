@@ -315,16 +315,6 @@ des 4 experiences et la justification du choix de V4.
 
 ---
 
-## Bareme couvert
-
-| Partie | Points |
-|---|---|
-| Application (services + reco + frontend) | 6/6 |
-| Git Avance | 4/4 |
-| Docker & Docker Compose | 4/4 |
-| DVC | 6/6 |
-| **Total** | **20/20** |
-
 ## Changelog v1.0.0
 - Services Livres, Utilisateurs, Emprunts, Recommandation, Frontend
 - Pipeline DVC : preprocess -> train (SVD) -> evaluate
