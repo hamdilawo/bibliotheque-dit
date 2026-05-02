@@ -1,3 +1,7 @@
+# MS: Logic concentrer dans le controller (pas bon)
+
+
+
 from rest_framework import viewsets, status, filters
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -63,10 +67,12 @@ class EmpruntViewSet(viewsets.ModelViewSet):
 
         # 1. Vérifier l'utilisateur
         try:
+            # MS: Pourquoi demander les infos du User au service User ? 
             utilisateur = UtilisateursClient.get_utilisateur(utilisateur_id)
         except ServiceException as e:
             return Response({'error': str(e)}, status=e.status_code or 400)
 
+        # MS: Normalement le service Emprunt est garant de cet invariant non ?
         if not utilisateur.get('peut_emprunter'):
             return Response(
                 {'error': 'Utilisateur suspendu ou quota d\'emprunts atteint.'},
@@ -79,6 +85,7 @@ class EmpruntViewSet(viewsets.ModelViewSet):
         except ServiceException as e:
             return Response({'error': str(e)}, status=e.status_code or 400)
 
+        # MS: Verifier s il existe dans la bibliothèque ? disponible c'est à dire ?
         if not livre.get('disponible'):
             return Response(
                 {'error': f'Le livre "{livre["titre"]}" n\'est pas disponible.'},
@@ -86,6 +93,7 @@ class EmpruntViewSet(viewsets.ModelViewSet):
             )
 
         # 3. Vérifier qu'il n'a pas déjà ce livre en cours
+        # MS: Eviter les appels DB ici: Couplage
         emprunt_existant = Emprunt.objects.filter(
             utilisateur_id=utilisateur_id,
             livre_id=livre_id,
@@ -97,14 +105,18 @@ class EmpruntViewSet(viewsets.ModelViewSet):
                 status=status.HTTP_400_BAD_REQUEST
             )
 
+        # MS: ==START== Ce workflow doit être transcationel ou SAGA, pour garantir cohérence 
+        
         # 4. Réserver le livre (Service Livres)
         try:
+            # MS: Pourquoi reserver sur le service Livre/Catlogue ?
             LivresClient.reserver_livre(livre_id)
         except ServiceException as e:
             return Response({'error': str(e)}, status=e.status_code or 400)
 
         # 5. Incrémenter le compteur (Service Utilisateurs)
         try:
+            # MS: Tu n'incremente pa EMPRUNT sur le service Utilisateur, ça se fait ici
             UtilisateursClient.incrementer_emprunts(utilisateur_id)
         except ServiceException as e:
             # Rollback : remettre le livre disponible
@@ -112,11 +124,13 @@ class EmpruntViewSet(viewsets.ModelViewSet):
             return Response({'error': str(e)}, status=e.status_code or 400)
 
         # 6. Calculer la date de retour prévue
+        # MS: Couplage
         type_u = utilisateur.get('type_utilisateur', 'ETUDIANT')
         duree = Emprunt.get_duree_par_defaut(type_u)
         date_retour = timezone.now().date() + __import__('datetime').timedelta(days=duree)
 
         # 7. Créer l'emprunt
+        # MS: Couplage DB
         emprunt = Emprunt.objects.create(
             utilisateur_id=utilisateur_id,
             livre_id=livre_id,
@@ -128,6 +142,7 @@ class EmpruntViewSet(viewsets.ModelViewSet):
             date_retour_prevue=date_retour,
             notes=data.get('notes', ''),
         )
+        # MS: ==END== 
 
         return Response(
             EmpruntDetailSerializer(emprunt).data,
