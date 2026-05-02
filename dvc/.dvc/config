@@ -1,4 +1,5 @@
 [core]
     remote = myremote
 ['remote "myremote"']
-    url = C:/Users/lenovo thinkbook/Documents/Master2/OutilsVersioning/DIT-Examen/dvc-remote-local
+    url = gdrive://1X-22WFVUs6DUGHB7v6jtitkx3nvbEfVW
+    gdrive_acknowledge_abuse = true
