@@ -31,13 +31,27 @@ versioning d'artefacts.
 
 ## Configuration du remote DVC
 
-Le remote est configuré en **local** sur ce poste (au-dessus du repo) :
-`../../dvc-remote-local`. Pour reproduire depuis un autre poste, il suffit
-de redéfinir le remote :
+Le remote est configuré sur **Google Drive** (conforme à l'énoncé du sujet) :
 
-```bash
-dvc remote modify myremote url /chemin/local/de/votre/choix
+```ini
+url = gdrive://1X-22WFVUs6DUGHB7v6jtitkx3nvbEfVW
+gdrive_acknowledge_abuse = true
 ```
+
+L'authentification se fait par OAuth 2.0 avec un client OAuth utilisateur
+(créé via Google Cloud Console). Les credentials (`client_id` / `client_secret`)
+sont stockés dans `dvc/.dvc/config.local` qui n'est **jamais commité** (présent
+dans le `.gitignore` par défaut de DVC). Les tokens d'accès personnels sont
+quant à eux mis en cache sur le poste dans `~/.config/pydrive2fs/`.
+
+Pour reproduire depuis un autre poste :
+1. Créer son propre client OAuth Desktop dans Google Cloud Console
+2. Ajouter ses credentials en mode local :
+   ```bash
+   dvc remote modify --local myremote gdrive_client_id "<votre_client_id>"
+   dvc remote modify --local myremote gdrive_client_secret "<votre_client_secret>"
+   ```
+3. Lancer `dvc pull` — le navigateur s'ouvrira pour authentifier l'utilisateur
 
 ## Comparer deux versions
 

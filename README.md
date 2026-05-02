@@ -97,17 +97,26 @@ pip install dvc pandas numpy scikit-learn joblib pyyaml
 
 ### Configuration du remote (deja faite - pour info)
 
-Le remote DVC est configure en **local** sur ce poste, dans un dossier au-dessus
-du repo (hors versioning Git) :
+Le remote DVC est configure sur **Google Drive** (conforme au sujet) :
 
 ```bash
-dvc remote add -d myremote /chemin/local/dvc-remote
+dvc remote add -d myremote gdrive://1X-22WFVUs6DUGHB7v6jtitkx3nvbEfVW
+dvc remote modify myremote gdrive_acknowledge_abuse true
 ```
 
-Pour reproduire depuis un autre poste, il suffit de redefinir l'URL :
-```bash
-dvc remote modify myremote url /chemin/local/de/votre/choix
-```
+L'authentification utilise un client OAuth Desktop personnel (cree via
+Google Cloud Console). Les credentials sont stockes en local (`config.local`,
+non commite). Pour reproduire :
+
+1. Creer un projet sur https://console.cloud.google.com
+2. Activer l'API Google Drive
+3. Creer des credentials OAuth client ID type "Desktop application"
+4. Ajouter les credentials en mode local :
+   ```bash
+   dvc remote modify --local myremote gdrive_client_id "<client_id>"
+   dvc remote modify --local myremote gdrive_client_secret "<client_secret>"
+   ```
+5. Lancer `dvc pull` ou `dvc push` - le navigateur ouvrira la page d'autorisation
 
 ### Exporter les donnees depuis le service Emprunts
 ```bash
