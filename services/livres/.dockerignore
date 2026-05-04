@@ -1,0 +1,15 @@
+# ✅ Exclure ce qui ne doit pas aller dans l'image Docker
+__pycache__/
+*.py[cod]
+*.pyc
+.env
+.env.*
+*.sqlite3
+.git/
+.gitignore
+README.md
+tests/
+.coverage
+htmlcov/
+.pytest_cache/
+*.log
