@@ -7,13 +7,13 @@ from drf_spectacular.utils import extend_schema, OpenApiParameter
 import csv
 import io
 
-from .models import Emprunt
+from ..dao.models import Emprunt
 from .serializers import (
     EmpruntListSerializer, EmpruntDetailSerializer,
     CreerEmpruntSerializer, RetourEmpruntSerializer,
     EmpruntExportSerializer,
 )
-from .client import LivresClient, UtilisateursClient, ServiceException
+from ...client import LivresClient, UtilisateursClient, ServiceException
 
 
 class EmpruntViewSet(viewsets.ModelViewSet):
@@ -162,7 +162,7 @@ class EmpruntViewSet(viewsets.ModelViewSet):
         penalite = 0
         if today > emprunt.date_retour_prevue:
             jours_retard = (today - emprunt.date_retour_prevue).days
-            penalite = jours_retard * 200  # 200 FCFA/jour
+            penalite = jours_retard * 200  # Mettre dans une CONST
 
         # Mettre à jour l'emprunt
         emprunt.date_retour_effective = today
@@ -197,7 +197,8 @@ class EmpruntViewSet(viewsets.ModelViewSet):
     # Endpoint 3 — Historique par utilisateur
     # ------------------------------------------------------------------ #
     @extend_schema(
-        parameters=[OpenApiParameter('utilisateur_id', int, description='ID de l\'utilisateur')]
+        parameters=[OpenApiParameter(
+            'utilisateur_id', int, description='ID de l\'utilisateur')]
     )
     @action(detail=False, methods=['get'])
     def historique(self, request):

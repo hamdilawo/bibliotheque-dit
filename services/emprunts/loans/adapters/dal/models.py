@@ -2,24 +2,32 @@ from django.db import models
 from django.utils import timezone
 from datetime import timedelta
 
+#
+
 
 class Emprunt(models.Model):
     STATUT_CHOICES = [
         ('EN_COURS', 'En cours'),
         ('RETOURNE', 'Retourné'),
-        ('EN_RETARD', 'En retard'),
-        ('PERDU', 'Perdu'),
+        ('APPROVE', 'Apprové'),
+        ('REJETE', 'Rejeté'),
     ]
 
+    # New
+    id = models.UUIDField(primary_key=True)
+
     # Références inter-services (IDs sans FK)
-    utilisateur_id = models.PositiveIntegerField(db_index=True)
-    livre_id = models.PositiveIntegerField(db_index=True)
+    utilisateur_id = models.CharField(max_length=255, db_index=True)
+    livre_id = models.CharField(max_length=255, db_index=True)
 
     # Dénormalisation pour éviter les appels répétés aux autres services
     utilisateur_nom = models.CharField(max_length=200, blank=True)
     utilisateur_carte = models.CharField(max_length=20, blank=True)
     livre_titre = models.CharField(max_length=255, blank=True)
     livre_isbn = models.CharField(max_length=13, blank=True)
+    # NEW FIELDS
+    livre_id = models.CharField(max_length=13, blank=True)
+    # END: NEW FIELDS
     livre_auteur = models.CharField(max_length=255, blank=True)
 
     # Dates
@@ -28,11 +36,13 @@ class Emprunt(models.Model):
     date_retour_effective = models.DateField(null=True, blank=True)
 
     # Statut
-    statut = models.CharField(max_length=20, choices=STATUT_CHOICES, default='EN_COURS')
+    statut = models.CharField(
+        max_length=20, choices=STATUT_CHOICES, default='EN_COURS')
 
     # Pénalités
     jours_retard = models.PositiveIntegerField(default=0)
-    penalite_fcfa = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    penalite_fcfa = models.DecimalField(
+        max_digits=10, decimal_places=2, default=0)
 
     # Notes
     notes = models.TextField(blank=True)
@@ -67,7 +77,8 @@ class Emprunt(models.Model):
                 self.jours_retard = (today - self.date_retour_prevue).days
                 self.penalite_fcfa = self.jours_retard * 200
                 self.statut = 'EN_RETARD'
-                self.save(update_fields=['jours_retard', 'penalite_fcfa', 'statut'])
+                self.save(update_fields=[
+                          'jours_retard', 'penalite_fcfa', 'statut'])
         return self.jours_retard
 
     @property
