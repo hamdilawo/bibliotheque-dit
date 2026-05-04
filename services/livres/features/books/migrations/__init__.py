@@ -31,7 +31,7 @@ async def forwards():
         column_name="description",
         db_column_name="description",
         column_class_name="Text",
-        column_class=Text,
+        column_class="Text",
         params={"default": "", "null": False, "primary_key": False, "required": False},
     )
 
