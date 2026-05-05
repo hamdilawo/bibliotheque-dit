@@ -11,7 +11,7 @@ from .models import Emprunt
 from .serializers import (
     EmpruntListSerializer, EmpruntDetailSerializer,
     CreerEmpruntSerializer, RetourEmpruntSerializer,
-    EmpruntExportSerializer,
+    EmpruntExportSerializer, ProlongationSerializer,
 )
 from .client import LivresClient, UtilisateursClient, ServiceException
 
@@ -303,3 +303,100 @@ class EmpruntViewSet(viewsets.ModelViewSet):
                 sum(e.penalite_fcfa for e in qs.filter(jours_retard__gt=0))
             ),
         })
+
+# ------------------------------------------------------------------ #
+    # Endpoint 7 — Prolongation d'un emprunt
+    # ------------------------------------------------------------------ #
+    @extend_schema(request=ProlongationSerializer)
+    @action(detail=True, methods=['post'])
+    def prolonger(self, request, pk=None):
+        """
+        POST /api/emprunts/{id}/prolonger/
+        Prolonge la date de retour prévue (maximum 2 prolongations, 14 jours max chacune).
+        """
+        import re
+        import datetime
+
+        emprunt = self.get_object()
+
+        if emprunt.statut == 'RETOURNE':
+            return Response(
+                {'error': 'Impossible de prolonger un emprunt déjà retourné.'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        if emprunt.statut == 'PERDU':
+            return Response(
+                {'error': 'Impossible de prolonger un emprunt marqué comme perdu.'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        nb_prolongations = int(emprunt.notes.split('__prolongations:')[1].split('__')[0]) \
+            if '__prolongations:' in emprunt.notes else 0
+
+        if nb_prolongations >= 2:
+            return Response(
+                {'error': 'Nombre maximum de prolongations (2) atteint pour cet emprunt.'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        serializer = ProlongationSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        jours = serializer.validated_data['jours_supplementaires']
+        ancienne_date = emprunt.date_retour_prevue
+        emprunt.date_retour_prevue = ancienne_date + datetime.timedelta(days=jours)
+
+        if emprunt.statut == 'EN_RETARD':
+            emprunt.statut = 'EN_COURS'
+            emprunt.jours_retard = 0
+            emprunt.penalite_fcfa = 0
+
+        nb_prolongations += 1
+        tag = f'__prolongations:{nb_prolongations}__'
+        if '__prolongations:' in emprunt.notes:
+            emprunt.notes = re.sub(r'__prolongations:\d+__', tag, emprunt.notes)
+        else:
+            emprunt.notes = (emprunt.notes + ' ' + tag).strip()
+
+        emprunt.save()
+
+        return Response({
+            **EmpruntDetailSerializer(emprunt).data,
+            'message': (
+                f'Prolongation accordée : {jours} jour(s) supplémentaire(s). '
+                f'Nouvelle date de retour : {emprunt.date_retour_prevue}. '
+                f'({nb_prolongations}/2 prolongations utilisées)'
+            ),
+        })
+
+    # ------------------------------------------------------------------ #
+    # Endpoint 8 — Mise à jour du statut (usage administrateur)
+    # ------------------------------------------------------------------ #
+    @action(detail=True, methods=['patch'])
+    def statut(self, request, pk=None):
+        """
+        PATCH /api/emprunts/{id}/statut/
+        Permet de forcer un statut (ex : PERDU). Réservé à l'administration.
+        """
+        emprunt = self.get_object()
+        nouveau_statut = request.data.get('statut')
+        statuts_valides = [s[0] for s in Emprunt.STATUT_CHOICES]
+
+        if nouveau_statut not in statuts_valides:
+            return Response(
+                {'error': f'Statut invalide. Valeurs possibles : {statuts_valides}'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        ancien_statut = emprunt.statut
+        emprunt.statut = nouveau_statut
+
+        if nouveau_statut == 'PERDU' and ancien_statut != 'RETOURNE':
+            try:
+                LivresClient.retourner_livre(emprunt.livre_id)
+            except ServiceException:
+                pass
+
+        emprunt.save()
+        return Response(EmpruntDetailSerializer(emprunt).data)

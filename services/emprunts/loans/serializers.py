@@ -5,7 +5,7 @@ from .models import Emprunt
 
 
 class EmpruntListSerializer(serializers.ModelSerializer):
-    """Serializer allégé pour les listes."""
+    """Serializer allege pour les listes."""
     est_en_retard = serializers.BooleanField(read_only=True)
     jours_restants = serializers.IntegerField(read_only=True)
 
@@ -36,7 +36,7 @@ class EmpruntDetailSerializer(serializers.ModelSerializer):
 
 
 class CreerEmpruntSerializer(serializers.Serializer):
-    """Serializer pour créer un emprunt."""
+    """Serializer pour creer un emprunt."""
     utilisateur_id = serializers.IntegerField()
     livre_id = serializers.IntegerField()
     notes = serializers.CharField(required=False, allow_blank=True)
@@ -48,7 +48,7 @@ class RetourEmpruntSerializer(serializers.Serializer):
 
 
 class EmpruntExportSerializer(serializers.ModelSerializer):
-    """Serializer pour export CSV destiné au pipeline DVC/ML."""
+    """Serializer pour export CSV destine au pipeline DVC/ML."""
     class Meta:
         model = Emprunt
         fields = [
@@ -56,3 +56,18 @@ class EmpruntExportSerializer(serializers.ModelSerializer):
             'date_emprunt', 'date_retour_effective',
             'statut', 'jours_retard',
         ]
+
+
+class ProlongationSerializer(serializers.Serializer):
+    """Serializer pour une demande de prolongation d'emprunt."""
+    jours_supplementaires = serializers.IntegerField(
+        min_value=1,
+        max_value=14,
+        help_text='Nombre de jours supplementaires (1 a 14).'
+    )
+    raison = serializers.CharField(
+        required=False,
+        allow_blank=True,
+        default='',
+        help_text='Motif de la prolongation (optionnel).'
+    )
