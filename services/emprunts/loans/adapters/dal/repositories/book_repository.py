@@ -2,9 +2,9 @@ import requests
 # httpx
 from typing import Optional
 
-from services.emprunts.loans.app.domain.book import Book
-from services.emprunts.loans.app.ports.book_repository import BookRepository
-from services.emprunts.loans.client import ServiceException
+from loans.app.domain.book import Book
+from loans.app.ports.book_repository import BookRepository
+from loans.client import ServiceException
 
 
 class BookRepositoryImpl(BookRepository):
