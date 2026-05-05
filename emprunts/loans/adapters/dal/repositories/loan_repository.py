@@ -1,4 +1,4 @@
-from loans.adapters.dal.models import Emprunt
+from loans.models import Emprunt
 from loans.app.domain.loan import Loan, LoanStatus
 from loans.app.ports.loan_repository import LoanRepository
 
@@ -12,24 +12,11 @@ class LoanRepositoryImpl(LoanRepository):
     def save(self, loan: Loan) -> None:
         # Convertir le domaine Loan en modèle Django et sauvegarder
 
-        #        emprunt = Emprunt.objects.create(
-        #     utilisateur_id=utilisateur_id,
-        #     livre_id=livre_id,
-        #     utilisateur_nom=f"{utilisateur.get('nom_complet', '')}",
-        #     utilisateur_carte=utilisateur.get('numero_carte', ''),
-        #     livre_titre=livre.get('titre', ''),
-        #     livre_isbn=livre.get('isbn', ''),
-        #     livre_auteur=livre.get('auteur', ''),
-        #     date_retour_prevue=date_retour,
-        #     notes=data.get('notes', ''),
-        # )
-
         emprunt = Emprunt(
             id=loan.id,
-            borrower_id=loan.borrower_id,
             livre_id=loan.book.id,
-            utilisateur_id=loan.reader.id,
-            term=loan.term,
+            utilisateur_id=loan.borrower_id,
+            date_retour_prevue=loan.term,
             statut=loan.status.value  # TODO: To fix: Le mapper avec celui du model
         )
         emprunt.save()

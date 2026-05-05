@@ -26,6 +26,7 @@ class Emprunt(models.Model):
     livre_titre = models.CharField(max_length=255, blank=True)
     livre_isbn = models.CharField(max_length=13, blank=True)
     # NEW FIELDS
+
     livre_id = models.CharField(max_length=13, blank=True)
     # END: NEW FIELDS
     livre_auteur = models.CharField(max_length=255, blank=True)

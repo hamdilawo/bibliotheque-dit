@@ -1,4 +1,4 @@
-from loans.adapters.dal.models import Emprunt
+from loans.models import Emprunt
 from rest_framework import serializers
 from django.utils import timezone
 from datetime import timedelta
@@ -18,6 +18,11 @@ class EmpruntListSerializer(serializers.ModelSerializer):
             'statut', 'est_en_retard', 'jours_restants',
             'jours_retard', 'penalite_fcfa',
         ]
+
+
+class BorrowABookResponseSerializer(serializers.Serializer):
+    loan_id = serializers.CharField()
+    book_id = serializers.CharField()
 
 
 class EmpruntDetailSerializer(serializers.ModelSerializer):

@@ -10,7 +10,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Emprunt',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False)),
+                ('id', models.BigAutoField(auto_created=True,
+                 primary_key=True, serialize=False)),
                 ('utilisateur_id', models.PositiveIntegerField(db_index=True)),
                 ('livre_id', models.PositiveIntegerField(db_index=True)),
                 ('utilisateur_nom', models.CharField(blank=True, max_length=200)),
@@ -29,21 +30,25 @@ class Migration(migrations.Migration):
                     default='EN_COURS', max_length=20
                 )),
                 ('jours_retard', models.PositiveIntegerField(default=0)),
-                ('penalite_fcfa', models.DecimalField(decimal_places=2, default=0, max_digits=10)),
+                ('penalite_fcfa', models.DecimalField(
+                    decimal_places=2, default=0, max_digits=10)),
                 ('notes', models.TextField(blank=True)),
             ],
             options={'ordering': ['-date_emprunt']},
         ),
         migrations.AddIndex(
             model_name='emprunt',
-            index=models.Index(fields=['utilisateur_id', 'statut'], name='loans_user_statut_idx'),
+            index=models.Index(
+                fields=['utilisateur_id', 'statut'], name='loans_user_statut_idx'),
         ),
         migrations.AddIndex(
             model_name='emprunt',
-            index=models.Index(fields=['livre_id', 'statut'], name='loans_livre_statut_idx'),
+            index=models.Index(
+                fields=['livre_id', 'statut'], name='loans_livre_statut_idx'),
         ),
         migrations.AddIndex(
             model_name='emprunt',
-            index=models.Index(fields=['date_retour_prevue'], name='loans_retour_date_idx'),
+            index=models.Index(
+                fields=['date_retour_prevue'], name='loans_retour_date_idx'),
         ),
     ]

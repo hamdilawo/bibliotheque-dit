@@ -48,10 +48,10 @@ class BorrowABook():
         if count_loans >= book.numbers_of_copies:
             raise Exception("No more copies available for this book")
 
-        reader = Reader(id=command.reader_id, name=command.reader_name,
-                        email=Email(command.reader_email))
+        reader = Reader(id=command.reader_id, name="command.reader_name",
+                        email=Email("test@gmail.com"))
 
-        loan = Loan.new(book=book, reader=reader, term=command.term)
+        loan = Loan.new(book=book, reader=reader)
 
         self.loan_repository.save(loan)
 

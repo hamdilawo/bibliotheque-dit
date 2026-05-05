@@ -1,7 +1,7 @@
 
 from loans.adapters.dal.repositories.loan_repository import LoanRepositoryImpl
 from loans.app.handlers.borrow_a_book import BorrowABook, BorrowCommand
-from loans.adapters.dal.models import Emprunt
+from loans.models import Emprunt
 from rest_framework import viewsets, status, filters
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -10,7 +10,7 @@ from django.http import HttpResponse
 from drf_spectacular.utils import extend_schema, OpenApiParameter
 import csv
 import io
-from loans.adapters.dal.repositories.book_repository import BookRepositoryImpl
+from loans.adapters.dal.repositories.book_repository import FakeBookRepositoryImpl
 from .serializers import (
     EmpruntListSerializer, EmpruntDetailSerializer,
     CreerEmpruntSerializer, RetourEmpruntSerializer
@@ -18,19 +18,9 @@ from .serializers import (
 from ...client import LivresClient, UtilisateursClient, ServiceException
 
 
-class EmpruntViewSet(viewsets.ModelViewSet):
+class EmpruntViewSet(viewsets.ViewSet):
     """
     Gestion complète des emprunts.
-
-    Endpoints :
-    - POST   /api/emprunts/emprunter/          → emprunter un livre
-    - POST   /api/emprunts/{id}/retourner/     → retourner un livre
-    - GET    /api/emprunts/                    → liste de tous les emprunts
-    - GET    /api/emprunts/{id}/               → détail d'un emprunt
-    - GET    /api/emprunts/historique/         → historique par utilisateur
-    - GET    /api/emprunts/retards/            → liste des retards
-    - GET    /api/emprunts/export_csv/         → export pour le ML (DVC)
-    - GET    /api/emprunts/statistiques/       → stats globales
     """
     filter_backends = [filters.OrderingFilter]
     ordering_fields = ['date_emprunt', 'date_retour_prevue', 'statut']
@@ -43,8 +33,8 @@ class EmpruntViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.action == 'list':
             return EmpruntListSerializer
-        if self.action in ['emprunter']:
-            return CreerEmpruntSerializer
+        if self.action == "emprunter":
+            return CreerEmpruntSerializer()
         if self.action in ['retourner']:
             return RetourEmpruntSerializer
         return EmpruntDetailSerializer
@@ -62,12 +52,12 @@ class EmpruntViewSet(viewsets.ModelViewSet):
         """
 
         try:
-            print("request.data", request.data)
+            print("request.data", request)
             serializer = CreerEmpruntSerializer(data=request.data)
             serializer.is_valid(raise_exception=True)
             data = serializer.validated_data
 
-            utilisateur_id = data['utilisateur_id']
+            utilisateur_id = "hello"
             livre_id: str = data['livre_id']
         except Exception as e:
             return Response(
@@ -84,8 +74,10 @@ class EmpruntViewSet(viewsets.ModelViewSet):
         )
 
         loan_repository = LoanRepositoryImpl()
-        book_repository = BookRepositoryImpl(
-            "http://service-livres:8000")  # URL du service Livres
+        # book_repository = BookRepositoryImpl(
+        #     "http://service-livres:8000")  # URL du service Livres
+
+        book_repository = FakeBookRepositoryImpl()
 
         borrow_a_book = BorrowABook(
             loan_repository=loan_repository, book_repository=book_repository)
@@ -95,14 +87,12 @@ class EmpruntViewSet(viewsets.ModelViewSet):
         except ServiceException as e:
             return Response({'error': str(e)}, status=e.status_code or 400)
 
-        return Response(
-            EmpruntDetailSerializer(loan).data,
-            status=status.HTTP_201_CREATED
-        )
+        return Response({'success': 'Emprunt créé avec succès.', 'loan_id': loan.id, 'book_id': loan.book.id}, status=status.HTTP_201_CREATED)
 
     # ------------------------------------------------------------------ #
     # Endpoint 2 — Retourner un livre
     # ------------------------------------------------------------------ #
+
     @extend_schema(request=RetourEmpruntSerializer)
     @action(detail=True, methods=['post'])
     def retourner(self, request, pk=None):

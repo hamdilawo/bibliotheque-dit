@@ -68,4 +68,4 @@ def get_filter_parameters(filter_class: Type[FilterSet]) -> List[OpenApiParamete
             enum=enum,
         )
         parameters.append(param)
-      return parameters
+        return parameters

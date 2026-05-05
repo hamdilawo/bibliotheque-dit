@@ -32,3 +32,21 @@ class BookRepositoryImpl(BookRepository):
             raise ServiceException("Service Livres indisponible.", 503)
         except requests.Timeout:
             raise ServiceException("Service Livres trop lent.", 504)
+
+
+class FakeBookRepositoryImpl(BookRepository):
+    def __init__(self,):
+        ...
+
+    def get_book_by_id(self, book_id: str) -> Optional[Book]:
+        """Récupère les infos d'un livre."""
+
+        book = Book(
+            id="book_id",
+            title="Untitled Book",
+            author="Unknown Author",
+            numbers_of_copies=1,
+            isbn="978-0-123456"
+        )
+
+        return book

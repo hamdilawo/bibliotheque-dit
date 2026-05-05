@@ -2,7 +2,8 @@ from decouple import config
 
 SECRET_KEY = config(
     'SECRET_KEY', default='django-insecure-emprunts-service-key')
-DEBUG = config('DEBUG', default=True, cast=bool)
+# DEBUG = config('DEBUG', default=True, cast=bool)
+DEBUG = True
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='*').split(',')
 
 INSTALLED_APPS = [
@@ -37,6 +38,7 @@ REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
     ],
+
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 20,
 }
@@ -46,6 +48,7 @@ SPECTACULAR_SETTINGS = {
     'DESCRIPTION': 'API de gestion des emprunts — Bibliothèque DIT',
     'VERSION': '1.0.0',
 }
+
 
 # URLs des autres microservices
 SERVICE_LIVRES_URL = config('SERVICE_LIVRES_URL', default='http://livres:8001')
