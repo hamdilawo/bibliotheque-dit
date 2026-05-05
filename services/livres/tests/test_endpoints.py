@@ -1,6 +1,6 @@
 """
 Tests des endpoints HTTP du service Livres.
-Utilise le client de test Litestar (sans Docker nécessaire).
+Utilise le client de test Litestar.
 """
 import pytest
 import pytest_asyncio
@@ -15,7 +15,6 @@ async def client():
 
 
 class TestHealthCheck:
-    """Tests du health check."""
 
     @pytest.mark.asyncio
     async def test_health_retourne_200(self, client):
@@ -33,7 +32,6 @@ class TestHealthCheck:
 
 
 class TestListeLivres:
-    """Tests de l'endpoint GET /api/livres/."""
 
     @pytest.mark.asyncio
     async def test_liste_retourne_200(self, client):
@@ -60,7 +58,6 @@ class TestListeLivres:
 
     @pytest.mark.asyncio
     async def test_liste_champs_livre(self, client):
-        """Chaque livre retourné contient les bons champs."""
         response = await client.get("/api/livres/")
         data = response.json()
         if data["results"]:
@@ -75,7 +72,6 @@ class TestListeLivres:
 
 
 class TestRecherche:
-    """Tests de l'endpoint GET /api/livres/search."""
 
     @pytest.mark.asyncio
     async def test_recherche_par_titre(self, client):
@@ -91,7 +87,6 @@ class TestRecherche:
 
     @pytest.mark.asyncio
     async def test_recherche_inexistante_retourne_zero(self, client):
-        # ✅ CORRECTION : utiliser params= pour que le filtre soit bien appliqué
         response = await client.get("/api/livres/search", params={"q": "xyzabcdef123456"})
         assert response.status_code == 200
         data = response.json()
@@ -116,7 +111,6 @@ class TestRecherche:
 
 
 class TestDisponibles:
-    """Tests de l'endpoint GET /api/livres/disponibles."""
 
     @pytest.mark.asyncio
     async def test_disponibles_retourne_200(self, client):
@@ -125,7 +119,6 @@ class TestDisponibles:
 
     @pytest.mark.asyncio
     async def test_disponibles_tous_disponibles(self, client):
-        """Tous les livres retournés doivent être disponibles."""
         response = await client.get("/api/livres/disponibles")
         data = response.json()
         for livre in data["results"]:
@@ -134,7 +127,6 @@ class TestDisponibles:
 
 
 class TestDetailLivre:
-    """Tests de l'endpoint GET /api/livres/{id}."""
 
     @pytest.mark.asyncio
     async def test_detail_livre_existant(self, client):
@@ -155,7 +147,6 @@ class TestDetailLivre:
 
 
 class TestCreerLivre:
-    """Tests de l'endpoint POST /api/livres/."""
 
     @pytest.mark.asyncio
     async def test_creer_livre_valide(self, client):
@@ -176,12 +167,10 @@ class TestCreerLivre:
             "isbn": "1234567890123",
         }
         response = await client.post("/api/livres/", json=nouveau)
-        # ✅ CORRECTION : Litestar retourne 400 pour les erreurs de validation Pydantic
         assert response.status_code == 400
 
     @pytest.mark.asyncio
     async def test_creer_livre_isbn_duplique_retourne_409(self, client):
-        """Un ISBN déjà existant retourne 409 Conflict."""
         duplique = {
             "titre": "Clean Code Copie",
             "auteur": "Robert C. Martin",
@@ -194,17 +183,20 @@ class TestCreerLivre:
     async def test_creer_livre_sans_titre_retourne_400(self, client):
         incomplet = {"auteur": "Auteur", "isbn": "9780132350884"}
         response = await client.post("/api/livres/", json=incomplet)
-        # ✅ CORRECTION : Litestar retourne 400 pour les champs manquants
         assert response.status_code == 400
 
 
 class TestSupprimerLivre:
-    """Tests de l'endpoint DELETE /api/livres/{id}."""
 
     @pytest.mark.asyncio
     async def test_supprimer_livre_existant_retourne_204(self, client):
-        # ✅ CORRECTION : utiliser le livre 5 pour ne pas perturber les autres tests
-        response = await client.delete("/api/livres/5")
+        # Trouver dynamiquement un livre actif à supprimer
+        liste = await client.get("/api/livres/disponibles?page_size=1")
+        livres = liste.json()["results"]
+        if not livres:
+            pytest.skip("Aucun livre disponible pour ce test")
+        livre_id = livres[0]["id"]
+        response = await client.delete(f"/api/livres/{livre_id}")
         assert response.status_code == 204
 
     @pytest.mark.asyncio
@@ -214,7 +206,6 @@ class TestSupprimerLivre:
 
 
 class TestCategories:
-    """Tests des endpoints catégories."""
 
     @pytest.mark.asyncio
     async def test_lister_categories_retourne_200(self, client):
@@ -242,16 +233,20 @@ class TestCategories:
 
 
 class TestDisponibilite:
-    """Tests de l'endpoint POST /api/livres/{id}/disponibilite."""
 
     @pytest.mark.asyncio
     async def test_reserver_exemplaire(self, client):
-        # ✅ CORRECTION : utiliser livre 10 (pas le 1 utilisé dans d'autres tests)
-        detail = await client.get("/api/livres/10")
-        stock_initial = detail.json()["quantite_disponible"]
+        # ✅ Trouver dynamiquement un livre disponible
+        liste = await client.get("/api/livres/disponibles?page_size=1")
+        livres = liste.json()["results"]
+        if not livres:
+            pytest.skip("Aucun livre disponible en base pour ce test")
+
+        livre_id = livres[0]["id"]
+        stock_initial = livres[0]["quantite_disponible"]
 
         response = await client.post(
-            "/api/livres/10/disponibilite",
+            f"/api/livres/{livre_id}/disponibilite",
             json={"action": "reserver", "quantite": 1}
         )
         assert response.status_code == 201
@@ -260,30 +255,51 @@ class TestDisponibilite:
 
     @pytest.mark.asyncio
     async def test_retourner_exemplaire(self, client):
+        # Réserver d'abord sur un livre disponible
+        liste = await client.get("/api/livres/disponibles?page_size=1")
+        livres = liste.json()["results"]
+        if not livres:
+            pytest.skip("Aucun livre disponible en base pour ce test")
+
+        livre_id = livres[0]["id"]
+
         await client.post(
-            "/api/livres/3/disponibilite",
+            f"/api/livres/{livre_id}/disponibilite",
             json={"action": "reserver", "quantite": 1}
         )
         response = await client.post(
-            "/api/livres/3/disponibilite",
+            f"/api/livres/{livre_id}/disponibilite",
             json={"action": "retourner", "quantite": 1}
         )
         assert response.status_code == 201
 
     @pytest.mark.asyncio
     async def test_reserver_stock_insuffisant_retourne_400(self, client):
-        # ✅ CORRECTION : utiliser livre 10 (pas le 1 qui peut être supprimé)
+        # Trouver un livre disponible et demander plus que le stock
+        liste = await client.get("/api/livres/disponibles?page_size=1")
+        livres = liste.json()["results"]
+        if not livres:
+            pytest.skip("Aucun livre disponible en base pour ce test")
+
+        livre_id = livres[0]["id"]
+
         response = await client.post(
-            "/api/livres/10/disponibilite",
+            f"/api/livres/{livre_id}/disponibilite",
             json={"action": "reserver", "quantite": 9999}
         )
         assert response.status_code == 400
 
     @pytest.mark.asyncio
     async def test_action_invalide_retourne_400(self, client):
-        # ✅ CORRECTION : Litestar retourne 400 pas 422 pour les erreurs Pydantic
+        liste = await client.get("/api/livres/disponibles?page_size=1")
+        livres = liste.json()["results"]
+        if not livres:
+            pytest.skip("Aucun livre disponible en base pour ce test")
+
+        livre_id = livres[0]["id"]
+
         response = await client.post(
-            "/api/livres/10/disponibilite",
+            f"/api/livres/{livre_id}/disponibilite",
             json={"action": "supprimer", "quantite": 1}
         )
         assert response.status_code == 400

@@ -135,13 +135,11 @@ async def rechercher_livres(
     page: int = 1,
     page_size: int = 20,
 ) -> PaginatedOut:
-    query = Livre.select(
-        *Livre.all_columns(),
-        Livre.categorie._.nom.as_alias("categorie_nom")
-    ).where(Livre.actif == True)
+    # ✅ Construire les filtres dans une liste réutilisable
+    filters = [Livre.actif == True]
 
     if q:
-        query = query.where(
+        filters.append(
             Livre.titre.ilike(f"%{q}%")
             | Livre.auteur.ilike(f"%{q}%")
             | Livre.isbn.ilike(f"%{q}%")
@@ -149,22 +147,29 @@ async def rechercher_livres(
             | Livre.editeur.ilike(f"%{q}%")
         )
     if categorie:
-        query = query.where(Livre.categorie == categorie)
+        filters.append(Livre.categorie == categorie)
     if langue:
-        query = query.where(Livre.langue == langue)
+        filters.append(Livre.langue == langue)
     if disponible is True:
-        query = query.where(Livre.quantite_disponible > 0)
+        filters.append(Livre.quantite_disponible > 0)
     elif disponible is False:
-        query = query.where(Livre.quantite_disponible == 0)
+        filters.append(Livre.quantite_disponible == 0)
     if annee_min:
-        query = query.where(Livre.annee_publication >= annee_min)
+        filters.append(Livre.annee_publication >= annee_min)
     if annee_max:
-        query = query.where(Livre.annee_publication <= annee_max)
+        filters.append(Livre.annee_publication <= annee_max)
 
-    # ✅ Compter les résultats filtrés et non tous les livres
-    total = await query.count()
+    # ✅ Utiliser les mêmes filtres pour count ET select
+    total = await Livre.count().where(*filters)
     offset = (page - 1) * page_size
-    livres = await query.order_by(Livre.titre).limit(page_size).offset(offset)
+    livres = await (
+        Livre
+        .select(*Livre.all_columns(), Livre.categorie._.nom.as_alias("categorie_nom"))
+        .where(*filters)
+        .order_by(Livre.titre)
+        .limit(page_size)
+        .offset(offset)
+    )
 
     return PaginatedOut(
         count=total,
