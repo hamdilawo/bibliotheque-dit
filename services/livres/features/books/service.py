@@ -25,21 +25,10 @@ async def lister_categories() -> list[dict]:
     return result
 
 
-async def creer_categorie(nom: str, description: str) -> dict:
-    cat = await Categorie.insert(
-        Categorie(nom=nom, description=description)
-    ).returning(*Categorie.all_columns())
-    return cat[0]
 
 
-async def get_categorie(categorie_id: int) -> dict:
-    cat = await Categorie.select().where(Categorie.id == categorie_id).first()
-    if not cat:
-        raise LivreNotFoundException(categorie_id)
-    nb = await Livre.count().where(
-        Livre.categorie == categorie_id, Livre.actif == True
-    )
-    return {**cat, "nombre_livres": nb}
+
+
 
 
 # ─── Livres ───────────────────────────────────────────────────
@@ -94,15 +83,6 @@ async def get_livre(livre_id: int) -> dict:
     return livre
 
 
-async def modifier_livre(livre_id: int, data: LivreIn) -> dict:
-    livre = await Livre.objects().where(Livre.id == livre_id, Livre.actif == True).first()
-    if not livre:
-        raise LivreNotFoundException(livre_id)
-
-    for key, value in data.model_dump().items():
-        setattr(livre, key, value)
-    await livre.save()
-    return await get_livre(livre_id)
 
 
 async def modifier_partiellement(livre_id: int, data: LivrePatchIn) -> dict:
@@ -179,23 +159,7 @@ async def rechercher_livres(
     )
 
 
-async def livres_disponibles(page: int = 1, page_size: int = 20) -> PaginatedOut:
-    total = await Livre.count().where(Livre.actif == True, Livre.quantite_disponible > 0)
-    offset = (page - 1) * page_size
-    livres = await (
-        Livre
-        .select(*Livre.all_columns(), Livre.categorie._.nom.as_alias("categorie_nom"))
-        .where(Livre.actif == True, Livre.quantite_disponible > 0)
-        .order_by(Livre.titre)
-        .limit(page_size)
-        .offset(offset)
-    )
-    return PaginatedOut(
-        count=total,
-        page=page,
-        page_size=page_size,
-        results=[_to_list_out(l) for l in livres]
-    )
+
 
 
 async def maj_disponibilite(livre_id: int, action: str, quantite: int) -> dict:

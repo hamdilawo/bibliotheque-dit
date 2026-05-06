@@ -44,17 +44,7 @@ class CategorieController(Controller):
         data = await service.lister_categories()
         return [CategorieOut(**d) for d in data]
 
-    @post("/")
-    async def creer(self, data: CategorieIn) -> CategorieOut:
-        """Crée une nouvelle catégorie."""
-        cat = await service.creer_categorie(data.nom, data.description)
-        return CategorieOut(**cat, nombre_livres=0)
-
-    @get("/{categorie_id:int}")
-    async def detail(self, categorie_id: int) -> CategorieOut:
-        """Détail d'une catégorie."""
-        cat = await service.get_categorie(categorie_id)
-        return CategorieOut(**cat)
+    
 
 
 # ─── Controller Livres ───────────────────────────────────────
@@ -95,14 +85,7 @@ class LivreController(Controller):
             q, categorie, langue, disponible, annee_min, annee_max, page, page_size
         )
 
-    @get("/disponibles")
-    async def disponibles(
-        self,
-        page: int = Parameter(default=1, ge=1),
-        page_size: int = Parameter(default=20, ge=1, le=100),
-    ) -> PaginatedOut:
-        """Liste des livres disponibles à l'emprunt."""
-        return await service.livres_disponibles(page, page_size)
+    
 
     @get("/{livre_id:int}")
     async def detail(self, livre_id: int) -> LivreDetailOut:
@@ -110,11 +93,7 @@ class LivreController(Controller):
         livre = await service.get_livre(livre_id)
         return LivreDetailOut(**livre)
 
-    @put("/{livre_id:int}")
-    async def modifier(self, livre_id: int, data: LivreIn) -> LivreDetailOut:
-        """Modifie complètement un livre."""
-        livre = await service.modifier_livre(livre_id, data)
-        return LivreDetailOut(**livre)
+    
 
     @patch("/{livre_id:int}")
     async def modifier_partiellement(self, livre_id: int, data: LivrePatchIn) -> LivreDetailOut:
