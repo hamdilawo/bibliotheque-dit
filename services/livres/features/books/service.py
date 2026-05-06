@@ -4,8 +4,9 @@ Sépare la logique des endpoints (controller) de l'accès aux données.
 """
 from typing import Optional
 
+from piccolo.columns.combination import Or, Where
 from features.books.tables import Livre, Categorie
-from features.books.schemas import LivreIn, LivrePatchIn, LivreListOut, LivreDetailOut, PaginatedOut
+from features.books.schemas import LivreIn, LivrePatchIn, LivreListOut, PaginatedOut
 from core.exceptions import (
     LivreNotFoundException, ISBNAlreadyExistsException,
     StockInsuffisantException, StockDepaseeException,
@@ -19,7 +20,7 @@ async def lister_categories() -> list[dict]:
     result = []
     for cat in categories:
         nb = await Livre.count().where(
-            Livre.categorie == cat["id"], Livre.actif == True
+            Livre.categorie == cat["id"], Livre.actif.eq(True)
         )
         result.append({**cat, "nombre_livres": nb})
     return result
@@ -35,13 +36,13 @@ async def lister_categories() -> list[dict]:
 
 async def lister_livres(page: int = 1, page_size: int = 20, sort: str = "titre") -> PaginatedOut:
     offset = (page - 1) * page_size
-    total = await Livre.count().where(Livre.actif == True)
+    total = await Livre.count().where(Livre.actif.eq(True))
 
     sort_col = getattr(Livre, sort, Livre.titre)
     livres = await (
         Livre
         .select(*Livre.all_columns(), Livre.categorie._.nom.as_alias("categorie_nom"))
-        .where(Livre.actif == True)
+        .where(Livre.actif.eq(True))
         .order_by(sort_col)
         .limit(page_size)
         .offset(offset)
@@ -51,7 +52,7 @@ async def lister_livres(page: int = 1, page_size: int = 20, sort: str = "titre")
         count=total,
         page=page,
         page_size=page_size,
-        results=[_to_list_out(l) for l in livres]
+        results=[_to_list_out(livre) for livre in livres]
     )
 
 
@@ -73,7 +74,7 @@ async def get_livre(livre_id: int) -> dict:
     livre = await (
         Livre
         .select(*Livre.all_columns(), Livre.categorie._.nom.as_alias("categorie_nom"))
-        .where(Livre.id == livre_id, Livre.actif == True)
+        .where(Livre.id == livre_id, Livre.actif.eq(True))
         .first()
     )
     if not livre:
@@ -86,7 +87,7 @@ async def get_livre(livre_id: int) -> dict:
 
 
 async def modifier_partiellement(livre_id: int, data: LivrePatchIn) -> dict:
-    livre = await Livre.objects().where(Livre.id == livre_id, Livre.actif == True).first()
+    livre = await Livre.objects().where(Livre.id == livre_id, Livre.actif.eq(True)).first()
     if not livre:
         raise LivreNotFoundException(livre_id)
 
@@ -98,7 +99,7 @@ async def modifier_partiellement(livre_id: int, data: LivrePatchIn) -> dict:
 
 async def supprimer_livre(livre_id: int) -> None:
     """Soft delete — désactive le livre sans le supprimer."""
-    livre = await Livre.objects().where(Livre.id == livre_id, Livre.actif == True).first()
+    livre = await Livre.objects().where(Livre.id == livre_id, Livre.actif.eq(True)).first()
     if not livre:
         raise LivreNotFoundException(livre_id)
     livre.actif = False
@@ -116,7 +117,7 @@ async def rechercher_livres(
     page_size: int = 20,
 ) -> PaginatedOut:
     # ✅ Construire les filtres dans une liste réutilisable
-    filters = [Livre.actif == True]
+    filters: list[Where | Or] = [Livre.actif.eq(True)]
 
     if q:
         filters.append(
@@ -155,7 +156,7 @@ async def rechercher_livres(
         count=total,
         page=page,
         page_size=page_size,
-        results=[_to_list_out(l) for l in livres]
+        results=[_to_list_out(livre) for livre in livres]
     )
 
 
@@ -164,7 +165,7 @@ async def rechercher_livres(
 
 async def maj_disponibilite(livre_id: int, action: str, quantite: int) -> dict:
     """Appelé par le service Emprunts pour réserver ou retourner."""
-    livre = await Livre.objects().where(Livre.id == livre_id, Livre.actif == True).first()
+    livre = await Livre.objects().where(Livre.id == livre_id, Livre.actif.eq(True)).first()
     if not livre:
         raise LivreNotFoundException(livre_id)
 

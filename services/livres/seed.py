@@ -8,18 +8,8 @@ Usage :
 from __future__ import annotations
 
 import asyncio
-import os
 import sys
-
-# ── Configuration DB directe ─────────────────────────────────
-from piccolo.engine.postgres import PostgresEngine
-DB = PostgresEngine(config={
-    "host":     os.getenv("DB_HOST", "db"),
-    "port":     int(os.getenv("DB_PORT", "5432")),
-    "database": os.getenv("DB_NAME", "livres_db"),
-    "user":     os.getenv("DB_USER", "postgres"),
-    "password": os.getenv("DB_PASSWORD", "postgres"),
-})
+from typing import Any, cast
 
 from features.books.tables import Categorie, Livre
 
@@ -137,10 +127,10 @@ async def seed_livres(categories: dict[str, int]) -> tuple[int, int, int]:
     crees = existants = erreurs = 0
 
     for data in LIVRES:
-        livre_data = dict(data)
-        nom_cat = livre_data.pop("categorie")
+        livre_data: dict[str, Any] = dict(data)
+        nom_cat = cast(str, livre_data.pop("categorie"))
         cat_id = categories.get(nom_cat)
-        quantite = livre_data.get("quantite_totale", 1)
+        quantite = cast(int, livre_data.get("quantite_totale", 1))
 
         try:
             existing = await Livre.objects().where(Livre.isbn == livre_data["isbn"]).first()

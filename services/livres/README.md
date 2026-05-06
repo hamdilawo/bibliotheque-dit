@@ -12,7 +12,7 @@ Développé avec **Litestar** + **Piccolo ORM** + **PostgreSQL**.
 services/livres/
 ├── core/
 │   ├── database.py       ← Connexion Piccolo ORM
-│   ├── docs_auth.py      ← Configuration Swagger
+│   ├── docs_auth.py      ← Configuration OpenAPI / Scalar
 │   ├── exceptions.py     ← Exceptions personnalisées
 │   ├── guards.py         ← Protection des routes (JWT)
 │   ├── settings.py       ← Variables d'environnement
@@ -79,7 +79,7 @@ L'`entrypoint.sh` s'occupe automatiquement de :
 ### Documentation interactive
 
 ```
-http://localhost:8001/schema/swagger
+http://localhost:8001/schema/scalar
 ```
 
 ---

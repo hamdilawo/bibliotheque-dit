@@ -4,6 +4,7 @@ Point d'entrée Litestar — Service Livres.
 from litestar import Litestar
 from litestar.config.cors import CORSConfig
 from litestar.openapi import OpenAPIConfig
+from litestar.openapi.plugins import ScalarRenderPlugin
 
 from core.settings import get_settings
 from core.docs_auth import SECURITY_COMPONENTS, TAGS
@@ -18,13 +19,14 @@ cors_config = CORSConfig(
     allow_headers=["Content-Type", "Authorization"],
 )
 
-# ─── Swagger ─────────────────────────────────────────────────
+# ─── OpenAPI / Scalar ─────────────────────────────────────────
 openapi_config = OpenAPIConfig(
     title=settings.app_name,
     version=settings.app_version,
     description="API de gestion des livres — Bibliothèque Numérique DIT",
     components=SECURITY_COMPONENTS,
     tags=TAGS,
+    render_plugins=[ScalarRenderPlugin(path="/scalar")],
 )
 
 

@@ -1,4 +1,5 @@
 from piccolo.apps.migrations.auto.migration_manager import MigrationManager
+from piccolo.columns.column_types import Text, Varchar
 
 ID = "2026-05-04T00:00:00"
 VERSION = "1.16.0"
@@ -31,7 +32,7 @@ async def forwards():
         column_name="description",
         db_column_name="description",
         column_class_name="Text",
-        column_class="Text",
+        column_class=Text,
         params={"default": "", "null": False, "primary_key": False, "required": False},
     )
 

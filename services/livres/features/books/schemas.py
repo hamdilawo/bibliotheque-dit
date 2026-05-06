@@ -90,7 +90,7 @@ class LivreIn(BaseModel):
         total = sum(int(value[i]) * (1 if i % 2 == 0 else 3) for i in range(12))
         cle = (10 - (total % 10)) % 10
         if cle != int(value[12]):
-            raise ValueError(f"ISBN-13 invalide : clé de contrôle incorrecte.")
+            raise ValueError("ISBN-13 invalide : clé de contrôle incorrecte.")
         return value
 
     @field_validator("annee_publication")

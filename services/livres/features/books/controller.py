@@ -3,13 +3,12 @@ Controller Litestar — routes du service Livres.
 Le controller ne contient que les routes, la logique est dans service.py.
 """
 from typing import Optional
-from litestar import Controller, get, post, put, patch, delete
+from litestar import Controller, get, post, patch, delete
 from litestar.params import Parameter
 
 from features.books.schemas import (
-    LivreIn, LivrePatchIn, LivreDetailOut, LivreListOut,
-    DisponibiliteIn, DisponibiliteOut,
-    CategorieIn, CategorieOut, PaginatedOut, HealthOut,
+    LivreIn, LivrePatchIn, LivreDetailOut, DisponibiliteIn, DisponibiliteOut,
+    CategorieOut, PaginatedOut, HealthOut,
 )
 from features.books import service
 
