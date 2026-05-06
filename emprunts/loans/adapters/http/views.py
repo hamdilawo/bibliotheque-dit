@@ -92,6 +92,12 @@ class EmpruntViewSet(viewsets.ViewSet):
     # ------------------------------------------------------------------ #
     # Endpoint 2 — Retourner un livre
     # ------------------------------------------------------------------ #
+    def get_object(self):
+        try:
+            return Emprunt.objects.get(pk=self.kwargs['pk'])
+        except Emprunt.DoesNotExist:
+            from rest_framework.exceptions import NotFound
+            raise NotFound(detail="Emprunt introuvable.")
 
     @extend_schema(request=RetourEmpruntSerializer)
     @action(detail=True, methods=['post'])
@@ -173,11 +179,10 @@ class EmpruntViewSet(viewsets.ViewSet):
         statut = request.query_params.get('statut')
         if statut:
             emprunts = emprunts.filter(statut=statut.upper())
-
-        page = self.paginate_queryset(emprunts)
-        if page is not None:
-            serializer = EmpruntListSerializer(page, many=True)
-            return self.get_paginated_response(serializer.data)
+        emprunts = self.get_queryset().filter(utilisateur_id=utilisateur_id)
+        statut = request.query_params.get('statut')
+        if statut:
+            emprunts = emprunts.filter(statut=statut.upper())
 
         serializer = EmpruntListSerializer(emprunts, many=True)
         return Response({'count': emprunts.count(), 'results': serializer.data})
