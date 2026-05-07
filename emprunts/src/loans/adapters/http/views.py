@@ -131,7 +131,7 @@ class EmpruntViewSet(viewsets.ViewSet):
 
         command = RateBookCommand(
         loan_id=str(serializer.validated_data['loan_id']),
-        user_id=request.authenticated_user.user_id,
+        user_id=request.authenticated_user.id,
         rating=serializer.validated_data['rating']
         )
 
