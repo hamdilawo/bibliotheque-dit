@@ -39,6 +39,10 @@ class BookService(BookServiceInterface):
         raise NotImplementedError(
             "book_repo.new_loan() Method not implemented yet")
 
+    def loan_returned(self, book_id: str, reader_id: str) -> None:
+        raise NotImplementedError(
+            "book_repo.loan_returned() Method not implemented yet")
+
 
 class FakeBookService(BookServiceInterface):
     def __init__(self,):
@@ -58,4 +62,7 @@ class FakeBookService(BookServiceInterface):
         return book
 
     def new_loan(self, book_id: str, reader_id: str, term: date) -> None:
+        return
+
+    def loan_returned(self, book_id: str, reader_id: str) -> None:
         return

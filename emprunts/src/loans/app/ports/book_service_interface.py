@@ -10,3 +10,6 @@ class BookServiceInterface(Protocol):
 
     def new_loan(self, book_id: str, reader_id: str, term: date) -> None:
         raise NotImplementedError
+
+    def loan_returned(self, book_id: str, reader_id: str) -> None:
+        raise NotImplementedError

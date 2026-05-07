@@ -1,6 +1,6 @@
 
 
-from typing import Protocol
+from typing import Optional, Protocol
 
 from src.loans.app.domain.loan import Loan
 
@@ -10,7 +10,11 @@ class LoanRepository(Protocol):
         """Enregistre un emprunt dans la base de données."""
         raise NotImplementedError
 
-    def find_by_id(self, loan_id: str) -> Loan:
+    def complete(self, loan: Loan) -> None:
+        """Enregistre un emprunt dans la base de données."""
+        raise NotImplementedError
+
+    def find_by_id(self, loan_id: str) -> Optional[Loan]:
         """Récupère un prêt par son ID."""
         raise NotImplementedError
 

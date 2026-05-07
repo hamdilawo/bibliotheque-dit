@@ -1,6 +1,6 @@
 
 from dataclasses import dataclass, field
-from datetime import date, timedelta
+from datetime import date, datetime, timedelta, timezone
 from enum import Enum
 from typing import Optional, Self
 from uuid import UUID, uuid7
@@ -22,16 +22,23 @@ DEFAULT_BOOK_LOAN_DURATION_DAYS = 14  # Durée par défaut d'un emprunt en jours
 class Loan:
     id: UUID
     borrower_id: str
-    book: Optional[Book]
-    reader: Optional[Reader]
+    book: Book
+    reader: Reader
     term: date
     borrow_date: date = field(default_factory=date.today)
     status: LoanStatus = field(default=LoanStatus.PENDING)
     notes: str = ""
+    penalty: int = 0
+    completed_at: Optional[date] = None
+    jours_retard: int = 0
 
     @property
-    def book_id(self) -> Optional[str]:
+    def book_id(self) -> str:
         return self.book.id if self.book else ''
+
+    @property
+    def is_returned(self) -> bool:
+        return self.status == LoanStatus.COMPLETED
 
     @classmethod
     def new(cls, book: Book, reader: Reader, term: Optional[date] = None) -> Self:
@@ -43,9 +50,24 @@ class Loan:
             id=uuid7(),
             borrower_id=reader.id,
             book=book,
+            borrow_date=date.today(),
             reader=reader,
             term=term or timedelta(
                 days=DEFAULT_BOOK_LOAN_DURATION_DAYS) + date.today(),
             status=LoanStatus.PENDING
         )
         return loan
+
+    def complete(self):
+        today = datetime.now(timezone.utc).date()
+        jours_retard = 0
+        penalty = 0
+        if today > self.term:
+            jours_retard = (today - self.term).days
+            penalty = jours_retard * 200  # TODO: Mettre dans une CONST
+
+        self.status = LoanStatus.COMPLETED
+        self.borrow_date = date.today()
+        self.completed_at = date.today()
+        self.penalty = penalty
+        self.jours_retard = jours_retard

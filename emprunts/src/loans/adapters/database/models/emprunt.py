@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 from django.db import models
 from django.utils import timezone
 from datetime import timedelta
@@ -33,8 +35,10 @@ class Emprunt(models.Model):
 
     # Pénalités
     jours_retard = models.PositiveIntegerField(default=0)
+
+    # TODO: A retirer
     penalite_fcfa = models.DecimalField(
-        max_digits=10, decimal_places=2, default=0)
+        max_digits=10, decimal_places=2, default=Decimal("0"))
 
     # Notes
     notes = models.TextField(blank=True)

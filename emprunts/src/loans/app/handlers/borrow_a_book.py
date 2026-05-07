@@ -54,10 +54,13 @@ class BorrowABook():
 
         self.loan_repository.save(loan)
 
-        self.book_service.new_loan(
-            book_id=command.book_id,
-            reader_id=command.user.id,
-            term=loan.term
-        )
+        try:
+            self.book_service.new_loan(
+                book_id=command.book_id, reader_id=command.user.id, term=loan.term)
+        except Exception as e:
+            # TODO: faire un rollback de l'emprunt dans la base de données
+            # Ou Enregistrer une tâche de compensation à exécuter plus tard pour corriger l'état du système
+            raise Exception(
+                f'Loan enregistré mais erreur service livres: {e}')
 
         return loan
