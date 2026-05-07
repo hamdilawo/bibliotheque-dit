@@ -25,3 +25,7 @@ class LoanRepository(Protocol):
     def already_borrowed_by_reader_and_not_returned(self, book_id: str, reader_id: str) -> bool:
         """Vérifie si le livre a déjà été emprunté par le lecteur et n'a pas encore été retourné."""
         raise NotImplementedError
+    
+    def rate(self, loan_id: str, rating: int) -> None:
+        """Enregistre la note d'un livre."""
+        raise NotImplementedError

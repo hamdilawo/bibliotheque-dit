@@ -23,22 +23,13 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'drf.urls'
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.postgresql',
-    #     'NAME': config('DB_NAME', default='emprunts_db'),
-    #     'USER': config('POSTGRES_USER', default='postgres'),
-    #     'PASSWORD': config('POSTGRES_PASSWORD', default='postgres123'),
-    #     'HOST': config('DB_HOST', default='localhost'),
-    #     'PORT': config('DB_PORT', default='25432'),
-    # }
-
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': "emprunts_db",
-        'USER': "postgres",
-        'PASSWORD': "postgres123",
-        'HOST': config('DB_HOST', default='localhost'),
-        'PORT': config('DB_PORT', default='25432'),
+        'NAME': 'emprunts_db',
+        'USER': 'postgres',
+        'PASSWORD': config('DB_PASSWORD', default='postgres'),  # <-- Force le ici
+        'HOST': '127.0.0.1',
+        'PORT': 25432,
     }
 }
 

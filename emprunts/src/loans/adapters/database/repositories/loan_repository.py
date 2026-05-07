@@ -102,3 +102,6 @@ class LoanRepositoryImpl(LoanRepository):
     def find_all_active_loans(self) -> list[Loan]:
         # Oulbnie pour le moment
         raise NotImplementedError("Method not implemented yet")
+    
+    def rate(self, loan_id: str, rating: int) -> None:
+        Emprunt.objects.filter(id=loan_id).update(rating=rating)

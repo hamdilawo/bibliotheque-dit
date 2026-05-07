@@ -18,7 +18,7 @@ from .serializers import (
     ReturnLoanResponseSerializer
 )
 from ...client import LivresClient, UtilisateursClient, ServiceException
-
+from .serializers import RateBookSerializer
 
 class EmpruntViewSet(viewsets.ViewSet):
     """
@@ -117,5 +117,27 @@ class EmpruntViewSet(viewsets.ViewSet):
 
         return Response(response_data)
 
-    def rate_book():
-        pass
+    @extend_schema(request=RateBookSerializer)
+    @action(detail=False, methods=['post'])
+    def rate_book(self, request):
+        from src.loans.app.handlers.rate_book import RateBook, RateBookCommand
+        from .serializers import RateBookSerializer
+
+        try:
+            serializer = RateBookSerializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+        except serializers.ValidationError as e:
+            return Response({'error': e.detail}, status=status.HTTP_400_BAD_REQUEST)
+
+        command = RateBookCommand(
+        loan_id=str(serializer.validated_data['loan_id']),
+        user_id=request.authenticated_user.user_id,
+        rating=serializer.validated_data['rating']
+        )
+
+        try:
+            RateBook(loan_repository=LoanRepositoryImpl()).execute(command)
+        except (ValueError, PermissionError) as e:
+            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+        return Response({'message': 'Note enregistrée avec succès.'}, status=status.HTTP_200_OK)
