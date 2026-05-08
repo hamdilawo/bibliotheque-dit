@@ -5,8 +5,8 @@ services:
     container_name: dit-loans-postgres
     restart: unless-stopped
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres123
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres123}
     volumes:
       - postgres-data:/var/lib/postgresql/data
     ports:

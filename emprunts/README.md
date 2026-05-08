@@ -1,33 +1,71 @@
-# Service Emprunt
+# DIT Library
 
-@Moussa
-[x] Renommer note -> comment sur l'endpoint de emprunter un livre
-[x] Sur l'Endpoint de return_loan/: retirer la prt: notes
+## Prerequisites
 
-@Hammdy
-Endpoint (pour dpoonner son avis): Rating / retour
-Rule: On ne peut pas donner son avis sur un livre que l on a jamais empriunter dans le passé
-on ne peut pas le faire deux fois
+- Docker & Docker Compose
+- Python 3.14+
 
-@moussa
-Notification:
-Emrunt effetué
-Emprunt retourné
-Retard détecté
-3jrs avant l'echeance et l'echeance (00h00)
+---
 
-TASKS:
-- [x] Inclure l envoie email dans emprunt_handler et retour_handler
-- [x] Implementer le get_user_infos_with_loan_due_in_3_days(reference_date: date=today())
-- [x] Un usecase: notify_user_before3days
-- [x] Un usecase: notify_user_on_delay_detected
-- [x] API: notify_user_before3days
-- [x] API: notify_user_on_delay_detected
-- [.....] Implementer le service d'envoi email (rest implent real brevo)
+## Getting Started
 
+Choose one of the two methods below.
 
-<!-- PROCESS -->
-1 - docker compose up db
-2 - uv run python manage.py migrate
-3 - uv run python manage.py runserver
-4 - Se rendre sur la docs: pour inserer le token (@.env.example)
+---
+
+### 🐳 Method 1 — Docker only
+
+#### 1. Set up environment files
+
+```bash
+cp .env.example .env.prod
+```
+
+Then create `.env.docker.db`:
+
+```dotenv
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres123
+```
+
+> ⚠️ Make sure the DB credentials in `.env.docker.db` match the database section in `.env.prod`.
+
+#### 2. Start the services
+
+```bash
+docker compose up --build --env-file .env.docker.db --remove-orphans
+```
+
+---
+
+### 🛠️ Method 2 — Manual
+
+#### 1. Install `uv` (if not already installed)
+
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+#### 2. Start the services
+
+```bash
+docker compose up db
+```
+
+#### 3. Apply migrations
+
+```bash
+uv run python manage.py migrate
+```
+
+#### 4. Run the development server
+
+```bash
+uv run python manage.py runserver
+```
+
+---
+
+### Access the API docs
+
+Navigate to the docs URL and use the token defined in `.env` (see `.env.example` for reference).

@@ -31,3 +31,7 @@ class ReturnLoanResponseSerializer(serializers.Serializer):
     borrower_email = serializers.CharField(source="reader.email")
     borrowed_book = serializers.CharField(source="book.title")
     borrowed_book_id = serializers.CharField(source="book.id")
+
+class RateBookSerializer(serializers.Serializer):
+    loan_id = serializers.UUIDField()
+    rating = serializers.IntegerField(min_value=1, max_value=5)

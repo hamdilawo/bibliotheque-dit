@@ -44,6 +44,10 @@ class Emprunt(models.Model):
     # Commentaire
     comment = models.TextField(blank=True)
 
+    # Notes
+    notes = models.TextField(blank=True)
+    rating = models.PositiveSmallIntegerField(null=True, blank=True)
+
     class Meta:
         ordering = ['-date_emprunt']
         indexes = [

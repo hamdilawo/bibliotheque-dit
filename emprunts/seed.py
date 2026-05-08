@@ -11,16 +11,17 @@ Strategie :
 
 Lancer avec : python seed.py
 """
-from services.emprunts.loans.adapters.dao.models import Emprunt
 import os
 import django
 import random
+import uuid
 from datetime import date, timedelta
 from collections import Counter
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'emprunts_service.settings')
 django.setup()
 
+from loans.models import Emprunt
 
 random.seed(42)
 
@@ -234,6 +235,7 @@ for _ in range(NB_EMPRUNTS_CIBLE):
         penalite = 0
 
     emprunts_a_creer.append(Emprunt(
+        id=uuid.uuid4(),
         utilisateur_id=utilisateur['id'],
         livre_id=livre['id'],
         utilisateur_nom=utilisateur['nom'],

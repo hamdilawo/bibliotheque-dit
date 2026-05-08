@@ -113,3 +113,22 @@ class LoanRepositoryImpl(LoanRepository):
     def find_all_active_loans(self) -> list[Loan]:
         # Oulbnie pour le moment
         raise NotImplementedError("Method not implemented yet")
+    
+    def rate(self, loan_id: str, rating: int) -> None:
+        Emprunt.objects.filter(id=loan_id).update(rating=rating)
+
+    def has_ever_borrowed_book(self, user_id: str, book_id: str) -> bool:
+        return Emprunt.objects.filter(
+            utilisateur_id=user_id,
+            livre_id=book_id,
+            statut=LoanStatus.COMPLETED
+        ).exists()
+
+    def has_already_rated(self, loan_id: str) -> bool:
+        return Emprunt.objects.filter(id=loan_id, rating__isnull=False).exists()
+
+    def has_ever_borrowed_book(self, user_id: str, book_id: str) -> bool:
+        return Emprunt.objects.filter(utilisateur_id=user_id, livre_id=book_id, statut=LoanStatus.COMPLETED).exists()
+
+    def has_already_rated(self, loan_id: str) -> bool:
+        return Emprunt.objects.filter(id=loan_id, rating__isnull=False).exists()

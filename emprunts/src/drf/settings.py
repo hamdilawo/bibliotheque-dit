@@ -23,22 +23,13 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'drf.urls'
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.postgresql',
-    #     'NAME': config('DB_NAME', default='emprunts_db'),
-    #     'USER': config('POSTGRES_USER', default='postgres'),
-    #     'PASSWORD': config('POSTGRES_PASSWORD', default='postgres123'),
-    #     'HOST': config('DB_HOST', default='localhost'),
-    #     'PORT': config('DB_PORT', default='25432'),
-    # }
-
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': "emprunts_db",
-        'USER': "postgres",
-        'PASSWORD': "postgres123",
-        'HOST': config('DB_HOST', default='localhost'),
-        'PORT': config('DB_PORT', default='25432'),
+        'NAME': config("DB_NAME"),
+        'USER': config("POSTGRES_USER"),
+        'PASSWORD': config('POSTGRES_PASSWORD', default='postgres123'),
+        'HOST': config("DB_HOST"),
+        'PORT': config("DB_PORT"),
     }
 }
 
@@ -63,9 +54,9 @@ SPECTACULAR_SETTINGS = {
 
 
 # URLs des autres microservices
-SERVICE_LIVRES_URL = config('SERVICE_LIVRES_URL', default='http://livres:8001')
+SERVICE_LIVRES_URL = config('SERVICE_LIVRES_URL')
 SERVICE_UTILISATEURS_URL = config(
-    'SERVICE_UTILISATEURS_URL', default='http://utilisateurs:8002')
+    'SERVICE_UTILISATEURS_URL',)
 
 CORS_ALLOW_ALL_ORIGINS = True
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
@@ -80,7 +71,6 @@ MIGRATION_MODULES = {
 
 
 # JWT Settings
-JWT_SECRET_KEY = config(
-    "JWT_SECRET_KEYs", "a-string-secret-at-least-256-bits-long")
-JWT_ALGORITHM = "HS256"
-JWT_COOKIE_NAME = "access_token"
+JWT_SECRET_KEY = config("JWT_SECRET_KEY")
+JWT_ALGORITHM = config("JWT_ALGORITHM")
+JWT_COOKIE_NAME = config("JWT_COOKIE_NAME")

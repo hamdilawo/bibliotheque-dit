@@ -21,6 +21,7 @@ from .serializers import (
     ReturnLoanResponseSerializer
 )
 from ...client import LivresClient, UtilisateursClient, ServiceException
+from .serializers import RateBookSerializer
 
 
 class EmpruntViewSet(viewsets.ViewSet):
@@ -157,3 +158,28 @@ class EmpruntViewSet(viewsets.ViewSet):
             return Response({"message": "Success", })
         except:
             return Response({"message": "Error"}, status=500)
+
+    @extend_schema(request=RateBookSerializer, summary="Noter un livre/emprunt")
+    @action(detail=False, methods=['post'], url_path="rate")
+    def rate_book(self, request):
+        from src.loans.app.handlers.rate_book import RateBook, RateBookCommand
+        from .serializers import RateBookSerializer
+
+        try:
+            serializer = RateBookSerializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+        except serializers.ValidationError as e:
+            return Response({'error': e.detail}, status=status.HTTP_400_BAD_REQUEST)
+
+        command = RateBookCommand(
+            loan_id=str(serializer.validated_data['loan_id']),
+            user_id=request.authenticated_user.id,
+            rating=serializer.validated_data['rating']
+        )
+
+        try:
+            RateBook(loan_repository=LoanRepositoryImpl()).execute(command)
+        except (ValueError, PermissionError) as e:
+            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+        return Response({'message': 'Note enregistrée avec succès.'}, status=status.HTTP_200_OK)
