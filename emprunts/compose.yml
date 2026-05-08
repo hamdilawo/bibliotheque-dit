@@ -10,7 +10,7 @@ services:
     volumes:
       - postgres-data:/var/lib/postgresql/data
     ports:
-      - "25432:5432"
+      - "${PORT:-25432}:5432"
     networks:
       - bibliotheque-loans-service-network
     healthcheck:
@@ -28,7 +28,7 @@ services:
     container_name: dit-loans-service
     restart: unless-stopped
     ports:
-      - "8008:8000"
+      - "${PORT:-8008}:8000"
     networks:
       - bibliotheque-loans-service-network
 
