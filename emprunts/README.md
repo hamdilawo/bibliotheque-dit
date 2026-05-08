@@ -33,8 +33,12 @@ POSTGRES_PASSWORD=postgres123
 #### 2. Start the services
 
 ```bash
-docker compose up --build --env-file .env.docker.db --remove-orphans
+docker compose --env-file .env.docker.db up --build --remove-orphans
 ```
+
+#### 3. Open the app
+
+Navigate to [http://localhost:8008/api/docs/](http://localhost:8008/api/docs/)
 
 ---
 
@@ -46,7 +50,7 @@ docker compose up --build --env-file .env.docker.db --remove-orphans
 curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
-#### 2. Start the services
+#### 2. Start the database
 
 ```bash
 docker compose up db
@@ -64,8 +68,21 @@ uv run python manage.py migrate
 uv run python manage.py runserver
 ```
 
+#### 5. Open the app
+
+Navigate to [http://localhost:8000/api/docs/](http://localhost:8000/api/docs/)
+
 ---
 
-### Access the API docs
+### 🔑 Authenticate on the API docs
 
-Navigate to the docs URL and use the token defined in `.env` (see `.env.example` for reference).
+Once the app is running, open the docs URL above and set the following cookie in your browser:
+
+**Cookie name:** `access_token`
+
+**Cookie value:**
+```
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwidXNlcl9pZCI6IjAwMDEiLCJ1c2VyX3JvbGUiOiJzdHVkZW50IiwidXNlcl9lbWFpbCI6ImpvaG4uZG9lQGNnbC5kZXYiLCJpc19hY3RpdmUiOnRydWUsImlhdCI6MTUxNjIzOTAyMiwiZXhwIjoxNzgwOTYwNDg0fQ.3F-VsntKXg17zcmd3IDfzvoFmeSr7cGsA1dLKKctFLo
+```
+
+> 💡 You can set cookies via your browser's DevTools → **Application** → **Cookies** → select the localhost URL → add a new entry with the name and value above.
