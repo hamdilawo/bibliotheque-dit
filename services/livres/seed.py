@@ -1,25 +1,9 @@
-"""
-Script de peuplement initial — Service Livres (Piccolo ORM)
-
-Usage :
-    python seed.py           # Peuple sans supprimer les données existantes
-    python seed.py --reset   # Supprime tout et repart de zéro
-"""
 from __future__ import annotations
 
 import asyncio
-import os
 import sys
-
-# ── Configuration DB directe ─────────────────────────────────
-from piccolo.engine.postgres import PostgresEngine
-DB = PostgresEngine(config={
-    "host":     os.getenv("DB_HOST", "db"),
-    "port":     int(os.getenv("DB_PORT", "5432")),
-    "database": os.getenv("DB_NAME", "livres_db"),
-    "user":     os.getenv("DB_USER", "postgres"),
-    "password": os.getenv("DB_PASSWORD", "postgres"),
-})
+from typing import Any, cast
+from uuid import UUID
 
 from features.books.tables import Categorie, Livre
 
@@ -104,7 +88,6 @@ LIVRES = [
 # ════════════════════════════════════════════════════════════
 
 async def reset_db() -> None:
-    """Supprime toutes les données existantes."""
     await Livre.alter().drop_table(if_exists=True).run()
     await Categorie.alter().drop_table(if_exists=True).run()
     await Categorie.create_table(if_not_exists=True).run()
@@ -112,10 +95,9 @@ async def reset_db() -> None:
     print("✓ Tables recréées.\n")
 
 
-async def seed_categories() -> dict[str, int]:
-    """Insère les catégories et retourne un mapping nom → id."""
+async def seed_categories() -> dict[str, UUID]:
     print("── Catégories ──────────────────────────")
-    categories: dict[str, int] = {}
+    categories: dict[str, UUID] = {}
 
     for data in CATEGORIES:
         existing = await Categorie.objects().where(Categorie.nom == data["nom"]).first()
@@ -131,16 +113,14 @@ async def seed_categories() -> dict[str, int]:
     return categories
 
 
-async def seed_livres(categories: dict[str, int]) -> tuple[int, int, int]:
-    """Insère les livres. Retourne (créés, existants, erreurs)."""
+async def seed_livres(categories: dict[str, UUID]) -> tuple[int, int, int]:
     print("\n── Livres ──────────────────────────────")
     crees = existants = erreurs = 0
 
     for data in LIVRES:
-        livre_data = dict(data)
-        nom_cat = livre_data.pop("categorie")
+        livre_data: dict[str, Any] = dict(data)
+        nom_cat = cast(str, livre_data.pop("categorie"))
         cat_id = categories.get(nom_cat)
-        quantite = livre_data.get("quantite_totale", 1)
 
         try:
             existing = await Livre.objects().where(Livre.isbn == livre_data["isbn"]).first()
@@ -152,7 +132,6 @@ async def seed_livres(categories: dict[str, int]) -> tuple[int, int, int]:
             livre = Livre(
                 **livre_data,
                 categorie=cat_id,
-                quantite_disponible=quantite,
                 actif=True,
             )
             await livre.save().run()

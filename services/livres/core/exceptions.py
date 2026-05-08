@@ -1,12 +1,14 @@
 """
 Exceptions personnalisées du service Livres.
 """
-from litestar.exceptions import NotFoundException, HTTPException
+from litestar.exceptions import HTTPException
 
 
-class LivreNotFoundException(NotFoundException):
-    def __init__(self, livre_id: int):
-        super().__init__(detail=f"Livre {livre_id} introuvable.")
+from uuid import UUID
+
+class LivreNotFoundException(Exception):
+    def __init__(self, livre_id: UUID):
+        super().__init__(f"Livre {livre_id} introuvable")
 
 
 class ISBNAlreadyExistsException(HTTPException):

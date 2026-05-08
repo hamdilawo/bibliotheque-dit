@@ -1,14 +1,11 @@
-"""
-Service Livres — logique métier.
-Sépare la logique des endpoints (controller) de l'accès aux données.
-"""
 from typing import Optional
+from uuid import UUID
 
+from piccolo.columns.combination import Or, Where
 from features.books.tables import Livre, Categorie
-from features.books.schemas import LivreIn, LivrePatchIn, LivreListOut, LivreDetailOut, PaginatedOut
+from features.books.schemas import LivreIn, LivrePatchIn, LivreListOut, PaginatedOut
 from core.exceptions import (
     LivreNotFoundException, ISBNAlreadyExistsException,
-    StockInsuffisantException, StockDepaseeException,
 )
 
 
@@ -19,29 +16,27 @@ async def lister_categories() -> list[dict]:
     result = []
     for cat in categories:
         nb = await Livre.count().where(
-            Livre.categorie == cat["id"], Livre.actif == True
+            (Livre.categorie == cat["id"]) & Livre.actif.eq(True)
         )
         result.append({**cat, "nombre_livres": nb})
     return result
 
 
+# ─── Livres ──────────────────────────────────────────────────
 
-
-
-
-
-
-# ─── Livres ───────────────────────────────────────────────────
-
-async def lister_livres(page: int = 1, page_size: int = 20, sort: str = "titre") -> PaginatedOut:
+async def lister_livres(
+    page: int = 1,
+    page_size: int = 20,
+    sort: str = "titre"
+) -> PaginatedOut:
     offset = (page - 1) * page_size
-    total = await Livre.count().where(Livre.actif == True)
-
+    total = await Livre.count().where(Livre.actif.eq(True))
     sort_col = getattr(Livre, sort, Livre.titre)
+
     livres = await (
         Livre
         .select(*Livre.all_columns(), Livre.categorie._.nom.as_alias("categorie_nom"))
-        .where(Livre.actif == True)
+        .where(Livre.actif.eq(True))
         .order_by(sort_col)
         .limit(page_size)
         .offset(offset)
@@ -51,7 +46,7 @@ async def lister_livres(page: int = 1, page_size: int = 20, sort: str = "titre")
         count=total,
         page=page,
         page_size=page_size,
-        results=[_to_list_out(l) for l in livres]
+        results=[_to_list_out(livre) for livre in livres]
     )
 
 
@@ -60,45 +55,51 @@ async def creer_livre(data: LivreIn) -> dict:
     if existing:
         raise ISBNAlreadyExistsException(data.isbn)
 
+    donnees = data.model_dump()
+
+    if donnees.get("categorie") is not None:
+        donnees["categorie"] = UUID(str(donnees["categorie"]))
+
     livre = await Livre.insert(
-        Livre(**data.model_dump())
+        Livre(**donnees)
     ).returning(*Livre.all_columns())
-    result = livre[0]
-    # ✅ Ajouter disponible (propriété calculée, pas dans le dict Piccolo)
-    result["disponible"] = result["quantite_disponible"] > 0
-    return result
+    return livre[0]
 
 
-async def get_livre(livre_id: int) -> dict:
+async def get_livre(livre_id: UUID) -> dict:
     livre = await (
         Livre
         .select(*Livre.all_columns(), Livre.categorie._.nom.as_alias("categorie_nom"))
-        .where(Livre.id == livre_id, Livre.actif == True)
+        .where((Livre.id == livre_id) & Livre.actif.eq(True))
         .first()
     )
     if not livre:
         raise LivreNotFoundException(livre_id)
-    # ✅ Ajouter disponible (propriété calculée, pas dans le dict Piccolo)
-    livre["disponible"] = livre["quantite_disponible"] > 0
     return livre
 
 
-
-
-async def modifier_partiellement(livre_id: int, data: LivrePatchIn) -> dict:
-    livre = await Livre.objects().where(Livre.id == livre_id, Livre.actif == True).first()
+async def modifier_partiellement(livre_id: UUID, data: LivrePatchIn) -> dict:
+    livre = await Livre.objects().where(
+        (Livre.id == livre_id) & Livre.actif.eq(True)
+    ).first()
     if not livre:
         raise LivreNotFoundException(livre_id)
 
-    for key, value in data.model_dump(exclude_none=True).items():
+    donnees = data.model_dump(exclude_none=True)
+
+    if donnees.get("categorie") is not None:
+        donnees["categorie"] = UUID(str(donnees["categorie"]))
+
+    for key, value in donnees.items():
         setattr(livre, key, value)
     await livre.save()
     return await get_livre(livre_id)
 
 
-async def supprimer_livre(livre_id: int) -> None:
-    """Soft delete — désactive le livre sans le supprimer."""
-    livre = await Livre.objects().where(Livre.id == livre_id, Livre.actif == True).first()
+async def supprimer_livre(livre_id: UUID) -> None:
+    livre = await Livre.objects().where(
+        (Livre.id == livre_id) & Livre.actif.eq(True)
+    ).first()
     if not livre:
         raise LivreNotFoundException(livre_id)
     livre.actif = False
@@ -107,16 +108,14 @@ async def supprimer_livre(livre_id: int) -> None:
 
 async def rechercher_livres(
     q: Optional[str] = None,
-    categorie: Optional[int] = None,
+    categorie: Optional[UUID] = None,
     langue: Optional[str] = None,
-    disponible: Optional[bool] = None,
     annee_min: Optional[int] = None,
     annee_max: Optional[int] = None,
     page: int = 1,
     page_size: int = 20,
 ) -> PaginatedOut:
-    # ✅ Construire les filtres dans une liste réutilisable
-    filters = [Livre.actif == True]
+    filters: list[Where | Or] = [Livre.actif.eq(True)]
 
     if q:
         filters.append(
@@ -130,16 +129,11 @@ async def rechercher_livres(
         filters.append(Livre.categorie == categorie)
     if langue:
         filters.append(Livre.langue == langue)
-    if disponible is True:
-        filters.append(Livre.quantite_disponible > 0)
-    elif disponible is False:
-        filters.append(Livre.quantite_disponible == 0)
     if annee_min:
         filters.append(Livre.annee_publication >= annee_min)
     if annee_max:
         filters.append(Livre.annee_publication <= annee_max)
 
-    # ✅ Utiliser les mêmes filtres pour count ET select
     total = await Livre.count().where(*filters)
     offset = (page - 1) * page_size
     livres = await (
@@ -155,37 +149,31 @@ async def rechercher_livres(
         count=total,
         page=page,
         page_size=page_size,
-        results=[_to_list_out(l) for l in livres]
+        results=[_to_list_out(livre) for livre in livres]
     )
 
 
-
-
-
-async def maj_disponibilite(livre_id: int, action: str, quantite: int) -> dict:
-    """Appelé par le service Emprunts pour réserver ou retourner."""
-    livre = await Livre.objects().where(Livre.id == livre_id, Livre.actif == True).first()
+async def get_quantite_totale(livre_id: UUID) -> dict:
+    livre = await Livre.select(
+        Livre.id, Livre.quantite_totale, Livre.actif
+    ).where(Livre.id == livre_id).first()
     if not livre:
         raise LivreNotFoundException(livre_id)
+    return livre
 
+
+async def maj_disponibilite(livre_id: UUID, action: str, quantite: int) -> dict:
+    livre = await Livre.objects().where(
+        (Livre.id == livre_id) & Livre.actif.eq(True)
+    ).first()
+    if not livre:
+        raise LivreNotFoundException(livre_id)
     if action == "reserver":
-        if livre.quantite_disponible < quantite:
-            raise StockInsuffisantException(livre.quantite_disponible, quantite)
-        livre.quantite_disponible -= quantite
-        message = f"Réservation de {quantite} exemplaire(s) effectuée."
-    else:
-        if livre.quantite_disponible + quantite > livre.quantite_totale:
-            raise StockDepaseeException(livre.quantite_totale)
-        livre.quantite_disponible += quantite
-        message = f"Retour de {quantite} exemplaire(s) enregistré."
-
+        livre.quantite_totale = max(0, livre.quantite_totale - quantite)
+    elif action == "retourner":
+        livre.quantite_totale += quantite
     await livre.save()
-    return {
-        "message": message,
-        "quantite_disponible": livre.quantite_disponible,
-        "quantite_totale": livre.quantite_totale,
-        "disponible": livre.quantite_disponible > 0,
-    }
+    return {"id": livre_id, "quantite_totale": livre.quantite_totale}
 
 
 # ─── Helpers ─────────────────────────────────────────────────
@@ -197,8 +185,6 @@ def _to_list_out(data: dict) -> LivreListOut:
         isbn=data["isbn"],
         langue=data["langue"],
         categorie_nom=data.get("categorie_nom"),
-        quantite_disponible=data["quantite_disponible"],
         quantite_totale=data["quantite_totale"],
-        disponible=data["quantite_disponible"] > 0,
         couverture_url=data.get("couverture_url", ""),
     )
