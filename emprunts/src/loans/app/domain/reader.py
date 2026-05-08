@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import Optional
 
 from src.loans.app.domain.email import Email
 
@@ -7,7 +8,7 @@ from src.loans.app.domain.email import Email
 class Reader:
     id: str
     name: str
-    email: Email
+    email: Optional[Email] = None
 
     def __post_init__(self):
         if not self.name:

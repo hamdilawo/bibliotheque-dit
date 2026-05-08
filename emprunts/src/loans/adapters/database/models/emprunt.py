@@ -19,6 +19,7 @@ class Emprunt(models.Model):
     # Dénormalisation pour éviter les appels répétés aux autres services
     utilisateur_nom = models.CharField(max_length=200, blank=True)
     utilisateur_carte = models.CharField(max_length=20, blank=True)
+    utilisateur_email = models.CharField(null=True)  # TODO: use EmailField
     livre_titre = models.CharField(max_length=255, blank=True)
     livre_isbn = models.CharField(max_length=13, blank=True)
 
@@ -40,8 +41,8 @@ class Emprunt(models.Model):
     penalite_fcfa = models.DecimalField(
         max_digits=10, decimal_places=2, default=Decimal("0"))
 
-    # Notes
-    notes = models.TextField(blank=True)
+    # Commentaire
+    comment = models.TextField(blank=True)
 
     class Meta:
         ordering = ['-date_emprunt']
@@ -50,6 +51,10 @@ class Emprunt(models.Model):
             models.Index(fields=['livre_id', 'statut']),
             models.Index(fields=['date_retour_prevue']),
         ]
+
+    # NOtifications
+    retard_notification_is_sent = models.BooleanField(default=False)
+    before_notification_is_sent = models.BooleanField(default=False)
 
     def __str__(self):
         return f"Emprunt #{self.pk} — {self.livre_titre} par {self.utilisateur_nom}"

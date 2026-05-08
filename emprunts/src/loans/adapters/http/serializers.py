@@ -15,7 +15,8 @@ class CreerEmpruntSerializer(serializers.Serializer):
     """Serializer pour créer un emprunt."""
     book_id = serializers.CharField()
     term = serializers.DateField(required=False)
-    notes = serializers.CharField(required=False, allow_blank=True, default="")
+    comment = serializers.CharField(
+        required=False, allow_blank=True, default="")
 
 
 class RetourEmpruntSerializer(serializers.Serializer):
