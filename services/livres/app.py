@@ -5,6 +5,7 @@ from litestar import Litestar
 from litestar.config.cors import CORSConfig
 from litestar.openapi import OpenAPIConfig
 from litestar.openapi.plugins import ScalarRenderPlugin
+<<<<<<< HEAD
 
 from core.settings import get_settings
 from core.docs_auth import SECURITY_COMPONENTS, TAGS
@@ -23,10 +24,32 @@ cors_config = CORSConfig(
 openapi_config = OpenAPIConfig(
     title=settings.app_name,
     version=settings.app_version,
+=======
+from litestar.openapi.spec import Server
+
+from core.settings import get_settings
+from core.docs_auth import SECURITY_COMPONENTS, TAGS
+from features.books.controller import LivreController, CategorieController, health_check
+
+settings = get_settings()
+
+# ─── CORS ────────────────────────────────────────────────────
+cors_config = CORSConfig(
+    allow_origins=settings.cors_allow_origins,
+    allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"],
+    allow_headers=["Content-Type", "Authorization"],
+)
+
+# ─── OpenAPI / Scalar ─────────────────────────────────────────
+openapi_config = OpenAPIConfig(
+    title=settings.app_name,
+    version=settings.app_version,
+>>>>>>> origin/books/develop
     description="API de gestion des livres — Bibliothèque Numérique DIT",
     components=SECURITY_COMPONENTS,
     tags=TAGS,
     render_plugins=[ScalarRenderPlugin(path="/scalar")],
+<<<<<<< HEAD
 )
 
 
@@ -52,4 +75,7 @@ app = Litestar(
     openapi_config=openapi_config,
     on_startup=[on_startup],
     debug=settings.debug,
+=======
+    servers=[Server(url="http://localhost:8001")],
+>>>>>>> origin/books/develop
 )

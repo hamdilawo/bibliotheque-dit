@@ -5,14 +5,20 @@ annotated-types==0.7.0
 anyio==4.13.0
 asgiref==3.11.1
 ast_serialize==0.3.0
+<<<<<<< HEAD
 asttokens==3.0.1
 asyncpg==0.31.0
 attrs==26.1.0
 AWRS==2019.8.14.1152
+=======
+asyncpg==0.31.0
+attrs==26.1.0
+>>>>>>> origin/books/develop
 black==26.3.1
 brotli==1.2.0
 certifi==2026.4.22
 cffi==2.0.0
+<<<<<<< HEAD
 charset-normalizer==3.4.7
 click==8.3.3
 colorama==0.4.6
@@ -35,6 +41,26 @@ fastapi==0.135.1
 folktales==2018.5.3.245
 fonttools==4.62.1
 greenlet==3.5.0
+=======
+click==8.3.3
+colorama==0.4.6
+cryptography==47.0.0
+Django==4.2.7
+django-cors-headers==4.3.1
+django-filter==23.5
+djangorestframework==3.14.0
+dnspython==2.8.0
+docstring_parser==0.18.0
+drf-spectacular==0.27.0
+ecdsa==0.19.2
+EditorConfig==0.17.1
+email-validator==2.3.0
+Faker==40.15.0
+fast-query-parsers==1.0.3
+fastapi==0.135.1
+greenlet==3.5.0
+gunicorn==21.2.0
+>>>>>>> origin/books/develop
 h11==0.16.0
 hiredis==3.3.1
 httpcore==1.0.9
@@ -44,6 +70,7 @@ idna==3.13
 importlib_metadata==8.7.1
 inflection==0.5.1
 iniconfig==2.3.0
+<<<<<<< HEAD
 ipython==9.13.0
 ipython_pygments_lexers==1.1.1
 ipywidgets==8.1.8
@@ -65,23 +92,42 @@ matplotlib-inline==0.2.1
 matrix-client==0.4.0
 mdurl==0.1.2
 megaparsex==2018.2.12.2333
+=======
+Jinja2==3.1.6
+jsbeautifier==1.15.4
+jsonschema==4.26.0
+jsonschema-specifications==2025.9.1
+librt==0.10.0
+litestar==2.8.3
+Mako==1.3.12
+markdown-it-py==4.0.0
+MarkupSafe==3.0.3
+mdurl==0.1.2
+>>>>>>> origin/books/develop
 minijinja==2.19.0
 msgspec==0.21.1
 multidict==6.7.1
 mypy==2.0.0
 mypy_extensions==1.1.0
+<<<<<<< HEAD
 numpy==2.4.4
 openapi==2.0.0
+=======
+>>>>>>> origin/books/develop
 opentelemetry-api==1.41.1
 opentelemetry-instrumentation==0.62b1
 opentelemetry-instrumentation-asgi==0.62b1
 opentelemetry-semantic-conventions==0.62b1
 opentelemetry-util-http==0.62b1
 packaging==26.2
+<<<<<<< HEAD
 pandas==3.0.2
 parso==0.8.7
 pathspec==1.1.1
 pexpect==4.9.0
+=======
+pathspec==1.1.1
+>>>>>>> origin/books/develop
 piccolo==1.16.0
 piccolo_api==1.9.0
 picologging==0.9.3
@@ -90,16 +136,21 @@ platformdirs==4.9.6
 pluggy==1.6.0
 polyfactory==3.3.0
 prometheus_client==0.25.0
+<<<<<<< HEAD
 prompt_toolkit==3.0.52
 psutil==7.2.2
 ptyprocess==0.7.0
 pure_eval==0.2.3
+=======
+psycopg2-binary==2.9.9
+>>>>>>> origin/books/develop
 pyasn1==0.6.3
 pycparser==3.0
 pydantic==2.7.0
 pydantic-extra-types==2.11.1
 pydantic-settings==2.2.1
 pydantic_core==2.18.1
+<<<<<<< HEAD
 pyfiglet==1.0.4
 Pygments==2.20.0
 PyJWT==2.12.1
@@ -108,20 +159,34 @@ pyprel==2018.9.14.1501
 pytest==8.2.0
 pytest-asyncio==0.23.6
 python-dateutil==2.9.0.post0
+=======
+Pygments==2.20.0
+PyJWT==2.12.1
+pytest==8.2.0
+pytest-asyncio==0.23.6
+>>>>>>> origin/books/develop
 python-decouple==3.8
 python-dotenv==1.2.2
 python-jose==3.5.0
 python-multipart==0.0.27
 pytokens==0.4.1
+<<<<<<< HEAD
 PyYAML==6.0.3
 redis==7.4.0
 referencing==0.37.0
 requests==2.33.1
+=======
+pytz==2026.1.post1
+PyYAML==6.0.3
+redis==7.4.0
+referencing==0.37.0
+>>>>>>> origin/books/develop
 rich==15.0.0
 rich-click==1.9.7
 rpds-py==0.30.0
 rsa==4.9.1
 ruff==0.15.12
+<<<<<<< HEAD
 scalar==2018.9.10.2016
 scikit-learn==1.8.0
 scipy==1.17.1
@@ -146,5 +211,21 @@ watchfiles==1.1.1
 wcwidth==0.7.0
 websockets==16.0
 widgetsnbextension==4.0.15
+=======
+six==1.17.0
+sniffio==1.3.1
+SQLAlchemy==2.0.49
+sqlparse==0.5.5
+starlette==1.0.0
+structlog==25.5.0
+targ==0.6.0
+typing-inspection==0.4.2
+typing_extensions==4.15.0
+tzdata==2026.2
+uritemplate==4.2.0
+uvicorn==0.29.0
+watchfiles==1.1.1
+websockets==16.0
+>>>>>>> origin/books/develop
 wrapt==2.1.2
 zipp==3.23.1
