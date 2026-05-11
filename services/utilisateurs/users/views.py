@@ -15,6 +15,7 @@ from .serializers import (
     UserChangePasswordSerializer,
     UserDeactivateSerializer,
     LoginSerializer,
+    CustomTokenObtainPairSerializer
     
 )
 
@@ -23,6 +24,12 @@ from rest_framework.mixins import (
     RetrieveModelMixin,
     CreateModelMixin,
     UpdateModelMixin,
+)
+
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,   #  login → access + refresh token
+    TokenRefreshView,      #  rafraîchir le token
+    TokenVerifyView,       #  vérifier si token valide
 )
 from rest_framework.viewsets import GenericViewSet
 
@@ -70,7 +77,7 @@ class UserViewSet(
             return UserDetailSerializer
         elif self.action == 'create':
             return UserCreateSerializer
-        elif self.action in ['update', 'partial_update']:
+        elif self.action in ['partial_update']:
             return UserUpdateSerializer
         elif self.action == 'change_password':
             return UserChangePasswordSerializer
@@ -212,7 +219,11 @@ class UserViewSet(
             {"error": "Méthode PUT non autorisée. Utilisez PATCH."},
             status=status.HTTP_405_METHOD_NOT_ALLOWED
         )
-    
+
+
+# finalement on garde CustomTokenObtainPairView pour plus de données sur utilisateur dans le token 
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer  # utilise le serializer custom
 
 # -------------------------------------------------------
 # POST /api/auth/login/ → Connexion

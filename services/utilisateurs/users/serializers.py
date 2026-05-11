@@ -11,7 +11,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 # CustomTokenObtainPairView est rédondant 
 # LoginView + LoginSerializer couvrent tout ce dont tu as besoin
 # on donc la commenter
-'''  
+  
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     """
     Elle personnalise le token JWT pour y ajouter des informations supplémentaires 
@@ -28,11 +28,13 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         # convertir tous les types non sérialisables en str
         # super().get_token() ajoute automatiquement user_id
         # mais comme c'est un UUID il faut le forcer en str
-        token['user_id']      = str(user.id)
+         # user_id déjà ajouté automatiquement par simplejwt → supprimer
+        # donc commentons la ligne 
+        #token['user_id']      = str(user.id)
         token['email']      = user.email
         token['full_name']  = str(user.full_name)   # @property
         token['role']       = user.role
-        #token['is_staff']   = user.is_staff
+        token['is_active']   = user.is_active
 
         return token
 
@@ -43,13 +45,13 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
 
         # Tu peux aussi ajouter des infos dans la réponse API
         # sans les mettre dans le token
-        data['id']=self.user.id
+        data['id']=str(self.user.id) # str() obligatoire pour UUID, UUID non sérialisable
         data['email']     = self.user.email
         data['full_name'] = self.user.full_name
         data['role']      = self.user.role
 
         return data
-'''
+
 
 # Serializer allégé pour les listes GET /api/users/
 class UserListSerializer(serializers.ModelSerializer):
