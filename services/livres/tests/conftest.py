@@ -1,7 +1,6 @@
 """
 Fixtures partagées pour tous les tests du service Livres.
 """
-import pytest
 import pytest_asyncio
 from litestar.testing import AsyncTestClient
 from app import app

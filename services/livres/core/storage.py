@@ -2,10 +2,8 @@
 Gestion du stockage des fichiers (images de couverture).
 Pour l'instant stockage local — peut être étendu vers S3.
 """
-import os
 import uuid
 from pathlib import Path
-from PIL import Image
 
 
 UPLOAD_DIR = Path("/app/media/couvertures")

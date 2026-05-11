@@ -22,7 +22,7 @@ async def forwards():
         column_name="nom",
         db_column_name="nom",
         column_class_name="Varchar",
-        column_class=Varchar,
+        column_class="Varchar",
         params={"length": 100, "unique": True, "null": False, "primary_key": False, "required": False},
     )
     manager.add_column(
