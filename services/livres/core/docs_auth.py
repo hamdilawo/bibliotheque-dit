@@ -1,11 +1,11 @@
 """
-Configuration de l'authentification dans la documentation Swagger.
-Permet de tester les endpoints protégés directement depuis /schema/swagger.
+Configuration de l'authentification dans la documentation OpenAPI.
+Permet de tester les endpoints protégés directement depuis /schema/scalar.
 """
 from litestar.openapi.spec import Components, SecurityScheme, Tag
 
 
-# ─── Schéma de sécurité JWT pour Swagger ─────────────────────
+# ─── Schéma de sécurité JWT pour la documentation OpenAPI ─────
 SECURITY_COMPONENTS = Components(
     security_schemes={
         "BearerToken": SecurityScheme(

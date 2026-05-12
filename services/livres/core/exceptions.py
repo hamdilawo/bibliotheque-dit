@@ -1,14 +1,15 @@
 """
-Exceptions personnalisées du service Livres.
+Exceptions métier du service Livres.
+Toutes héritent des exceptions Litestar pour générer automatiquement
+les bons codes HTTP sans handler supplémentaire.
 """
-from litestar.exceptions import HTTPException
-
-
 from uuid import UUID
+from litestar.exceptions import NotFoundException, HTTPException
 
-class LivreNotFoundException(Exception):
-    def __init__(self, livre_id: UUID):
-        super().__init__(f"Livre {livre_id} introuvable")
+
+class LivreNotFoundException(NotFoundException):
+    def __init__(self, livre_id: UUID | int | str):
+        super().__init__(detail=f"Livre '{livre_id}' introuvable.")
 
 
 class ISBNAlreadyExistsException(HTTPException):
@@ -28,7 +29,7 @@ class StockInsuffisantException(HTTPException):
         )
 
 
-class StockDepaseeException(HTTPException):
+class StockDepasseException(HTTPException):
     status_code = 400
 
     def __init__(self, total: int):

@@ -5,7 +5,6 @@ from litestar import Litestar
 from litestar.config.cors import CORSConfig
 from litestar.openapi import OpenAPIConfig
 from litestar.openapi.plugins import ScalarRenderPlugin
-from litestar.openapi.spec import Server
 
 from core.settings import get_settings
 from core.docs_auth import SECURITY_COMPONENTS, TAGS
@@ -20,7 +19,7 @@ cors_config = CORSConfig(
     allow_headers=["Content-Type", "Authorization"],
 )
 
-# ─── OpenAPI / Scalar ─────────────────────────────────────────
+# ─── OpenAPI / Scalar ────────────────────────────────────────
 openapi_config = OpenAPIConfig(
     title=settings.app_name,
     version=settings.app_version,
@@ -28,19 +27,26 @@ openapi_config = OpenAPIConfig(
     components=SECURITY_COMPONENTS,
     tags=TAGS,
     render_plugins=[ScalarRenderPlugin(path="/scalar")],
-    servers=[Server(url="http://localhost:8001")],
 )
 
 
 # ─── Lifecycle ───────────────────────────────────────────────
 async def on_startup() -> None:
-    """Vérification de la connexion DB au démarrage."""
+    """Vérification des connexions DB et MinIO au démarrage."""
     from features.books.tables import Livre
+    from core.storage import get_minio_client, _ensure_bucket
+
     try:
         await Livre.count()
         print("✓ Connexion PostgreSQL OK")
     except Exception as e:
         print(f"✗ Erreur DB : {e}")
+
+    try:
+        _ensure_bucket(settings.minio_bucket_couvertures)
+        print(f"✓ MinIO OK — bucket '{settings.minio_bucket_couvertures}' prêt")
+    except Exception as e:
+        print(f"✗ Erreur MinIO : {e}")
 
 
 # ─── Application ─────────────────────────────────────────────

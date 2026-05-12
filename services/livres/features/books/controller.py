@@ -1,12 +1,13 @@
 """
 Controller Litestar — routes du service Livres.
 """
-from typing import Optional, Annotated
+
+from typing import Annotated, Optional
 from uuid import UUID
 
 from litestar import Controller, get, post, patch, delete
 from litestar.enums import RequestEncodingType
-from litestar.params import Parameter, Body
+from litestar.params import Body, Parameter
 
 from features.books.schemas import (
     LivreIn, LivrePatchIn, LivreDetailOut, DisponibiliteOut,
@@ -18,17 +19,30 @@ from features.books import service
 # ─── Health Check ────────────────────────────────────────────
 @get("/health", tags=["health"])
 async def health_check() -> HealthOut:
+    db_status = "connected"
+    minio_status = "connected"
+
     try:
         from features.books.tables import Livre
         await Livre.count()
-        db_status = "connected"
     except Exception:
         db_status = "disconnected"
 
+    try:
+        from core.storage import get_minio_client, get_settings
+        from core.settings import get_settings
+        settings = get_settings()
+        client = get_minio_client()
+        client.bucket_exists(settings.minio_bucket_couvertures)
+    except Exception:
+        minio_status = "disconnected"
+
+    overall = "ok" if db_status == "connected" and minio_status == "connected" else "degraded"
     return HealthOut(
-        status="ok" if db_status == "connected" else "degraded",
+        status=overall,
         service="livres",
         db=db_status,
+        minio=minio_status,
         version="2.0.0",
     )
 
@@ -99,7 +113,7 @@ class LivreController(Controller):
 
     @delete("/{livre_id:uuid}", status_code=204)
     async def supprimer(self, livre_id: UUID) -> None:
-        """Soft delete — désactive le livre (204 No Content)."""
+        """Soft delete + suppression couverture MinIO."""
         await service.supprimer_livre(livre_id)
 
     @get("/{livre_id:uuid}/disponibilite")

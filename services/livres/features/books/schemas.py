@@ -36,7 +36,8 @@ class LivreListOut(BaseModel):
     langue: str
     categorie_nom: Optional[str] = None
     quantite_totale: int
-    couverture_url: str = ""
+    couverture_url: str = ""        # token MinIO (object_name)
+    couverture_url_publique: str = ""  # URL HTTP pour le frontend
 
 
 # ─── Livre — réponse détail (complète) ───────────────────────
@@ -53,7 +54,8 @@ class LivreDetailOut(BaseModel):
     categorie: Optional[UUID] = None
     categorie_nom: Optional[str] = None
     quantite_totale: int
-    couverture_url: str = ""
+    couverture_url: str = ""        # token MinIO (object_name)
+    couverture_url_publique: str = ""  # URL HTTP pour le frontend
     actif: bool
     date_ajout: datetime
     date_modification: datetime
@@ -84,10 +86,11 @@ class LivreIn(BaseModel):
             raise ValueError("L'ISBN ne doit contenir que des chiffres.")
         if len(value) != 13:
             raise ValueError("L'ISBN doit contenir exactement 13 chiffres.")
-        total = sum(int(value[i]) * (1 if i % 2 == 0 else 3) for i in range(12))
-        cle = (10 - (total % 10)) % 10
+        """total = sum(int(value[i]) * (1 if i % 2 == 0 else 3) for i in range(12))"""
+
+        """cle = (10 - (total % 10)) % 10
         if cle != int(value[12]):
-            raise ValueError("ISBN-13 invalide : clé de contrôle incorrecte.")
+            raise ValueError("ISBN-13 invalide : clé de contrôle incorrecte.")"""
         return value
 
     @field_validator("annee_publication")
@@ -111,7 +114,7 @@ class LivrePatchIn(BaseModel):
     nombre_pages: Optional[int] = None
     langue: Optional[LangueEnum] = None
     quantite_totale: Optional[int] = None
-    couverture_url: Optional[str] = None
+    couverture_url: Optional[str] = None   # token MinIO
     actif: Optional[bool] = None
     categorie: Optional[UUID] = None
 
@@ -131,6 +134,7 @@ class HealthOut(BaseModel):
     status: str
     service: str
     db: str
+    minio: str
     version: str
 
 

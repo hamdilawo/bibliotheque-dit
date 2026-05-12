@@ -1,12 +1,16 @@
+"""
+Service métier — Service Livres.
+Toute la logique base de données et MinIO passe par ici.
+"""
 from typing import Optional
 from uuid import UUID
 
 from piccolo.columns.combination import Or, Where
+
 from features.books.tables import Livre, Categorie
 from features.books.schemas import LivreIn, LivrePatchIn, LivreListOut, PaginatedOut
-from core.exceptions import (
-    LivreNotFoundException, ISBNAlreadyExistsException,
-)
+from core.exceptions import LivreNotFoundException, ISBNAlreadyExistsException
+from core.storage import upload_couverture, delete_couverture, get_couverture_url
 
 
 # ─── Catégories ──────────────────────────────────────────────
@@ -27,7 +31,7 @@ async def lister_categories() -> list[dict]:
 async def lister_livres(
     page: int = 1,
     page_size: int = 20,
-    sort: str = "titre"
+    sort: str = "titre",
 ) -> PaginatedOut:
     offset = (page - 1) * page_size
     total = await Livre.count().where(Livre.actif.eq(True))
@@ -36,7 +40,6 @@ async def lister_livres(
     livres = await (
         Livre
         .select(*Livre.all_columns(), Livre.categorie._.nom.as_alias("categorie_nom"))
-        .where(Livre.actif.eq(True))
         .order_by(sort_col)
         .limit(page_size)
         .offset(offset)
@@ -46,7 +49,7 @@ async def lister_livres(
         count=total,
         page=page,
         page_size=page_size,
-        results=[_to_list_out(livre) for livre in livres]
+        results=[_to_list_out(livre) for livre in livres],
     )
 
 
@@ -54,23 +57,23 @@ async def creer_livre(data: LivreIn) -> dict:
     existing = await Livre.select().where(Livre.isbn == data.isbn).first()
     if existing:
         raise ISBNAlreadyExistsException(data.isbn)
+    content_type = data.couverture.content_type 
+    file_bytes = await data.couverture.read() 
+    # Upload de la couverture vers MinIO — obligatoire
+    object_name = upload_couverture(file_bytes, content_type)
 
-    donnees = data.model_dump(exclude={"couverture"})
-
+    donnees = data.model_dump()
+    donnees.pop("couverture", None)  # Ne pas stocker le fichier lui-même
+    donnees["couverture_url"] = object_name
     if donnees.get("categorie") is not None:
         donnees["categorie"] = UUID(str(donnees["categorie"]))
 
-    if data.couverture is not None:
-        from core.storage import save_couverture
-        contenu = await data.couverture.read()
-        donnees["couverture_url"] = save_couverture(
-            contenu, data.couverture.content_type
-        )
 
-    livre = await Livre.insert(
-        Livre(**donnees)
-    ).returning(*Livre.all_columns())
-    return livre[0]
+
+    livre = await Livre.insert(Livre(**donnees)).returning(*Livre.all_columns())
+    row = livre[0]
+    row["couverture_url_publique"] = get_couverture_url(object_name)
+    return row
 
 
 async def get_livre(livre_id: UUID) -> dict:
@@ -82,6 +85,7 @@ async def get_livre(livre_id: UUID) -> dict:
     )
     if not livre:
         raise LivreNotFoundException(livre_id)
+    livre["couverture_url_publique"] = get_couverture_url(livre.get("couverture_url", ""))
     return livre
 
 
@@ -93,7 +97,6 @@ async def modifier_partiellement(livre_id: UUID, data: LivrePatchIn) -> dict:
         raise LivreNotFoundException(livre_id)
 
     donnees = data.model_dump(exclude_none=True)
-
     if donnees.get("categorie") is not None:
         donnees["categorie"] = UUID(str(donnees["categorie"]))
 
@@ -109,6 +112,11 @@ async def supprimer_livre(livre_id: UUID) -> None:
     ).first()
     if not livre:
         raise LivreNotFoundException(livre_id)
+
+    # Supprime la couverture MinIO si elle existe
+    if livre.couverture_url:
+        delete_couverture(livre.couverture_url)
+
     livre.actif = False
     await livre.save()
 
@@ -156,7 +164,7 @@ async def rechercher_livres(
         count=total,
         page=page,
         page_size=page_size,
-        results=[_to_list_out(livre) for livre in livres]
+        results=[_to_list_out(livre) for livre in livres],
     )
 
 
@@ -187,6 +195,7 @@ async def maj_disponibilite(livre_id: UUID) -> dict:
 
 # ─── Helpers ─────────────────────────────────────────────────
 def _to_list_out(data: dict) -> LivreListOut:
+    token = data.get("couverture_url", "")
     return LivreListOut(
         id=data["id"],
         titre=data["titre"],
@@ -195,5 +204,6 @@ def _to_list_out(data: dict) -> LivreListOut:
         langue=data["langue"],
         categorie_nom=data.get("categorie_nom"),
         quantite_totale=data["quantite_totale"],
-        couverture_url=data.get("couverture_url", ""),
+        couverture_url=token,
+        couverture_url_publique=get_couverture_url(token),
     )
