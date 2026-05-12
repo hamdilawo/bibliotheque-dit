@@ -1,14 +1,15 @@
 """
 Controller Litestar — routes du service Livres.
 """
-from typing import Optional
+from typing import Optional, Annotated
 from uuid import UUID
 
 from litestar import Controller, get, post, patch, delete
-from litestar.params import Parameter
+from litestar.enums import RequestEncodingType
+from litestar.params import Parameter, Body
 
 from features.books.schemas import (
-    LivreIn, LivrePatchIn, LivreDetailOut, DisponibiliteIn, DisponibiliteOut,
+    LivreIn, LivrePatchIn, LivreDetailOut, DisponibiliteOut,
     CategorieOut, PaginatedOut, HealthOut,
 )
 from features.books import service
@@ -37,7 +38,7 @@ class CategorieController(Controller):
     path = "/api/categories"
     tags = ["categories"]
 
-    @get("")  # ✅ pas de slash → évite le double //
+    @get("")
     async def lister(self) -> list[CategorieOut]:
         """Liste toutes les catégories avec nombre de livres."""
         data = await service.lister_categories()
@@ -49,7 +50,7 @@ class LivreController(Controller):
     path = "/api/livres"
     tags = ["livres"]
 
-    @get("")  # ✅
+    @get("")
     async def lister(
         self,
         page: int = Parameter(default=1, ge=1),
@@ -59,9 +60,12 @@ class LivreController(Controller):
         """Liste paginée de tous les livres actifs."""
         return await service.lister_livres(page, page_size, sort)
 
-    @post("")  # ✅
-    async def creer(self, data: LivreIn) -> LivreDetailOut:
-        """Crée un nouveau livre."""
+    @post("")
+    async def creer(
+        self,
+        data: Annotated[LivreIn, Body(media_type=RequestEncodingType.MULTI_PART)],
+    ) -> LivreDetailOut:
+        """Crée un nouveau livre (multipart/form-data, couverture optionnelle)."""
         livre = await service.creer_livre(data)
         return LivreDetailOut(**livre)
 
@@ -69,7 +73,7 @@ class LivreController(Controller):
     async def rechercher(
         self,
         q: Optional[str] = None,
-        categorie: Optional[UUID] = None,  # ✅ UUID
+        categorie: Optional[UUID] = None,
         langue: Optional[str] = None,
         annee_min: Optional[int] = None,
         annee_max: Optional[int] = None,
@@ -81,28 +85,25 @@ class LivreController(Controller):
             q, categorie, langue, annee_min, annee_max, page, page_size
         )
 
-    @get("/{livre_id:uuid}")  # ✅ UUID
+    @get("/{livre_id:uuid}")
     async def detail(self, livre_id: UUID) -> LivreDetailOut:
         """Détail complet d'un livre."""
         livre = await service.get_livre(livre_id)
         return LivreDetailOut(**livre)
 
-    @patch("/{livre_id:uuid}")  # ✅ UUID
+    @patch("/{livre_id:uuid}")
     async def modifier_partiellement(self, livre_id: UUID, data: LivrePatchIn) -> LivreDetailOut:
         """Modification partielle — ISBN non modifiable."""
         livre = await service.modifier_partiellement(livre_id, data)
         return LivreDetailOut(**livre)
 
-    @delete("/{livre_id:uuid}", status_code=204)  # ✅ UUID
+    @delete("/{livre_id:uuid}", status_code=204)
     async def supprimer(self, livre_id: UUID) -> None:
         """Soft delete — désactive le livre (204 No Content)."""
         await service.supprimer_livre(livre_id)
 
-    @post("/{livre_id:uuid}/disponibilite")  # ✅ UUID
-    async def disponibilite(self, livre_id: UUID, data: DisponibiliteIn) -> DisponibiliteOut:
-        """
-        Appelé par le service Emprunts pour réserver ou retourner.
-        Body: {"action": "reserver", "quantite": 1}
-        """
-        result = await service.maj_disponibilite(livre_id, data.action, data.quantite)
+    @get("/{livre_id:uuid}/disponibilite")
+    async def disponibilite(self, livre_id: UUID) -> DisponibiliteOut:
+        """Retourne la disponibilité et la couverture d'un livre."""
+        result = await service.maj_disponibilite(livre_id)
         return DisponibiliteOut(**result)

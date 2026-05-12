@@ -55,10 +55,17 @@ async def creer_livre(data: LivreIn) -> dict:
     if existing:
         raise ISBNAlreadyExistsException(data.isbn)
 
-    donnees = data.model_dump()
+    donnees = data.model_dump(exclude={"couverture"})
 
     if donnees.get("categorie") is not None:
         donnees["categorie"] = UUID(str(donnees["categorie"]))
+
+    if data.couverture is not None:
+        from core.storage import save_couverture
+        contenu = await data.couverture.read()
+        donnees["couverture_url"] = save_couverture(
+            contenu, data.couverture.content_type
+        )
 
     livre = await Livre.insert(
         Livre(**donnees)
@@ -162,18 +169,20 @@ async def get_quantite_totale(livre_id: UUID) -> dict:
     return livre
 
 
-async def maj_disponibilite(livre_id: UUID, action: str, quantite: int) -> dict:
+async def maj_disponibilite(livre_id: UUID) -> dict:
     livre = await Livre.objects().where(
         (Livre.id == livre_id) & Livre.actif.eq(True)
     ).first()
     if not livre:
         raise LivreNotFoundException(livre_id)
-    if action == "reserver":
-        livre.quantite_totale = max(0, livre.quantite_totale - quantite)
-    elif action == "retourner":
-        livre.quantite_totale += quantite
-    await livre.save()
-    return {"id": livre_id, "quantite_totale": livre.quantite_totale}
+    return {
+        "message": "Disponibilité récupérée avec succès.",
+        "titre": livre.titre,
+        "isbn": livre.isbn,
+        "quantite_totale": livre.quantite_totale,
+        "actif": livre.actif,
+        "couverture_url": livre.couverture_url,
+    }
 
 
 # ─── Helpers ─────────────────────────────────────────────────

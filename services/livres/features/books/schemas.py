@@ -1,8 +1,9 @@
 from datetime import datetime, date
 from enum import Enum
-from typing import Optional
+from typing import Optional, Annotated
 from uuid import UUID
 
+from litestar.datastructures import UploadFile
 from pydantic import BaseModel, field_validator
 
 
@@ -71,6 +72,9 @@ class LivreIn(BaseModel):
     categorie: Optional[UUID] = None
     quantite_totale: int = 1
     couverture_url: str = ""
+    couverture: Optional[UploadFile] = None
+
+    model_config = {"arbitrary_types_allowed": True}
 
     @field_validator("isbn")
     @classmethod
@@ -113,16 +117,13 @@ class LivrePatchIn(BaseModel):
 
 
 # ─── Disponibilité inter-services ────────────────────────────
-class DisponibiliteIn(BaseModel):
-    """Appelé par le service Emprunts pour connaître le stock d'un livre."""
-    action: str  # "reserver" | "retourner"
-    quantite: int = 1
-
-
 class DisponibiliteOut(BaseModel):
     message: str
+    titre: str
+    isbn: str
     quantite_totale: int
     actif: bool
+    couverture_url: str = ""
 
 
 # ─── Réponses génériques ─────────────────────────────────────

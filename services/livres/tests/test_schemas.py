@@ -4,7 +4,7 @@ Ces tests ne nécessitent pas de base de données.
 """
 import pytest
 from pydantic import ValidationError
-from features.books.schemas import LivreIn, DisponibiliteIn, LivrePatchIn
+from features.books.schemas import LivreIn, DisponibiliteOut, LivrePatchIn
 
 
 class TestValidationISBN:
@@ -61,43 +61,40 @@ class TestValidationAnnee:
 
 class TestValidationStock:
 
-    def test_stock_coherent(self):
-        livre = LivreIn(titre="Test", auteur="Auteur", isbn="9780132350884",
-                        quantite_totale=5, quantite_disponible=3)
-        assert livre.quantite_disponible == 3
+    def test_stock_par_defaut(self):
+        livre = LivreIn(titre="Test", auteur="Auteur", isbn="9780132350884")
+        assert livre.quantite_totale == 1
 
-    def test_stock_disponible_par_defaut(self):
+    def test_stock_personnalise(self):
         livre = LivreIn(titre="Test", auteur="Auteur", isbn="9780132350884", quantite_totale=5)
-        assert livre.quantite_disponible == 5
-
-    def test_stock_incoerent_rejete(self):
-        with pytest.raises(ValidationError) as exc:
-            LivreIn(titre="Test", auteur="Auteur", isbn="9780132350884",
-                    quantite_totale=3, quantite_disponible=5)
-        assert "dépasser" in str(exc.value)
+        assert livre.quantite_totale == 5
 
 
-class TestValidationDisponibilite:
+class TestDisponibiliteOut:
 
-    def test_action_reserver_valide(self):
-        data = DisponibiliteIn(action="reserver", quantite=1)
-        assert data.action == "reserver"
+    def test_disponibilite_out_valide(self):
+        data = DisponibiliteOut(
+            message="Disponibilité récupérée avec succès.",
+            titre="Clean Code",
+            isbn="9780132350884",
+            quantite_totale=3,
+            actif=True,
+            couverture_url="",
+        )
+        assert data.titre == "Clean Code"
+        assert data.isbn == "9780132350884"
+        assert data.quantite_totale == 3
+        assert data.actif is True
 
-    def test_action_retourner_valide(self):
-        data = DisponibiliteIn(action="retourner", quantite=2)
-        assert data.quantite == 2
-
-    def test_action_invalide_rejetee(self):
-        with pytest.raises(ValidationError):
-            DisponibiliteIn(action="supprimer", quantite=1)
-
-    def test_quantite_zero_rejetee(self):
-        with pytest.raises(ValidationError):
-            DisponibiliteIn(action="reserver", quantite=0)
-
-    def test_quantite_negative_rejetee(self):
-        with pytest.raises(ValidationError):
-            DisponibiliteIn(action="reserver", quantite=-1)
+    def test_disponibilite_out_couverture_defaut(self):
+        data = DisponibiliteOut(
+            message="ok",
+            titre="Test",
+            isbn="9780132350884",
+            quantite_totale=1,
+            actif=True,
+        )
+        assert data.couverture_url == ""
 
 
 class TestLivrePatchIn:

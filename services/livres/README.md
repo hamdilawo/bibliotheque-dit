@@ -17,20 +17,24 @@ services/livres/
 │   ├── guards.py         ← Protection des routes (JWT)
 │   ├── settings.py       ← Variables d'environnement
 │   └── storage.py        ← Gestion des images
-├── features/books/
-│   ├── migrations/       ← Migrations Piccolo
-│   ├── controller.py     ← Routes Litestar
-│   ├── piccolo_app.py    ← Config migrations
-│   ├── schemas.py        ← Validation Pydantic
-│   ├── service.py        ← Logique métier
-│   └── tables.py         ← Modèles Piccolo ORM
+├── features/
+│   ├── __init__.py
+│   └── books/
+│       ├── __init__.py
+│       ├── migrations/   ← Migrations Piccolo
+│       ├── controller.py ← Routes Litestar
+│       ├── piccolo_app.py← Config migrations
+│       ├── schemas.py    ← Validation Pydantic
+│       ├── service.py    ← Logique métier
+│       └── tables.py     ← Modèles Piccolo ORM (UUID)
 ├── tests/
-│   ├── test_endpoints.py ← 22 tests HTTP
-│   ├── test_schemas.py   ← 16 tests validation
-│   ├── test_tables.py    ← 12 tests métier
+│   ├── test_endpoints.py
+│   ├── test_schemas.py
+│   ├── test_tables.py
 │   └── conftest.py
 ├── app.py                ← Point d'entrée Litestar
 ├── entrypoint.sh         ← Démarrage Docker
+├── mypy.ini              ← Configuration mypy
 ├── seed.py               ← Données initiales
 ├── Dockerfile
 └── requirements.txt
@@ -47,14 +51,71 @@ services/livres/
 
 ```bash
 # Depuis la racine du projet
-docker compose up livres db
+docker compose up -d
 ```
 
 L'`entrypoint.sh` s'occupe automatiquement de :
 1. Attendre que PostgreSQL soit prêt
-2. Créer les tables
+2. Appliquer les migrations
 3. Peupler la base (50 livres, 5 catégories)
 4. Démarrer Uvicorn sur le port **8001**
+
+### Arrêter le service
+
+```bash
+docker compose down
+```
+
+### Reconstruire les images (après modification du Dockerfile ou requirements.txt)
+
+```bash
+docker compose up livres db --build
+```
+
+---
+
+## 🗃️ Migrations
+
+### Vérifier l'état des migrations
+
+```bash
+docker compose exec livres piccolo migrations check
+```
+
+### Appliquer les migrations
+
+```bash
+docker compose exec livres piccolo migrations forward all
+```
+
+### Vérifier les tables en base
+
+```bash
+docker compose exec db psql -U postgres -d livres_db -c "\dt"
+```
+
+### Vérifier le contenu des tables
+
+```bash
+docker compose exec db psql -U postgres -d livres_db -c "SELECT id, nom FROM categories;"
+docker compose exec db psql -U postgres -d livres_db -c "SELECT id, titre, auteur, langue FROM livres LIMIT 5;"
+```
+
+---
+
+## 🌱 Seed
+
+### Peupler la base
+
+```bash
+docker compose exec livres python seed.py
+```
+
+### Repartir de zéro
+
+```bash
+docker compose exec livres python seed.py --reset
+```
 
 ---
 
@@ -62,19 +123,15 @@ L'`entrypoint.sh` s'occupe automatiquement de :
 
 | Méthode | URL | Description |
 |---|---|---|
-| `GET` | `/api/livres/` | Liste paginée des livres |
-| `POST` | `/api/livres/` | Créer un livre |
-| `GET` | `/api/livres/{id}/` | Détail d'un livre |
-| `PUT` | `/api/livres/{id}/` | Modifier complètement |
-| `PATCH` | `/api/livres/{id}/` | Modification partielle |
-| `DELETE` | `/api/livres/{id}/` | Désactiver (soft delete) |
-| `GET` | `/api/livres/search/` | Recherche multi-critères |
-| `GET` | `/api/livres/disponibles/` | Livres disponibles |
-| `POST` | `/api/livres/{id}/disponibilite/` | Réserver / retourner |
-| `GET` | `/api/categories/` | Liste des catégories |
-| `POST` | `/api/categories/` | Créer une catégorie |
-| `GET` | `/api/categories/{id}/` | Détail d'une catégorie |
-| `GET` | `/health/` | Health check |
+| `GET` | `/api/livres` | Liste paginée des livres |
+| `POST` | `/api/livres` | Créer un livre (multipart/form-data) |
+| `GET` | `/api/livres/{livre_id}` | Détail d'un livre |
+| `PATCH` | `/api/livres/{livre_id}` | Modification partielle |
+| `DELETE` | `/api/livres/{livre_id}` | Désactiver (soft delete) |
+| `GET` | `/api/livres/{livre_id}/disponibilite` | Disponibilité et couverture |
+| `GET` | `/api/livres/search` | Recherche multi-critères |
+| `GET` | `/api/categories` | Liste des catégories |
+| `GET` | `/health` | Health check |
 
 ### Documentation interactive
 
@@ -86,43 +143,97 @@ http://localhost:8001/schema/swagger
 
 ## 📖 Exemples de requêtes
 
+### Health check
+```bash
+curl http://localhost:8001/health
+```
+
 ### Lister les livres
 ```bash
-curl http://localhost:8001/api/livres/
+curl http://localhost:8001/api/livres
+```
+
+### Lister avec pagination et tri
+```bash
+curl "http://localhost:8001/api/livres?page=1&page_size=10&sort=auteur"
+```
+
+### Détail d'un livre
+```bash
+curl http://localhost:8001/api/livres/{livre_id}
 ```
 
 ### Rechercher par titre, auteur ou ISBN
 ```bash
 curl "http://localhost:8001/api/livres/search?q=python"
-curl "http://localhost:8001/api/livres/search?langue=fr&disponible=true"
+curl "http://localhost:8001/api/livres/search?langue=fr"
+curl "http://localhost:8001/api/livres/search?q=python&langue=en&annee_min=2015"
 ```
 
-### Créer un livre
+### Créer un livre (multipart/form-data)
 ```bash
-curl -X POST http://localhost:8001/api/livres/ \
+curl -X POST http://localhost:8001/api/livres \
+  -F "titre=L'étranger" \
+  -F "auteur=Albert Camus" \
+  -F "isbn=9782070360024" \
+  -F "langue=fr" \
+  -F "annee_publication=1942" \
+  -F "quantite_totale=10"
+```
+
+### Créer un livre avec couverture
+```bash
+curl -X POST http://localhost:8001/api/livres \
+  -F "titre=L'étranger" \
+  -F "auteur=Albert Camus" \
+  -F "isbn=9782070360024" \
+  -F "couverture=@/chemin/vers/image.jpg"
+```
+
+### Modifier partiellement un livre
+```bash
+curl -X PATCH http://localhost:8001/api/livres/{livre_id} \
   -H "Content-Type: application/json" \
-  -d '{
-    "titre": "L'\''étranger",
-    "auteur": "Albert Camus",
-    "isbn": "9782070360024",
-    "langue": "fr",
-    "annee_publication": 1942,
-    "categorie": 5,
-    "quantite_totale": 10
-  }'
+  -d '{"quantite_totale": 5}'
 ```
 
-### Réserver un livre (appelé par le service Emprunts)
+### Supprimer un livre (soft delete)
 ```bash
-curl -X POST http://localhost:8001/api/livres/1/disponibilite/ \
-  -H "Content-Type: application/json" \
-  -d '{"action": "reserver", "quantite": 1}'
+curl -X DELETE http://localhost:8001/api/livres/{livre_id}
 ```
 
-### Health check
+### Consulter la disponibilité d'un livre
 ```bash
-curl http://localhost:8001/health
-# {"status": "ok", "service": "livres", "db": "connected", "version": "2.0.0"}
+curl http://localhost:8001/api/livres/{livre_id}/disponibilite
+```
+
+### Lister les catégories
+```bash
+curl http://localhost:8001/api/categories
+```
+
+### PowerShell — Créer un livre
+```powershell
+curl -Uri "http://localhost:8001/api/livres" -Method POST -Form @{titre="Test Livre"; auteur="Test Auteur"; isbn="9782100790319"}
+```
+
+---
+
+## 🧪 Vérification du code
+
+### Vérification des types
+```bash
+cd services/livres && mypy .
+```
+
+### Vérification du style
+```bash
+cd services/livres && ruff check .
+```
+
+### Correction automatique
+```bash
+cd services/livres && ruff check . --fix
 ```
 
 ---
@@ -130,20 +241,26 @@ curl http://localhost:8001/health
 ## 🧪 Tests
 
 ```bash
-# Lancer tous les tests
 docker compose exec livres pytest tests/ -v
-
-# Résultat attendu : 63/63 tests passent
 ```
 
-### Couverture des tests
+---
 
-| Fichier | Tests | Description |
-|---|---|---|
-| `test_endpoints.py` | 22 | Tous les endpoints HTTP |
-| `test_schemas.py` | 16 | Validation Pydantic (ISBN, année, stock) |
-| `test_tables.py` | 12 | Méthodes métier (reserver, retourner) |
-| **Total** | **63** | |
+## 🔁 Git
+
+### Push sur la branche de travail
+```bash
+git add .
+git commit -m "votre message"
+git push origin books/develop
+```
+
+### Changer de branche avec modifications en cours
+```bash
+git stash
+git checkout books/develop
+git stash pop
+```
 
 ---
 
@@ -165,16 +282,15 @@ Le `seed.py` crée automatiquement **50 livres** en **5 catégories** :
 
 - **ISBN-13** : vérification des 13 chiffres + clé de contrôle (algorithme officiel)
 - **Année** : entre 1000 et l'année courante
-- **Stock** : `quantite_disponible` ≤ `quantite_totale`
+- **UUID** : identifiants aléatoires (`uuid4`) pour livres et catégories, non incrémentés
 - **ISBN unique** : 409 Conflict si doublon
 - **Soft delete** : les livres supprimés restent en base (`actif=False`)
 - **PATCH** : l'ISBN ne peut pas être modifié après création
+- **Couverture** : upload optionnel via multipart/form-data
 
 ---
 
 ## 🔧 Variables d'environnement
-
-Copier `.env.example` en `.env` :
 
 ```bash
 cp .env.example .env
