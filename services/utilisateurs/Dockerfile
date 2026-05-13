@@ -43,7 +43,7 @@ COPY . .
 # chown = change owner: change le propriétaire 
 # d'un fichier ou dossier.
 # -R = Recursif (tous les sous-dossiers)
-appuser:appuser -> group:user
+# appuser:appuser -> group:user
 RUN chown -R appuser:appuser /app
 # USER définit quel utilisateur exécute les commandes 
 # suivantes dans le conteneur.
