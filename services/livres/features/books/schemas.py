@@ -36,7 +36,6 @@ class LivreListOut(BaseModel):
     langue: str
     categorie_nom: Optional[str] = None
     quantite_totale: int
-    couverture_url: str = ""        # token MinIO (object_name)
     couverture_url_publique: str = ""  # URL HTTP pour le frontend
 
 
@@ -54,7 +53,6 @@ class LivreDetailOut(BaseModel):
     categorie: Optional[UUID] = None
     categorie_nom: Optional[str] = None
     quantite_totale: int
-    couverture_url: str = ""        # token MinIO (object_name)
     couverture_url_publique: str = ""  # URL HTTP pour le frontend
     actif: bool
     date_ajout: datetime
@@ -113,7 +111,6 @@ class LivrePatchIn(BaseModel):
     nombre_pages: Optional[int] = None
     langue: Optional[LangueEnum] = None
     quantite_totale: Optional[int] = None
-    couverture_url: Optional[str] = None   # token MinIO
     actif: Optional[bool] = None
     categorie: Optional[UUID] = None
 
