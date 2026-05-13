@@ -203,6 +203,5 @@ def _to_list_out(data: dict) -> LivreListOut:
         langue=data["langue"],
         categorie_nom=data.get("categorie_nom"),
         quantite_totale=data["quantite_totale"],
-        couverture_url=token,
         couverture_url_publique=get_couverture_url(token),
     )

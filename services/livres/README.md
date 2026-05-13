@@ -2,7 +2,7 @@
 
 Microservice de gestion du catalogue de livres de la **Bibliothèque Numérique DIT**.
 
-Développé avec **Litestar** + **Piccolo ORM** + **PostgreSQL**.
+Développé avec **Litestar** + **Piccolo ORM** + **PostgreSQL** + **MinIO**.
 
 ---
 
@@ -16,7 +16,7 @@ services/livres/
 │   ├── exceptions.py     ← Exceptions personnalisées
 │   ├── guards.py         ← Protection des routes (JWT)
 │   ├── settings.py       ← Variables d'environnement
-│   └── storage.py        ← Gestion des images
+│   └── storage.py        ← Gestion des images (MinIO)
 ├── features/
 │   ├── __init__.py
 │   └── books/
@@ -223,17 +223,17 @@ curl -Uri "http://localhost:8001/api/livres" -Method POST -Form @{titre="Test Li
 
 ### Vérification des types
 ```bash
-cd services/livres && mypy .
+mypy .
 ```
 
 ### Vérification du style
 ```bash
-cd services/livres && ruff check .
+ruff check .
 ```
 
 ### Correction automatique
 ```bash
-cd services/livres && ruff check . --fix
+ruff check . --fix
 ```
 
 ---
@@ -286,7 +286,7 @@ Le `seed.py` crée automatiquement **50 livres** en **5 catégories** :
 - **ISBN unique** : 409 Conflict si doublon
 - **Soft delete** : les livres supprimés restent en base (`actif=False`)
 - **PATCH** : l'ISBN ne peut pas être modifié après création
-- **Couverture** : upload optionnel via multipart/form-data
+- **Couverture** : upload optionnel via multipart/form-data, stockée dans MinIO
 
 ---
 
@@ -304,6 +304,12 @@ cp .env.example .env
 | `DB_USER` | `postgres` | Utilisateur |
 | `DB_PASSWORD` | `postgres` | Mot de passe |
 | `DEBUG` | `True` | Mode debug |
+| `MINIO_ENDPOINT` | `minio:9000` | Endpoint MinIO |
+| `MINIO_ACCESS_KEY` | `minioadmin` | Clé d'accès MinIO |
+| `MINIO_SECRET_KEY` | `minioadmin123` | Clé secrète MinIO |
+| `MINIO_BUCKET_COUVERTURES` | `couvertures` | Bucket des couvertures |
+| `MINIO_USE_SSL` | `false` | SSL MinIO |
+| `MINIO_PUBLIC_URL` | `http://localhost:9090` | URL publique MinIO |
 
 ---
 
@@ -316,4 +322,6 @@ cp .env.example .env
 | Pydantic | 2.7.0 | Validation des données |
 | Uvicorn | 0.29.0 | Serveur ASGI |
 | PostgreSQL | 16.13 | Base de données |
+| pytest | 8.2.0 | Tests unitaires |
+| MinIO | latest | Stockage des couvertures |
 | pytest | 8.2.0 | Tests unitaires |

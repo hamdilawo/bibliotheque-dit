@@ -1,0 +1,45 @@
+#!/bin/bash
+# =============================================================
+# .git-hooks/pre-push
+# Hook Git : vérifications avant push vers le remote
+# =============================================================
+
+REMOTE=$1
+URL=$2
+BRANCH=$(git symbolic-ref --short HEAD)
+
+echo "🚀 Pre-push : vérifications avant push vers $REMOTE ($BRANCH)..."
+
+ERRORS=0
+
+# ── 1. Interdire le push direct sur main ─────────────────────
+if [ "$BRANCH" = "main" ]; then
+    echo "❌ Push direct sur 'main' interdit !"
+    echo "   Créez une branche release/ ou hotfix/ et faites une PR."
+    ERRORS=$((ERRORS + 1))
+fi
+
+# ── 2. Vérifier que metrics.json est à jour si train.py a changé ──
+if git diff origin/$BRANCH..HEAD --name-only 2>/dev/null | grep -q "dvc/train.py"; then
+    if ! git diff origin/$BRANCH..HEAD --name-only 2>/dev/null | grep -q "dvc/metrics.json"; then
+        echo "⚠️  train.py modifié mais metrics.json non mis à jour."
+        echo "   Lancez 'dvc repro' pour réévaluer le modèle."
+    fi
+fi
+
+# ── 3. Vérifier qu'aucun fichier de données brutes n'est pushé ──
+if git diff origin/$BRANCH..HEAD --name-only 2>/dev/null | grep -qE "\.csv$|model\.pkl$"; then
+    echo "⚠️  Des fichiers de données (.csv ou .pkl) semblent inclus."
+    echo "   Ces fichiers doivent être gérés par DVC, pas Git."
+    echo "   Vérifiez votre .gitignore."
+fi
+
+# ── Résultat ────────────────────────────────────────────────
+if [ $ERRORS -gt 0 ]; then
+    echo ""
+    echo "❌ Push annulé ($ERRORS erreur(s))."
+    exit 1
+fi
+
+echo "✅ Pre-push : vérifications passées. Push autorisé."
+exit 0
