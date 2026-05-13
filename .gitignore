@@ -83,6 +83,3 @@ logs/
 docker-volumes/
 
 
-.dvc
-dvc/
-.git-hooks

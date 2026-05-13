@@ -1,0 +1,16 @@
+# .dvcignore
+# Fichiers ignorés par DVC (similaire à .gitignore)
+
+# Environnements Python
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# Fichiers temporaires
+*.tmp
+*.log
+.DS_Store
+
+# Notebooks (versionnés séparément)
+*.ipynb
