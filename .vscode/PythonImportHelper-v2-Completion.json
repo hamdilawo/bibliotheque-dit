@@ -1,5 +1,122 @@
 [
     {
+        "label": "pandas",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "pandas",
+        "description": "pandas",
+        "detail": "pandas",
+        "documentation": {}
+    },
+    {
+        "label": "numpy",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "numpy",
+        "description": "numpy",
+        "detail": "numpy",
+        "documentation": {}
+    },
+    {
+        "label": "joblib",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "joblib",
+        "description": "joblib",
+        "detail": "joblib",
+        "documentation": {}
+    },
+    {
+        "label": "json",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "json",
+        "description": "json",
+        "detail": "json",
+        "documentation": {}
+    },
+    {
+        "label": "logging",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "logging",
+        "description": "logging",
+        "detail": "logging",
+        "documentation": {}
+    },
+    {
+        "label": "Path",
+        "importPath": "pathlib",
+        "description": "pathlib",
+        "isExtraImport": true,
+        "detail": "pathlib",
+        "documentation": {}
+    },
+    {
+        "label": "Path",
+        "importPath": "pathlib",
+        "description": "pathlib",
+        "isExtraImport": true,
+        "detail": "pathlib",
+        "documentation": {}
+    },
+    {
+        "label": "Path",
+        "importPath": "pathlib",
+        "description": "pathlib",
+        "isExtraImport": true,
+        "detail": "pathlib",
+        "documentation": {}
+    },
+    {
+        "label": "Path",
+        "importPath": "pathlib",
+        "description": "pathlib",
+        "isExtraImport": true,
+        "detail": "pathlib",
+        "documentation": {}
+    },
+    {
+        "label": "train_test_split",
+        "importPath": "sklearn.model_selection",
+        "description": "sklearn.model_selection",
+        "isExtraImport": true,
+        "detail": "sklearn.model_selection",
+        "documentation": {}
+    },
+    {
+        "label": "train_test_split",
+        "importPath": "sklearn.model_selection",
+        "description": "sklearn.model_selection",
+        "isExtraImport": true,
+        "detail": "sklearn.model_selection",
+        "documentation": {}
+    },
+    {
+        "label": "TruncatedSVD",
+        "importPath": "sklearn.decomposition",
+        "description": "sklearn.decomposition",
+        "isExtraImport": true,
+        "detail": "sklearn.decomposition",
+        "documentation": {}
+    },
+    {
+        "label": "NearestNeighbors",
+        "importPath": "sklearn.neighbors",
+        "description": "sklearn.neighbors",
+        "isExtraImport": true,
+        "detail": "sklearn.neighbors",
+        "documentation": {}
+    },
+    {
+        "label": "normalize",
+        "importPath": "sklearn.preprocessing",
+        "description": "sklearn.preprocessing",
+        "isExtraImport": true,
+        "detail": "sklearn.preprocessing",
+        "documentation": {}
+    },
+    {
         "label": "runpy",
         "kind": 6,
         "isExtraImport": true,
@@ -49,1686 +166,6 @@
         "importPath": "sys",
         "description": "sys",
         "detail": "sys",
-        "documentation": {}
-    },
-    {
-        "label": "config",
-        "importPath": "decouple",
-        "description": "decouple",
-        "isExtraImport": true,
-        "detail": "decouple",
-        "documentation": {}
-    },
-    {
-        "label": "config",
-        "importPath": "decouple",
-        "description": "decouple",
-        "isExtraImport": true,
-        "detail": "decouple",
-        "documentation": {}
-    },
-    {
-        "label": "path",
-        "importPath": "django.urls",
-        "description": "django.urls",
-        "isExtraImport": true,
-        "detail": "django.urls",
-        "documentation": {}
-    },
-    {
-        "label": "include",
-        "importPath": "django.urls",
-        "description": "django.urls",
-        "isExtraImport": true,
-        "detail": "django.urls",
-        "documentation": {}
-    },
-    {
-        "label": "path",
-        "importPath": "django.urls",
-        "description": "django.urls",
-        "isExtraImport": true,
-        "detail": "django.urls",
-        "documentation": {}
-    },
-    {
-        "label": "include",
-        "importPath": "django.urls",
-        "description": "django.urls",
-        "isExtraImport": true,
-        "detail": "django.urls",
-        "documentation": {}
-    },
-    {
-        "label": "path",
-        "importPath": "django.urls",
-        "description": "django.urls",
-        "isExtraImport": true,
-        "detail": "django.urls",
-        "documentation": {}
-    },
-    {
-        "label": "path",
-        "importPath": "django.urls",
-        "description": "django.urls",
-        "isExtraImport": true,
-        "detail": "django.urls",
-        "documentation": {}
-    },
-    {
-        "label": "include",
-        "importPath": "django.urls",
-        "description": "django.urls",
-        "isExtraImport": true,
-        "detail": "django.urls",
-        "documentation": {}
-    },
-    {
-        "label": "path",
-        "importPath": "django.urls",
-        "description": "django.urls",
-        "isExtraImport": true,
-        "detail": "django.urls",
-        "documentation": {}
-    },
-    {
-        "label": "include",
-        "importPath": "django.urls",
-        "description": "django.urls",
-        "isExtraImport": true,
-        "detail": "django.urls",
-        "documentation": {}
-    },
-    {
-        "label": "urlpatterns_scalar",
-        "importPath": "src.loans.adapters.scalar.scalar",
-        "description": "src.loans.adapters.scalar.scalar",
-        "isExtraImport": true,
-        "detail": "src.loans.adapters.scalar.scalar",
-        "documentation": {}
-    },
-    {
-        "label": "get_wsgi_application",
-        "importPath": "django.core.wsgi",
-        "description": "django.core.wsgi",
-        "isExtraImport": true,
-        "detail": "django.core.wsgi",
-        "documentation": {}
-    },
-    {
-        "label": "get_wsgi_application",
-        "importPath": "django.core.wsgi",
-        "description": "django.core.wsgi",
-        "isExtraImport": true,
-        "detail": "django.core.wsgi",
-        "documentation": {}
-    },
-    {
-        "label": "migrations",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "models",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "migrations",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "models",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "migrations",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "models",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "migrations",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "models",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "migrations",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "models",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "migrations",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "models",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "models",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "models",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "migrations",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "models",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "migrations",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "models",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "migrations",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "models",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "models",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "Decimal",
-        "importPath": "decimal",
-        "description": "decimal",
-        "isExtraImport": true,
-        "detail": "decimal",
-        "documentation": {}
-    },
-    {
-        "label": "Decimal",
-        "importPath": "decimal",
-        "description": "decimal",
-        "isExtraImport": true,
-        "detail": "decimal",
-        "documentation": {}
-    },
-    {
-        "label": "timezone",
-        "importPath": "django.utils",
-        "description": "django.utils",
-        "isExtraImport": true,
-        "detail": "django.utils",
-        "documentation": {}
-    },
-    {
-        "label": "timezone",
-        "importPath": "django.utils",
-        "description": "django.utils",
-        "isExtraImport": true,
-        "detail": "django.utils",
-        "documentation": {}
-    },
-    {
-        "label": "timedelta",
-        "importPath": "datetime",
-        "description": "datetime",
-        "isExtraImport": true,
-        "detail": "datetime",
-        "documentation": {}
-    },
-    {
-        "label": "date",
-        "importPath": "datetime",
-        "description": "datetime",
-        "isExtraImport": true,
-        "detail": "datetime",
-        "documentation": {}
-    },
-    {
-        "label": "timedelta",
-        "importPath": "datetime",
-        "description": "datetime",
-        "isExtraImport": true,
-        "detail": "datetime",
-        "documentation": {}
-    },
-    {
-        "label": "date",
-        "importPath": "datetime",
-        "description": "datetime",
-        "isExtraImport": true,
-        "detail": "datetime",
-        "documentation": {}
-    },
-    {
-        "label": "date",
-        "importPath": "datetime",
-        "description": "datetime",
-        "isExtraImport": true,
-        "detail": "datetime",
-        "documentation": {}
-    },
-    {
-        "label": "datetime",
-        "importPath": "datetime",
-        "description": "datetime",
-        "isExtraImport": true,
-        "detail": "datetime",
-        "documentation": {}
-    },
-    {
-        "label": "timedelta",
-        "importPath": "datetime",
-        "description": "datetime",
-        "isExtraImport": true,
-        "detail": "datetime",
-        "documentation": {}
-    },
-    {
-        "label": "timezone",
-        "importPath": "datetime",
-        "description": "datetime",
-        "isExtraImport": true,
-        "detail": "datetime",
-        "documentation": {}
-    },
-    {
-        "label": "date",
-        "importPath": "datetime",
-        "description": "datetime",
-        "isExtraImport": true,
-        "detail": "datetime",
-        "documentation": {}
-    },
-    {
-        "label": "date",
-        "importPath": "datetime",
-        "description": "datetime",
-        "isExtraImport": true,
-        "detail": "datetime",
-        "documentation": {}
-    },
-    {
-        "label": "date",
-        "importPath": "datetime",
-        "description": "datetime",
-        "isExtraImport": true,
-        "detail": "datetime",
-        "documentation": {}
-    },
-    {
-        "label": "date",
-        "importPath": "datetime",
-        "description": "datetime",
-        "isExtraImport": true,
-        "detail": "datetime",
-        "documentation": {}
-    },
-    {
-        "label": "date",
-        "importPath": "datetime",
-        "description": "datetime",
-        "isExtraImport": true,
-        "detail": "datetime",
-        "documentation": {}
-    },
-    {
-        "label": "date",
-        "importPath": "datetime",
-        "description": "datetime",
-        "isExtraImport": true,
-        "detail": "datetime",
-        "documentation": {}
-    },
-    {
-        "label": "timedelta",
-        "importPath": "datetime",
-        "description": "datetime",
-        "isExtraImport": true,
-        "detail": "datetime",
-        "documentation": {}
-    },
-    {
-        "label": "datetime",
-        "importPath": "datetime",
-        "description": "datetime",
-        "isExtraImport": true,
-        "detail": "datetime",
-        "documentation": {}
-    },
-    {
-        "label": "date",
-        "importPath": "datetime",
-        "description": "datetime",
-        "isExtraImport": true,
-        "detail": "datetime",
-        "documentation": {}
-    },
-    {
-        "label": "timedelta",
-        "importPath": "datetime",
-        "description": "datetime",
-        "isExtraImport": true,
-        "detail": "datetime",
-        "documentation": {}
-    },
-    {
-        "label": "Any",
-        "importPath": "typing",
-        "description": "typing",
-        "isExtraImport": true,
-        "detail": "typing",
-        "documentation": {}
-    },
-    {
-        "label": "Dict",
-        "importPath": "typing",
-        "description": "typing",
-        "isExtraImport": true,
-        "detail": "typing",
-        "documentation": {}
-    },
-    {
-        "label": "List",
-        "importPath": "typing",
-        "description": "typing",
-        "isExtraImport": true,
-        "detail": "typing",
-        "documentation": {}
-    },
-    {
-        "label": "Optional",
-        "importPath": "typing",
-        "description": "typing",
-        "isExtraImport": true,
-        "detail": "typing",
-        "documentation": {}
-    },
-    {
-        "label": "Set",
-        "importPath": "typing",
-        "description": "typing",
-        "isExtraImport": true,
-        "detail": "typing",
-        "documentation": {}
-    },
-    {
-        "label": "Type",
-        "importPath": "typing",
-        "description": "typing",
-        "isExtraImport": true,
-        "detail": "typing",
-        "documentation": {}
-    },
-    {
-        "label": "List",
-        "importPath": "typing",
-        "description": "typing",
-        "isExtraImport": true,
-        "detail": "typing",
-        "documentation": {}
-    },
-    {
-        "label": "Optional",
-        "importPath": "typing",
-        "description": "typing",
-        "isExtraImport": true,
-        "detail": "typing",
-        "documentation": {}
-    },
-    {
-        "label": "Dict",
-        "importPath": "typing",
-        "description": "typing",
-        "isExtraImport": true,
-        "detail": "typing",
-        "documentation": {}
-    },
-    {
-        "label": "Optional",
-        "importPath": "typing",
-        "description": "typing",
-        "isExtraImport": true,
-        "detail": "typing",
-        "documentation": {}
-    },
-    {
-        "label": "Self",
-        "importPath": "typing",
-        "description": "typing",
-        "isExtraImport": true,
-        "detail": "typing",
-        "documentation": {}
-    },
-    {
-        "label": "Optional",
-        "importPath": "typing",
-        "description": "typing",
-        "isExtraImport": true,
-        "detail": "typing",
-        "documentation": {}
-    },
-    {
-        "label": "Callable",
-        "importPath": "typing",
-        "description": "typing",
-        "isExtraImport": true,
-        "detail": "typing",
-        "documentation": {}
-    },
-    {
-        "label": "Optional",
-        "importPath": "typing",
-        "description": "typing",
-        "isExtraImport": true,
-        "detail": "typing",
-        "documentation": {}
-    },
-    {
-        "label": "Callable",
-        "importPath": "typing",
-        "description": "typing",
-        "isExtraImport": true,
-        "detail": "typing",
-        "documentation": {}
-    },
-    {
-        "label": "Callable",
-        "importPath": "typing",
-        "description": "typing",
-        "isExtraImport": true,
-        "detail": "typing",
-        "documentation": {}
-    },
-    {
-        "label": "Optional",
-        "importPath": "typing",
-        "description": "typing",
-        "isExtraImport": true,
-        "detail": "typing",
-        "documentation": {}
-    },
-    {
-        "label": "Protocol",
-        "importPath": "typing",
-        "description": "typing",
-        "isExtraImport": true,
-        "detail": "typing",
-        "documentation": {}
-    },
-    {
-        "label": "Dict",
-        "importPath": "typing",
-        "description": "typing",
-        "isExtraImport": true,
-        "detail": "typing",
-        "documentation": {}
-    },
-    {
-        "label": "Protocol",
-        "importPath": "typing",
-        "description": "typing",
-        "isExtraImport": true,
-        "detail": "typing",
-        "documentation": {}
-    },
-    {
-        "label": "List",
-        "importPath": "typing",
-        "description": "typing",
-        "isExtraImport": true,
-        "detail": "typing",
-        "documentation": {}
-    },
-    {
-        "label": "Optional",
-        "importPath": "typing",
-        "description": "typing",
-        "isExtraImport": true,
-        "detail": "typing",
-        "documentation": {}
-    },
-    {
-        "label": "Protocol",
-        "importPath": "typing",
-        "description": "typing",
-        "isExtraImport": true,
-        "detail": "typing",
-        "documentation": {}
-    },
-    {
-        "label": "Annotated",
-        "importPath": "typing",
-        "description": "typing",
-        "isExtraImport": true,
-        "detail": "typing",
-        "documentation": {}
-    },
-    {
-        "label": "Optional",
-        "importPath": "typing",
-        "description": "typing",
-        "isExtraImport": true,
-        "detail": "typing",
-        "documentation": {}
-    },
-    {
-        "label": "Optional",
-        "importPath": "typing",
-        "description": "typing",
-        "isExtraImport": true,
-        "detail": "typing",
-        "documentation": {}
-    },
-    {
-        "label": "Annotated",
-        "importPath": "typing",
-        "description": "typing",
-        "isExtraImport": true,
-        "detail": "typing",
-        "documentation": {}
-    },
-    {
-        "label": "Optional",
-        "importPath": "typing",
-        "description": "typing",
-        "isExtraImport": true,
-        "detail": "typing",
-        "documentation": {}
-    },
-    {
-        "label": "Any",
-        "importPath": "typing",
-        "description": "typing",
-        "isExtraImport": true,
-        "detail": "typing",
-        "documentation": {}
-    },
-    {
-        "label": "cast",
-        "importPath": "typing",
-        "description": "typing",
-        "isExtraImport": true,
-        "detail": "typing",
-        "documentation": {}
-    },
-    {
-        "label": "Book",
-        "importPath": "loans.app.domain.book",
-        "description": "loans.app.domain.book",
-        "isExtraImport": true,
-        "detail": "loans.app.domain.book",
-        "documentation": {}
-    },
-    {
-        "label": "Email",
-        "importPath": "loans.app.domain.email",
-        "description": "loans.app.domain.email",
-        "isExtraImport": true,
-        "detail": "loans.app.domain.email",
-        "documentation": {}
-    },
-    {
-        "label": "Reader",
-        "importPath": "loans.app.domain.reader",
-        "description": "loans.app.domain.reader",
-        "isExtraImport": true,
-        "detail": "loans.app.domain.reader",
-        "documentation": {}
-    },
-    {
-        "label": "Emprunt",
-        "importPath": "src.loans.adapters.database.models.emprunt",
-        "description": "src.loans.adapters.database.models.emprunt",
-        "isExtraImport": true,
-        "detail": "src.loans.adapters.database.models.emprunt",
-        "documentation": {}
-    },
-    {
-        "label": "Emprunt",
-        "importPath": "src.loans.adapters.database.models.emprunt",
-        "description": "src.loans.adapters.database.models.emprunt",
-        "isExtraImport": true,
-        "detail": "src.loans.adapters.database.models.emprunt",
-        "documentation": {}
-    },
-    {
-        "label": "Loan",
-        "importPath": "src.loans.app.domain.loan",
-        "description": "src.loans.app.domain.loan",
-        "isExtraImport": true,
-        "detail": "src.loans.app.domain.loan",
-        "documentation": {}
-    },
-    {
-        "label": "LoanStatus",
-        "importPath": "src.loans.app.domain.loan",
-        "description": "src.loans.app.domain.loan",
-        "isExtraImport": true,
-        "detail": "src.loans.app.domain.loan",
-        "documentation": {}
-    },
-    {
-        "label": "Loan",
-        "importPath": "src.loans.app.domain.loan",
-        "description": "src.loans.app.domain.loan",
-        "isExtraImport": true,
-        "detail": "src.loans.app.domain.loan",
-        "documentation": {}
-    },
-    {
-        "label": "Loan",
-        "importPath": "src.loans.app.domain.loan",
-        "description": "src.loans.app.domain.loan",
-        "isExtraImport": true,
-        "detail": "src.loans.app.domain.loan",
-        "documentation": {}
-    },
-    {
-        "label": "Loan",
-        "importPath": "src.loans.app.domain.loan",
-        "description": "src.loans.app.domain.loan",
-        "isExtraImport": true,
-        "detail": "src.loans.app.domain.loan",
-        "documentation": {}
-    },
-    {
-        "label": "LoanRepository",
-        "importPath": "src.loans.app.ports.loan_repository",
-        "description": "src.loans.app.ports.loan_repository",
-        "isExtraImport": true,
-        "detail": "src.loans.app.ports.loan_repository",
-        "documentation": {}
-    },
-    {
-        "label": "LoanRepository",
-        "importPath": "src.loans.app.ports.loan_repository",
-        "description": "src.loans.app.ports.loan_repository",
-        "isExtraImport": true,
-        "detail": "src.loans.app.ports.loan_repository",
-        "documentation": {}
-    },
-    {
-        "label": "LoanRepository",
-        "importPath": "src.loans.app.ports.loan_repository",
-        "description": "src.loans.app.ports.loan_repository",
-        "isExtraImport": true,
-        "detail": "src.loans.app.ports.loan_repository",
-        "documentation": {}
-    },
-    {
-        "label": "LoanRepository",
-        "importPath": "src.loans.app.ports.loan_repository",
-        "description": "src.loans.app.ports.loan_repository",
-        "isExtraImport": true,
-        "detail": "src.loans.app.ports.loan_repository",
-        "documentation": {}
-    },
-    {
-        "label": "serializers",
-        "importPath": "rest_framework",
-        "description": "rest_framework",
-        "isExtraImport": true,
-        "detail": "rest_framework",
-        "documentation": {}
-    },
-    {
-        "label": "serializers",
-        "importPath": "rest_framework",
-        "description": "rest_framework",
-        "isExtraImport": true,
-        "detail": "rest_framework",
-        "documentation": {}
-    },
-    {
-        "label": "viewsets",
-        "importPath": "rest_framework",
-        "description": "rest_framework",
-        "isExtraImport": true,
-        "detail": "rest_framework",
-        "documentation": {}
-    },
-    {
-        "label": "status",
-        "importPath": "rest_framework",
-        "description": "rest_framework",
-        "isExtraImport": true,
-        "detail": "rest_framework",
-        "documentation": {}
-    },
-    {
-        "label": "filters",
-        "importPath": "rest_framework",
-        "description": "rest_framework",
-        "isExtraImport": true,
-        "detail": "rest_framework",
-        "documentation": {}
-    },
-    {
-        "label": "serializers",
-        "importPath": "rest_framework",
-        "description": "rest_framework",
-        "isExtraImport": true,
-        "detail": "rest_framework",
-        "documentation": {}
-    },
-    {
-        "label": "viewsets",
-        "importPath": "rest_framework",
-        "description": "rest_framework",
-        "isExtraImport": true,
-        "detail": "rest_framework",
-        "documentation": {}
-    },
-    {
-        "label": "filters",
-        "importPath": "rest_framework",
-        "description": "rest_framework",
-        "isExtraImport": true,
-        "detail": "rest_framework",
-        "documentation": {}
-    },
-    {
-        "label": "status",
-        "importPath": "rest_framework",
-        "description": "rest_framework",
-        "isExtraImport": true,
-        "detail": "rest_framework",
-        "documentation": {}
-    },
-    {
-        "label": "DefaultRouter",
-        "importPath": "rest_framework.routers",
-        "description": "rest_framework.routers",
-        "isExtraImport": true,
-        "detail": "rest_framework.routers",
-        "documentation": {}
-    },
-    {
-        "label": "DefaultRouter",
-        "importPath": "rest_framework.routers",
-        "description": "rest_framework.routers",
-        "isExtraImport": true,
-        "detail": "rest_framework.routers",
-        "documentation": {}
-    },
-    {
-        "label": "NotifyUsersOnLoanOverdue",
-        "importPath": "src.loans.app.handlers.notify_users_on_loan_overdue",
-        "description": "src.loans.app.handlers.notify_users_on_loan_overdue",
-        "isExtraImport": true,
-        "detail": "src.loans.app.handlers.notify_users_on_loan_overdue",
-        "documentation": {}
-    },
-    {
-        "label": "NotifyUsers3DaysBeforeLoanDue",
-        "importPath": "src.loans.app.handlers.notify_users_before_loan_due",
-        "description": "src.loans.app.handlers.notify_users_before_loan_due",
-        "isExtraImport": true,
-        "detail": "src.loans.app.handlers.notify_users_before_loan_due",
-        "documentation": {}
-    },
-    {
-        "label": "BrevoEmailService",
-        "importPath": "src.loans.adapters.services.brevo_email_service",
-        "description": "src.loans.adapters.services.brevo_email_service",
-        "isExtraImport": true,
-        "detail": "src.loans.adapters.services.brevo_email_service",
-        "documentation": {}
-    },
-    {
-        "label": "ReturnLoan",
-        "importPath": "src.loans.app.handlers.return_loan",
-        "description": "src.loans.app.handlers.return_loan",
-        "isExtraImport": true,
-        "detail": "src.loans.app.handlers.return_loan",
-        "documentation": {}
-    },
-    {
-        "label": "LoanRepositoryImpl",
-        "importPath": "src.loans.adapters.database.repositories.loan_repository",
-        "description": "src.loans.adapters.database.repositories.loan_repository",
-        "isExtraImport": true,
-        "detail": "src.loans.adapters.database.repositories.loan_repository",
-        "documentation": {}
-    },
-    {
-        "label": "BorrowABook",
-        "importPath": "src.loans.app.handlers.borrow_a_book",
-        "description": "src.loans.app.handlers.borrow_a_book",
-        "isExtraImport": true,
-        "detail": "src.loans.app.handlers.borrow_a_book",
-        "documentation": {}
-    },
-    {
-        "label": "BorrowCommand",
-        "importPath": "src.loans.app.handlers.borrow_a_book",
-        "description": "src.loans.app.handlers.borrow_a_book",
-        "isExtraImport": true,
-        "detail": "src.loans.app.handlers.borrow_a_book",
-        "documentation": {}
-    },
-    {
-        "label": "action",
-        "importPath": "rest_framework.decorators",
-        "description": "rest_framework.decorators",
-        "isExtraImport": true,
-        "detail": "rest_framework.decorators",
-        "documentation": {}
-    },
-    {
-        "label": "action",
-        "importPath": "rest_framework.decorators",
-        "description": "rest_framework.decorators",
-        "isExtraImport": true,
-        "detail": "rest_framework.decorators",
-        "documentation": {}
-    },
-    {
-        "label": "Response",
-        "importPath": "rest_framework.response",
-        "description": "rest_framework.response",
-        "isExtraImport": true,
-        "detail": "rest_framework.response",
-        "documentation": {}
-    },
-    {
-        "label": "Response",
-        "importPath": "rest_framework.response",
-        "description": "rest_framework.response",
-        "isExtraImport": true,
-        "detail": "rest_framework.response",
-        "documentation": {}
-    },
-    {
-        "label": "HttpResponse",
-        "importPath": "django.http",
-        "description": "django.http",
-        "isExtraImport": true,
-        "detail": "django.http",
-        "documentation": {}
-    },
-    {
-        "label": "JsonResponse",
-        "importPath": "django.http",
-        "description": "django.http",
-        "isExtraImport": true,
-        "detail": "django.http",
-        "documentation": {}
-    },
-    {
-        "label": "HttpResponse",
-        "importPath": "django.http",
-        "description": "django.http",
-        "isExtraImport": true,
-        "detail": "django.http",
-        "documentation": {}
-    },
-    {
-        "label": "extend_schema",
-        "importPath": "drf_spectacular.utils",
-        "description": "drf_spectacular.utils",
-        "isExtraImport": true,
-        "detail": "drf_spectacular.utils",
-        "documentation": {}
-    },
-    {
-        "label": "OpenApiParameter",
-        "importPath": "drf_spectacular.utils",
-        "description": "drf_spectacular.utils",
-        "isExtraImport": true,
-        "detail": "drf_spectacular.utils",
-        "documentation": {}
-    },
-    {
-        "label": "OpenApiParameter",
-        "importPath": "drf_spectacular.utils",
-        "description": "drf_spectacular.utils",
-        "isExtraImport": true,
-        "detail": "drf_spectacular.utils",
-        "documentation": {}
-    },
-    {
-        "label": "extend_schema",
-        "importPath": "drf_spectacular.utils",
-        "description": "drf_spectacular.utils",
-        "isExtraImport": true,
-        "detail": "drf_spectacular.utils",
-        "documentation": {}
-    },
-    {
-        "label": "OpenApiParameter",
-        "importPath": "drf_spectacular.utils",
-        "description": "drf_spectacular.utils",
-        "isExtraImport": true,
-        "detail": "drf_spectacular.utils",
-        "documentation": {}
-    },
-    {
-        "label": "csv",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "csv",
-        "description": "csv",
-        "detail": "csv",
-        "documentation": {}
-    },
-    {
-        "label": "io",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "io",
-        "description": "io",
-        "detail": "io",
-        "documentation": {}
-    },
-    {
-        "label": "BytesIO",
-        "importPath": "io",
-        "description": "io",
-        "isExtraImport": true,
-        "detail": "io",
-        "documentation": {}
-    },
-    {
-        "label": "FakeBookService",
-        "importPath": "src.loans.adapters.services.book",
-        "description": "src.loans.adapters.services.book",
-        "isExtraImport": true,
-        "detail": "src.loans.adapters.services.book",
-        "documentation": {}
-    },
-    {
-        "label": "BookService",
-        "importPath": "src.loans.adapters.services.book",
-        "description": "src.loans.adapters.services.book",
-        "isExtraImport": true,
-        "detail": "src.loans.adapters.services.book",
-        "documentation": {}
-    },
-    {
-        "label": "jwt",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "jwt",
-        "description": "jwt",
-        "detail": "jwt",
-        "documentation": {}
-    },
-    {
-        "label": "settings",
-        "importPath": "django.conf",
-        "description": "django.conf",
-        "isExtraImport": true,
-        "detail": "django.conf",
-        "documentation": {}
-    },
-    {
-        "label": "settings",
-        "importPath": "django.conf",
-        "description": "django.conf",
-        "isExtraImport": true,
-        "detail": "django.conf",
-        "documentation": {}
-    },
-    {
-        "label": "settings",
-        "importPath": "django.conf",
-        "description": "django.conf",
-        "isExtraImport": true,
-        "detail": "django.conf",
-        "documentation": {}
-    },
-    {
-        "label": "User",
-        "importPath": "src.loans.app.domain.user",
-        "description": "src.loans.app.domain.user",
-        "isExtraImport": true,
-        "detail": "src.loans.app.domain.user",
-        "documentation": {}
-    },
-    {
-        "label": "User",
-        "importPath": "src.loans.app.domain.user",
-        "description": "src.loans.app.domain.user",
-        "isExtraImport": true,
-        "detail": "src.loans.app.domain.user",
-        "documentation": {}
-    },
-    {
-        "label": "FilterSet",
-        "importPath": "django_filters",
-        "description": "django_filters",
-        "isExtraImport": true,
-        "detail": "django_filters",
-        "documentation": {}
-    },
-    {
-        "label": "CharFilter",
-        "importPath": "django_filters.filters",
-        "description": "django_filters.filters",
-        "isExtraImport": true,
-        "detail": "django_filters.filters",
-        "documentation": {}
-    },
-    {
-        "label": "NumberFilter",
-        "importPath": "django_filters.filters",
-        "description": "django_filters.filters",
-        "isExtraImport": true,
-        "detail": "django_filters.filters",
-        "documentation": {}
-    },
-    {
-        "label": "DateFilter",
-        "importPath": "django_filters.filters",
-        "description": "django_filters.filters",
-        "isExtraImport": true,
-        "detail": "django_filters.filters",
-        "documentation": {}
-    },
-    {
-        "label": "BooleanFilter",
-        "importPath": "django_filters.filters",
-        "description": "django_filters.filters",
-        "isExtraImport": true,
-        "detail": "django_filters.filters",
-        "documentation": {}
-    },
-    {
-        "label": "ChoiceFilter",
-        "importPath": "django_filters.filters",
-        "description": "django_filters.filters",
-        "isExtraImport": true,
-        "detail": "django_filters.filters",
-        "documentation": {}
-    },
-    {
-        "label": "ModelChoiceFilter",
-        "importPath": "django_filters.filters",
-        "description": "django_filters.filters",
-        "isExtraImport": true,
-        "detail": "django_filters.filters",
-        "documentation": {}
-    },
-    {
-        "label": "DecimalField",
-        "importPath": "rest_framework.fields",
-        "description": "rest_framework.fields",
-        "isExtraImport": true,
-        "detail": "rest_framework.fields",
-        "documentation": {}
-    },
-    {
-        "label": "SpectacularAPIView",
-        "importPath": "drf_spectacular.views",
-        "description": "drf_spectacular.views",
-        "isExtraImport": true,
-        "detail": "drf_spectacular.views",
-        "documentation": {}
-    },
-    {
-        "label": "SpectacularSwaggerView",
-        "importPath": "drf_spectacular.views",
-        "description": "drf_spectacular.views",
-        "isExtraImport": true,
-        "detail": "drf_spectacular.views",
-        "documentation": {}
-    },
-    {
-        "label": "SpectacularAPIView",
-        "importPath": "drf_spectacular.views",
-        "description": "drf_spectacular.views",
-        "isExtraImport": true,
-        "detail": "drf_spectacular.views",
-        "documentation": {}
-    },
-    {
-        "label": "SpectacularSwaggerView",
-        "importPath": "drf_spectacular.views",
-        "description": "drf_spectacular.views",
-        "isExtraImport": true,
-        "detail": "drf_spectacular.views",
-        "documentation": {}
-    },
-    {
-        "label": "requests",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "requests",
-        "description": "requests",
-        "detail": "requests",
-        "documentation": {}
-    },
-    {
-        "label": "Book",
-        "importPath": "src.loans.app.domain.book",
-        "description": "src.loans.app.domain.book",
-        "isExtraImport": true,
-        "detail": "src.loans.app.domain.book",
-        "documentation": {}
-    },
-    {
-        "label": "Book",
-        "importPath": "src.loans.app.domain.book",
-        "description": "src.loans.app.domain.book",
-        "isExtraImport": true,
-        "detail": "src.loans.app.domain.book",
-        "documentation": {}
-    },
-    {
-        "label": "Book",
-        "importPath": "src.loans.app.domain.book",
-        "description": "src.loans.app.domain.book",
-        "isExtraImport": true,
-        "detail": "src.loans.app.domain.book",
-        "documentation": {}
-    },
-    {
-        "label": "BookServiceInterface",
-        "importPath": "src.loans.app.ports.book_service_interface",
-        "description": "src.loans.app.ports.book_service_interface",
-        "isExtraImport": true,
-        "detail": "src.loans.app.ports.book_service_interface",
-        "documentation": {}
-    },
-    {
-        "label": "BookServiceInterface",
-        "importPath": "src.loans.app.ports.book_service_interface",
-        "description": "src.loans.app.ports.book_service_interface",
-        "isExtraImport": true,
-        "detail": "src.loans.app.ports.book_service_interface",
-        "documentation": {}
-    },
-    {
-        "label": "BookServiceInterface",
-        "importPath": "src.loans.app.ports.book_service_interface",
-        "description": "src.loans.app.ports.book_service_interface",
-        "isExtraImport": true,
-        "detail": "src.loans.app.ports.book_service_interface",
-        "documentation": {}
-    },
-    {
-        "label": "ServiceException",
-        "importPath": "src.loans.client",
-        "description": "src.loans.client",
-        "isExtraImport": true,
-        "detail": "src.loans.client",
-        "documentation": {}
-    },
-    {
-        "label": "sleep",
-        "importPath": "time",
-        "description": "time",
-        "isExtraImport": true,
-        "detail": "time",
-        "documentation": {}
-    },
-    {
-        "label": "EmailServiceInterface",
-        "importPath": "src.loans.app.ports.email_service",
-        "description": "src.loans.app.ports.email_service",
-        "isExtraImport": true,
-        "detail": "src.loans.app.ports.email_service",
-        "documentation": {}
-    },
-    {
-        "label": "EmailServiceInterface",
-        "importPath": "src.loans.app.ports.email_service",
-        "description": "src.loans.app.ports.email_service",
-        "isExtraImport": true,
-        "detail": "src.loans.app.ports.email_service",
-        "documentation": {}
-    },
-    {
-        "label": "EmailServiceInterface",
-        "importPath": "src.loans.app.ports.email_service",
-        "description": "src.loans.app.ports.email_service",
-        "isExtraImport": true,
-        "detail": "src.loans.app.ports.email_service",
-        "documentation": {}
-    },
-    {
-        "label": "EmailServiceInterface",
-        "importPath": "src.loans.app.ports.email_service",
-        "description": "src.loans.app.ports.email_service",
-        "isExtraImport": true,
-        "detail": "src.loans.app.ports.email_service",
-        "documentation": {}
-    },
-    {
-        "label": "EmailServiceInterface",
-        "importPath": "src.loans.app.ports.email_service",
-        "description": "src.loans.app.ports.email_service",
-        "isExtraImport": true,
-        "detail": "src.loans.app.ports.email_service",
-        "documentation": {}
-    },
-    {
-        "label": "dataclass",
-        "importPath": "dataclasses",
-        "description": "dataclasses",
-        "isExtraImport": true,
-        "detail": "dataclasses",
-        "documentation": {}
-    },
-    {
-        "label": "dataclass",
-        "importPath": "dataclasses",
-        "description": "dataclasses",
-        "isExtraImport": true,
-        "detail": "dataclasses",
-        "documentation": {}
-    },
-    {
-        "label": "dataclass",
-        "importPath": "dataclasses",
-        "description": "dataclasses",
-        "isExtraImport": true,
-        "detail": "dataclasses",
-        "documentation": {}
-    },
-    {
-        "label": "field",
-        "importPath": "dataclasses",
-        "description": "dataclasses",
-        "isExtraImport": true,
-        "detail": "dataclasses",
-        "documentation": {}
-    },
-    {
-        "label": "dataclass",
-        "importPath": "dataclasses",
-        "description": "dataclasses",
-        "isExtraImport": true,
-        "detail": "dataclasses",
-        "documentation": {}
-    },
-    {
-        "label": "dataclass",
-        "importPath": "dataclasses",
-        "description": "dataclasses",
-        "isExtraImport": true,
-        "detail": "dataclasses",
-        "documentation": {}
-    },
-    {
-        "label": "dataclass",
-        "importPath": "dataclasses",
-        "description": "dataclasses",
-        "isExtraImport": true,
-        "detail": "dataclasses",
-        "documentation": {}
-    },
-    {
-        "label": "dataclass",
-        "importPath": "dataclasses",
-        "description": "dataclasses",
-        "isExtraImport": true,
-        "detail": "dataclasses",
-        "documentation": {}
-    },
-    {
-        "label": "Enum",
-        "importPath": "enum",
-        "description": "enum",
-        "isExtraImport": true,
-        "detail": "enum",
-        "documentation": {}
-    },
-    {
-        "label": "Enum",
-        "importPath": "enum",
-        "description": "enum",
-        "isExtraImport": true,
-        "detail": "enum",
-        "documentation": {}
-    },
-    {
-        "label": "Enum",
-        "importPath": "enum",
-        "description": "enum",
-        "isExtraImport": true,
-        "detail": "enum",
-        "documentation": {}
-    },
-    {
-        "label": "Enum",
-        "importPath": "enum",
-        "description": "enum",
-        "isExtraImport": true,
-        "detail": "enum",
-        "documentation": {}
-    },
-    {
-        "label": "uuid",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "uuid",
-        "description": "uuid",
-        "detail": "uuid",
-        "documentation": {}
-    },
-    {
-        "label": "UUID",
-        "importPath": "uuid",
-        "description": "uuid",
-        "isExtraImport": true,
-        "detail": "uuid",
-        "documentation": {}
-    },
-    {
-        "label": "uuid7",
-        "importPath": "uuid",
-        "description": "uuid",
-        "isExtraImport": true,
-        "detail": "uuid",
-        "documentation": {}
-    },
-    {
-        "label": "UUID",
-        "importPath": "uuid",
-        "description": "uuid",
-        "isExtraImport": true,
-        "detail": "uuid",
-        "documentation": {}
-    },
-    {
-        "label": "UUID",
-        "importPath": "uuid",
-        "description": "uuid",
-        "isExtraImport": true,
-        "detail": "uuid",
-        "documentation": {}
-    },
-    {
-        "label": "UUID",
-        "importPath": "uuid",
-        "description": "uuid",
-        "isExtraImport": true,
-        "detail": "uuid",
-        "documentation": {}
-    },
-    {
-        "label": "UUID",
-        "importPath": "uuid",
-        "description": "uuid",
-        "isExtraImport": true,
-        "detail": "uuid",
-        "documentation": {}
-    },
-    {
-        "label": "uuid4",
-        "importPath": "uuid",
-        "description": "uuid",
-        "isExtraImport": true,
-        "detail": "uuid",
-        "documentation": {}
-    },
-    {
-        "label": "UUID",
-        "importPath": "uuid",
-        "description": "uuid",
-        "isExtraImport": true,
-        "detail": "uuid",
-        "documentation": {}
-    },
-    {
-        "label": "Reader",
-        "importPath": "src.loans.app.domain.reader",
-        "description": "src.loans.app.domain.reader",
-        "isExtraImport": true,
-        "detail": "src.loans.app.domain.reader",
-        "documentation": {}
-    },
-    {
-        "label": "Reader",
-        "importPath": "src.loans.app.domain.reader",
-        "description": "src.loans.app.domain.reader",
-        "isExtraImport": true,
-        "detail": "src.loans.app.domain.reader",
-        "documentation": {}
-    },
-    {
-        "label": "Email",
-        "importPath": "src.loans.app.domain.email",
-        "description": "src.loans.app.domain.email",
-        "isExtraImport": true,
-        "detail": "src.loans.app.domain.email",
-        "documentation": {}
-    },
-    {
-        "label": "Email",
-        "importPath": "src.loans.app.domain.email",
-        "description": "src.loans.app.domain.email",
-        "isExtraImport": true,
-        "detail": "src.loans.app.domain.email",
-        "documentation": {}
-    },
-    {
-        "label": "Email",
-        "importPath": "src.loans.app.domain.email",
-        "description": "src.loans.app.domain.email",
-        "isExtraImport": true,
-        "detail": "src.loans.app.domain.email",
-        "documentation": {}
-    },
-    {
-        "label": "Future",
-        "importPath": "concurrent.futures",
-        "description": "concurrent.futures",
-        "isExtraImport": true,
-        "detail": "concurrent.futures",
-        "documentation": {}
-    },
-    {
-        "label": "ThreadPoolExecutor",
-        "importPath": "concurrent.futures",
-        "description": "concurrent.futures",
-        "isExtraImport": true,
-        "detail": "concurrent.futures",
-        "documentation": {}
-    },
-    {
-        "label": "ThreadPoolExecutor",
-        "importPath": "concurrent.futures",
-        "description": "concurrent.futures",
-        "isExtraImport": true,
-        "detail": "concurrent.futures",
-        "documentation": {}
-    },
-    {
-        "label": "as_completed",
-        "importPath": "concurrent.futures",
-        "description": "concurrent.futures",
-        "isExtraImport": true,
-        "detail": "concurrent.futures",
-        "documentation": {}
-    },
-    {
-        "label": "ThreadPoolExecutor",
-        "importPath": "concurrent.futures",
-        "description": "concurrent.futures",
-        "isExtraImport": true,
-        "detail": "concurrent.futures",
-        "documentation": {}
-    },
-    {
-        "label": "as_completed",
-        "importPath": "concurrent.futures",
-        "description": "concurrent.futures",
-        "isExtraImport": true,
-        "detail": "concurrent.futures",
-        "documentation": {}
-    },
-    {
-        "label": "Future",
-        "importPath": "concurrent.futures",
-        "description": "concurrent.futures",
-        "isExtraImport": true,
-        "detail": "concurrent.futures",
-        "documentation": {}
-    },
-    {
-        "label": "ThreadPoolExecutor",
-        "importPath": "concurrent.futures",
-        "description": "concurrent.futures",
-        "isExtraImport": true,
-        "detail": "concurrent.futures",
-        "documentation": {}
-    },
-    {
-        "label": "logging",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "logging",
-        "description": "logging",
-        "detail": "logging",
-        "documentation": {}
-    },
-    {
-        "label": "LoanRepository",
-        "importPath": "loans.app.ports.loan_repository",
-        "description": "loans.app.ports.loan_repository",
-        "isExtraImport": true,
-        "detail": "loans.app.ports.loan_repository",
-        "documentation": {}
-    },
-    {
-        "label": "LoanRepository",
-        "importPath": "loans.app.ports.loan_repository",
-        "description": "loans.app.ports.loan_repository",
-        "isExtraImport": true,
-        "detail": "loans.app.ports.loan_repository",
-        "documentation": {}
-    },
-    {
-        "label": "django",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "django",
-        "description": "django",
-        "detail": "django",
-        "documentation": {}
-    },
-    {
-        "label": "random",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "random",
-        "description": "random",
-        "detail": "random",
-        "documentation": {}
-    },
-    {
-        "label": "Counter",
-        "importPath": "collections",
-        "description": "collections",
-        "isExtraImport": true,
-        "detail": "collections",
-        "documentation": {}
-    },
-    {
-        "label": "Emprunt",
-        "importPath": "loans.models",
-        "description": "loans.models",
-        "isExtraImport": true,
-        "detail": "loans.models",
         "documentation": {}
     },
     {
@@ -1796,6 +233,63 @@
         "documentation": {}
     },
     {
+        "label": "uuid",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "uuid",
+        "description": "uuid",
+        "detail": "uuid",
+        "documentation": {}
+    },
+    {
+        "label": "UUID",
+        "importPath": "uuid",
+        "description": "uuid",
+        "isExtraImport": true,
+        "detail": "uuid",
+        "documentation": {}
+    },
+    {
+        "label": "UUID",
+        "importPath": "uuid",
+        "description": "uuid",
+        "isExtraImport": true,
+        "detail": "uuid",
+        "documentation": {}
+    },
+    {
+        "label": "UUID",
+        "importPath": "uuid",
+        "description": "uuid",
+        "isExtraImport": true,
+        "detail": "uuid",
+        "documentation": {}
+    },
+    {
+        "label": "UUID",
+        "importPath": "uuid",
+        "description": "uuid",
+        "isExtraImport": true,
+        "detail": "uuid",
+        "documentation": {}
+    },
+    {
+        "label": "uuid4",
+        "importPath": "uuid",
+        "description": "uuid",
+        "isExtraImport": true,
+        "detail": "uuid",
+        "documentation": {}
+    },
+    {
+        "label": "UUID",
+        "importPath": "uuid",
+        "description": "uuid",
+        "isExtraImport": true,
+        "detail": "uuid",
+        "documentation": {}
+    },
+    {
         "label": "NotFoundException",
         "importPath": "litestar.exceptions",
         "description": "litestar.exceptions",
@@ -1844,6 +338,14 @@
         "documentation": {}
     },
     {
+        "label": "BytesIO",
+        "importPath": "io",
+        "description": "io",
+        "isExtraImport": true,
+        "detail": "io",
+        "documentation": {}
+    },
+    {
         "label": "Minio",
         "importPath": "minio",
         "description": "minio",
@@ -1865,6 +367,30 @@
         "description": "piccolo.apps.migrations.auto.migration_manager",
         "isExtraImport": true,
         "detail": "piccolo.apps.migrations.auto.migration_manager",
+        "documentation": {}
+    },
+    {
+        "label": "Enum",
+        "importPath": "enum",
+        "description": "enum",
+        "isExtraImport": true,
+        "detail": "enum",
+        "documentation": {}
+    },
+    {
+        "label": "Enum",
+        "importPath": "enum",
+        "description": "enum",
+        "isExtraImport": true,
+        "detail": "enum",
+        "documentation": {}
+    },
+    {
+        "label": "Enum",
+        "importPath": "enum",
+        "description": "enum",
+        "isExtraImport": true,
+        "detail": "enum",
         "documentation": {}
     },
     {
@@ -1985,6 +511,62 @@
         "description": "piccolo.table",
         "isExtraImport": true,
         "detail": "piccolo.table",
+        "documentation": {}
+    },
+    {
+        "label": "Annotated",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Annotated",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "cast",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
         "documentation": {}
     },
     {
@@ -2257,6 +839,30 @@
         "description": "features.books.tables",
         "isExtraImport": true,
         "detail": "features.books.tables",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "date",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "timedelta",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
         "documentation": {}
     },
     {
@@ -2543,11 +1149,27 @@
         "documentation": {}
     },
     {
-        "label": "admin",
-        "importPath": "django.contrib",
-        "description": "django.contrib",
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
         "isExtraImport": true,
-        "detail": "django.contrib",
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
         "documentation": {}
     },
     {
@@ -2572,6 +1194,38 @@
         "description": "django.contrib.auth.models",
         "isExtraImport": true,
         "detail": "django.contrib.auth.models",
+        "documentation": {}
+    },
+    {
+        "label": "serializers",
+        "importPath": "rest_framework",
+        "description": "rest_framework",
+        "isExtraImport": true,
+        "detail": "rest_framework",
+        "documentation": {}
+    },
+    {
+        "label": "viewsets",
+        "importPath": "rest_framework",
+        "description": "rest_framework",
+        "isExtraImport": true,
+        "detail": "rest_framework",
+        "documentation": {}
+    },
+    {
+        "label": "filters",
+        "importPath": "rest_framework",
+        "description": "rest_framework",
+        "isExtraImport": true,
+        "detail": "rest_framework",
+        "documentation": {}
+    },
+    {
+        "label": "status",
+        "importPath": "rest_framework",
+        "description": "rest_framework",
+        "isExtraImport": true,
+        "detail": "rest_framework",
         "documentation": {}
     },
     {
@@ -2607,6 +1261,54 @@
         "documentation": {}
     },
     {
+        "label": "path",
+        "importPath": "django.urls",
+        "description": "django.urls",
+        "isExtraImport": true,
+        "detail": "django.urls",
+        "documentation": {}
+    },
+    {
+        "label": "include",
+        "importPath": "django.urls",
+        "description": "django.urls",
+        "isExtraImport": true,
+        "detail": "django.urls",
+        "documentation": {}
+    },
+    {
+        "label": "path",
+        "importPath": "django.urls",
+        "description": "django.urls",
+        "isExtraImport": true,
+        "detail": "django.urls",
+        "documentation": {}
+    },
+    {
+        "label": "include",
+        "importPath": "django.urls",
+        "description": "django.urls",
+        "isExtraImport": true,
+        "detail": "django.urls",
+        "documentation": {}
+    },
+    {
+        "label": "DefaultRouter",
+        "importPath": "rest_framework.routers",
+        "description": "rest_framework.routers",
+        "isExtraImport": true,
+        "detail": "rest_framework.routers",
+        "documentation": {}
+    },
+    {
+        "label": "action",
+        "importPath": "rest_framework.decorators",
+        "description": "rest_framework.decorators",
+        "isExtraImport": true,
+        "detail": "rest_framework.decorators",
+        "documentation": {}
+    },
+    {
         "label": "IsAuthenticated",
         "importPath": "rest_framework.permissions",
         "description": "rest_framework.permissions",
@@ -2628,6 +1330,30 @@
         "description": "rest_framework.permissions",
         "isExtraImport": true,
         "detail": "rest_framework.permissions",
+        "documentation": {}
+    },
+    {
+        "label": "Response",
+        "importPath": "rest_framework.response",
+        "description": "rest_framework.response",
+        "isExtraImport": true,
+        "detail": "rest_framework.response",
+        "documentation": {}
+    },
+    {
+        "label": "extend_schema",
+        "importPath": "drf_spectacular.utils",
+        "description": "drf_spectacular.utils",
+        "isExtraImport": true,
+        "detail": "drf_spectacular.utils",
+        "documentation": {}
+    },
+    {
+        "label": "OpenApiParameter",
+        "importPath": "drf_spectacular.utils",
+        "description": "drf_spectacular.utils",
+        "isExtraImport": true,
+        "detail": "drf_spectacular.utils",
         "documentation": {}
     },
     {
@@ -2711,11 +1437,27 @@
         "documentation": {}
     },
     {
-        "label": "Path",
-        "importPath": "pathlib",
-        "description": "pathlib",
+        "label": "config",
+        "importPath": "decouple",
+        "description": "decouple",
         "isExtraImport": true,
-        "detail": "pathlib",
+        "detail": "decouple",
+        "documentation": {}
+    },
+    {
+        "label": "SpectacularAPIView",
+        "importPath": "drf_spectacular.views",
+        "description": "drf_spectacular.views",
+        "isExtraImport": true,
+        "detail": "drf_spectacular.views",
+        "documentation": {}
+    },
+    {
+        "label": "SpectacularSwaggerView",
+        "importPath": "drf_spectacular.views",
+        "description": "drf_spectacular.views",
+        "isExtraImport": true,
+        "detail": "drf_spectacular.views",
         "documentation": {}
     },
     {
@@ -2724,6 +1466,14 @@
         "description": "users.views",
         "isExtraImport": true,
         "detail": "users.views",
+        "documentation": {}
+    },
+    {
+        "label": "settings",
+        "importPath": "django.conf",
+        "description": "django.conf",
+        "isExtraImport": true,
+        "detail": "django.conf",
         "documentation": {}
     },
     {
@@ -2740,6 +1490,194 @@
         "description": "django.contrib import admin  #",
         "isExtraImport": true,
         "detail": "django.contrib import admin  #",
+        "documentation": {}
+    },
+    {
+        "label": "get_wsgi_application",
+        "importPath": "django.core.wsgi",
+        "description": "django.core.wsgi",
+        "isExtraImport": true,
+        "detail": "django.core.wsgi",
+        "documentation": {}
+    },
+    {
+        "label": "charger_modele_et_data",
+        "kind": 2,
+        "importPath": "dvc.evaluate",
+        "description": "dvc.evaluate",
+        "peekOfCode": "def charger_modele_et_data():\n    logger.info(\"Chargement du modèle et des données...\")\n    model = joblib.load(MODEL_PATH)\n    df    = pd.read_csv(DATA_PATH)\n    return model, df\ndef calculer_rmse_mae(df: pd.DataFrame, model: dict) -> tuple:\n    \"\"\"\n    Calcule RMSE et MAE en mode leave-one-out :\n    Pour chaque utilisateur connu, on masque un emprunt et on prédit son score.\n    \"\"\"",
+        "detail": "dvc.evaluate",
+        "documentation": {}
+    },
+    {
+        "label": "calculer_rmse_mae",
+        "kind": 2,
+        "importPath": "dvc.evaluate",
+        "description": "dvc.evaluate",
+        "peekOfCode": "def calculer_rmse_mae(df: pd.DataFrame, model: dict) -> tuple:\n    \"\"\"\n    Calcule RMSE et MAE en mode leave-one-out :\n    Pour chaque utilisateur connu, on masque un emprunt et on prédit son score.\n    \"\"\"\n    logger.info(\"Calcul RMSE / MAE...\")\n    user_ids   = model['user_ids']\n    livre_ids  = model['livre_ids']\n    matrice    = model['matrice']\n    user_factors = model['user_factors']",
+        "detail": "dvc.evaluate",
+        "documentation": {}
+    },
+    {
+        "label": "calculer_precision_rappel_at_k",
+        "kind": 2,
+        "importPath": "dvc.evaluate",
+        "description": "dvc.evaluate",
+        "peekOfCode": "def calculer_precision_rappel_at_k(model: dict, k: int = K) -> tuple:\n    \"\"\"\n    Précision@K et Rappel@K via validation croisée :\n    On masque 20% des interactions et on vérifie si elles apparaissent dans les top-K.\n    \"\"\"\n    logger.info(f\"Calcul Précision@{k} et Rappel@{k}...\")\n    user_ids     = model['user_ids']\n    livre_ids    = model['livre_ids']\n    matrice      = model['matrice']\n    user_factors = model['user_factors']",
+        "detail": "dvc.evaluate",
+        "documentation": {}
+    },
+    {
+        "label": "main",
+        "kind": 2,
+        "importPath": "dvc.evaluate",
+        "description": "dvc.evaluate",
+        "peekOfCode": "def main():\n    logger.info(\"=== Évaluation DVC — Début ===\")\n    if not MODEL_PATH.exists():\n        raise FileNotFoundError(f\"Modèle introuvable : {MODEL_PATH}. Lancez train.py d'abord.\")\n    if not DATA_PATH.exists():\n        raise FileNotFoundError(f\"Données introuvables : {DATA_PATH}. Lancez preprocess.py d'abord.\")\n    model, df = charger_modele_et_data()\n    # Charger les infos d'entraînement\n    training_info = model.get('training_info', {})\n    # Calculer les métriques",
+        "detail": "dvc.evaluate",
+        "documentation": {}
+    },
+    {
+        "label": "logger",
+        "kind": 5,
+        "importPath": "dvc.evaluate",
+        "description": "dvc.evaluate",
+        "peekOfCode": "logger = logging.getLogger(__name__)\nDATA_PATH    = Path('data/loans_clean.csv')\nMODEL_PATH   = Path('model/model.pkl')\nMETRICS_PATH = Path('metrics.json')\nK            = 5   # Top-K pour Précision@K et Rappel@K\ndef charger_modele_et_data():\n    logger.info(\"Chargement du modèle et des données...\")\n    model = joblib.load(MODEL_PATH)\n    df    = pd.read_csv(DATA_PATH)\n    return model, df",
+        "detail": "dvc.evaluate",
+        "documentation": {}
+    },
+    {
+        "label": "METRICS_PATH",
+        "kind": 5,
+        "importPath": "dvc.evaluate",
+        "description": "dvc.evaluate",
+        "peekOfCode": "METRICS_PATH = Path('metrics.json')\nK            = 5   # Top-K pour Précision@K et Rappel@K\ndef charger_modele_et_data():\n    logger.info(\"Chargement du modèle et des données...\")\n    model = joblib.load(MODEL_PATH)\n    df    = pd.read_csv(DATA_PATH)\n    return model, df\ndef calculer_rmse_mae(df: pd.DataFrame, model: dict) -> tuple:\n    \"\"\"\n    Calcule RMSE et MAE en mode leave-one-out :",
+        "detail": "dvc.evaluate",
+        "documentation": {}
+    },
+    {
+        "label": "charger_donnees",
+        "kind": 2,
+        "importPath": "dvc.preprocess",
+        "description": "dvc.preprocess",
+        "peekOfCode": "def charger_donnees(path: Path) -> pd.DataFrame:\n    logger.info(f\"Chargement de {path} ...\")\n    df = pd.read_csv(path)\n    logger.info(f\"  {len(df)} lignes chargées, colonnes : {list(df.columns)}\")\n    return df\ndef nettoyer(df: pd.DataFrame) -> pd.DataFrame:\n    stats = {'initial': len(df)}\n    # 1. Supprimer les doublons\n    avant = len(df)\n    df = df.drop_duplicates()",
+        "detail": "dvc.preprocess",
+        "documentation": {}
+    },
+    {
+        "label": "nettoyer",
+        "kind": 2,
+        "importPath": "dvc.preprocess",
+        "description": "dvc.preprocess",
+        "peekOfCode": "def nettoyer(df: pd.DataFrame) -> pd.DataFrame:\n    stats = {'initial': len(df)}\n    # 1. Supprimer les doublons\n    avant = len(df)\n    df = df.drop_duplicates()\n    stats['doublons_supprimes'] = avant - len(df)\n    logger.info(f\"  Doublons supprimés : {stats['doublons_supprimes']}\")\n    # 2. Supprimer les lignes avec utilisateur_id ou livre_id manquants\n    avant = len(df)\n    df = df.dropna(subset=['utilisateur_id', 'livre_id'])",
+        "detail": "dvc.preprocess",
+        "documentation": {}
+    },
+    {
+        "label": "main",
+        "kind": 2,
+        "importPath": "dvc.preprocess",
+        "description": "dvc.preprocess",
+        "peekOfCode": "def main():\n    logger.info(\"=== Prétraitement DVC — Début ===\")\n    if not INPUT_PATH.exists():\n        # Générer des données de démonstration si le CSV n'existe pas encore\n        logger.warning(f\"{INPUT_PATH} introuvable → génération de données de démonstration...\")\n        generer_donnees_demo()\n    df = charger_donnees(INPUT_PATH)\n    df_clean, stats = nettoyer(df)\n    # Sauvegarder\n    OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)",
+        "detail": "dvc.preprocess",
+        "documentation": {}
+    },
+    {
+        "label": "generer_donnees_demo",
+        "kind": 2,
+        "importPath": "dvc.preprocess",
+        "description": "dvc.preprocess",
+        "peekOfCode": "def generer_donnees_demo():\n    \"\"\"Génère un CSV de démonstration pour les tests du pipeline.\"\"\"\n    import random\n    from datetime import date, timedelta\n    random.seed(42)\n    today = date.today()\n    rows = []\n    for i in range(1, 201):\n        utilisateur_id = random.randint(1, 20)\n        livre_id       = random.randint(1, 30)",
+        "detail": "dvc.preprocess",
+        "documentation": {}
+    },
+    {
+        "label": "logger",
+        "kind": 5,
+        "importPath": "dvc.preprocess",
+        "description": "dvc.preprocess",
+        "peekOfCode": "logger = logging.getLogger(__name__)\nINPUT_PATH  = Path('data/loans.csv')\nOUTPUT_PATH = Path('data/loans_clean.csv')\nSTATS_PATH  = Path('data/preprocess_stats.json')\ndef charger_donnees(path: Path) -> pd.DataFrame:\n    logger.info(f\"Chargement de {path} ...\")\n    df = pd.read_csv(path)\n    logger.info(f\"  {len(df)} lignes chargées, colonnes : {list(df.columns)}\")\n    return df\ndef nettoyer(df: pd.DataFrame) -> pd.DataFrame:",
+        "detail": "dvc.preprocess",
+        "documentation": {}
+    },
+    {
+        "label": "OUTPUT_PATH",
+        "kind": 5,
+        "importPath": "dvc.preprocess",
+        "description": "dvc.preprocess",
+        "peekOfCode": "OUTPUT_PATH = Path('data/loans_clean.csv')\nSTATS_PATH  = Path('data/preprocess_stats.json')\ndef charger_donnees(path: Path) -> pd.DataFrame:\n    logger.info(f\"Chargement de {path} ...\")\n    df = pd.read_csv(path)\n    logger.info(f\"  {len(df)} lignes chargées, colonnes : {list(df.columns)}\")\n    return df\ndef nettoyer(df: pd.DataFrame) -> pd.DataFrame:\n    stats = {'initial': len(df)}\n    # 1. Supprimer les doublons",
+        "detail": "dvc.preprocess",
+        "documentation": {}
+    },
+    {
+        "label": "charger_params",
+        "kind": 2,
+        "importPath": "dvc.train",
+        "description": "dvc.train",
+        "peekOfCode": "def charger_params() -> dict:\n    \"\"\"Charge les hyperparamètres depuis params.yaml.\"\"\"\n    try:\n        import yaml\n        with open(PARAMS_PATH) as f:\n            return yaml.safe_load(f).get('train', {})\n    except Exception:\n        logger.warning(\"params.yaml introuvable, utilisation des valeurs par défaut.\")\n        return {}\ndef construire_matrice(df: pd.DataFrame):",
+        "detail": "dvc.train",
+        "documentation": {}
+    },
+    {
+        "label": "construire_matrice",
+        "kind": 2,
+        "importPath": "dvc.train",
+        "description": "dvc.train",
+        "peekOfCode": "def construire_matrice(df: pd.DataFrame):\n    \"\"\"Construit la matrice utilisateur × livre avec scores implicites.\"\"\"\n    logger.info(\"Construction de la matrice utilisateur × livre...\")\n    # Agréger les scores par paire (utilisateur, livre)\n    df_agg = df.groupby(['utilisateur_id', 'livre_id'])['score'].sum().reset_index()\n    # Pivot en matrice dense\n    matrice_df = df_agg.pivot(\n        index='utilisateur_id',\n        columns='livre_id',\n        values='score'",
+        "detail": "dvc.train",
+        "documentation": {}
+    },
+    {
+        "label": "entrainer_svd",
+        "kind": 2,
+        "importPath": "dvc.train",
+        "description": "dvc.train",
+        "peekOfCode": "def entrainer_svd(matrice: np.ndarray, n_components: int):\n    \"\"\"Entraîne le modèle SVD.\"\"\"\n    logger.info(f\"Entraînement SVD (n_components={n_components})...\")\n    n_comp = min(n_components, min(matrice.shape) - 1)\n    svd = TruncatedSVD(n_components=n_comp, n_iter=10, random_state=42)\n    user_factors = svd.fit_transform(matrice)\n    user_factors = normalize(user_factors)\n    variance = float(svd.explained_variance_ratio_.sum())\n    logger.info(f\"  Variance expliquée : {variance:.2%}\")\n    return svd, user_factors, variance",
+        "detail": "dvc.train",
+        "documentation": {}
+    },
+    {
+        "label": "entrainer_knn",
+        "kind": 2,
+        "importPath": "dvc.train",
+        "description": "dvc.train",
+        "peekOfCode": "def entrainer_knn(matrice: np.ndarray, n_neighbors: int):\n    \"\"\"Entraîne un modèle KNN pour la similarité entre utilisateurs.\"\"\"\n    logger.info(f\"Entraînement KNN (n_neighbors={n_neighbors})...\")\n    knn = NearestNeighbors(\n        n_neighbors=min(n_neighbors, matrice.shape[0]),\n        metric='cosine',\n        algorithm='brute',\n    )\n    knn.fit(matrice)\n    logger.info(\"  KNN entraîné.\")",
+        "detail": "dvc.train",
+        "documentation": {}
+    },
+    {
+        "label": "evaluer_couverture",
+        "kind": 2,
+        "importPath": "dvc.train",
+        "description": "dvc.train",
+        "peekOfCode": "def evaluer_couverture(matrice: np.ndarray, user_factors: np.ndarray,\n                        user_ids: list, livre_ids: list, n: int = 5) -> float:\n    \"\"\"\n    Calcule la couverture du catalogue :\n    proportion de livres recommandés au moins une fois sur l'ensemble des utilisateurs.\n    \"\"\"\n    livres_recommandes = set()\n    for idx in range(len(user_ids)):\n        vecteur = user_factors[idx]\n        similarites = user_factors @ vecteur",
+        "detail": "dvc.train",
+        "documentation": {}
+    },
+    {
+        "label": "main",
+        "kind": 2,
+        "importPath": "dvc.train",
+        "description": "dvc.train",
+        "peekOfCode": "def main():\n    logger.info(\"=== Entraînement DVC — Début ===\")\n    # Charger les paramètres\n    params = charger_params()\n    n_components = params.get('n_components', 10)\n    n_neighbors  = params.get('n_neighbors', 5)\n    algorithme   = params.get('algorithme', 'svd')\n    # Charger les données\n    if not INPUT_PATH.exists():\n        raise FileNotFoundError(f\"Fichier introuvable : {INPUT_PATH}. Lancez preprocess.py d'abord.\")",
+        "detail": "dvc.train",
+        "documentation": {}
+    },
+    {
+        "label": "logger",
+        "kind": 5,
+        "importPath": "dvc.train",
+        "description": "dvc.train",
+        "peekOfCode": "logger = logging.getLogger(__name__)\nINPUT_PATH  = Path('data/loans_clean.csv')\nMODEL_PATH  = Path('model/model.pkl')\nPARAMS_PATH = Path('params.yaml')\ndef charger_params() -> dict:\n    \"\"\"Charge les hyperparamètres depuis params.yaml.\"\"\"\n    try:\n        import yaml\n        with open(PARAMS_PATH) as f:\n            return yaml.safe_load(f).get('train', {})",
+        "detail": "dvc.train",
+        "documentation": {}
+    },
+    {
+        "label": "PARAMS_PATH",
+        "kind": 5,
+        "importPath": "dvc.train",
+        "description": "dvc.train",
+        "peekOfCode": "PARAMS_PATH = Path('params.yaml')\ndef charger_params() -> dict:\n    \"\"\"Charge les hyperparamètres depuis params.yaml.\"\"\"\n    try:\n        import yaml\n        with open(PARAMS_PATH) as f:\n            return yaml.safe_load(f).get('train', {})\n    except Exception:\n        logger.warning(\"params.yaml introuvable, utilisation des valeurs par défaut.\")\n        return {}",
+        "detail": "dvc.train",
         "documentation": {}
     },
     {
@@ -2821,807 +1759,6 @@
         "description": "emprunts..venv.bin.activate_this",
         "peekOfCode": "sys.prefix = base",
         "detail": "emprunts..venv.bin.activate_this",
-        "documentation": {}
-    },
-    {
-        "label": "SECRET_KEY",
-        "kind": 5,
-        "importPath": "emprunts.src.drf.settings",
-        "description": "emprunts.src.drf.settings",
-        "peekOfCode": "SECRET_KEY = config(\n    'SECRET_KEY', default='django-insecure-emprunts-service-key')\n# DEBUG = config('DEBUG', default=True, cast=bool)\nDEBUG = True\nALLOWED_HOSTS = config('ALLOWED_HOSTS', default='*').split(',')\nINSTALLED_APPS = [\n    'django.contrib.contenttypes',\n    'rest_framework',\n    'corsheaders',\n    'drf_spectacular',",
-        "detail": "emprunts.src.drf.settings",
-        "documentation": {}
-    },
-    {
-        "label": "DEBUG",
-        "kind": 5,
-        "importPath": "emprunts.src.drf.settings",
-        "description": "emprunts.src.drf.settings",
-        "peekOfCode": "DEBUG = True\nALLOWED_HOSTS = config('ALLOWED_HOSTS', default='*').split(',')\nINSTALLED_APPS = [\n    'django.contrib.contenttypes',\n    'rest_framework',\n    'corsheaders',\n    'drf_spectacular',\n    'loans',\n]\nMIDDLEWARE = [",
-        "detail": "emprunts.src.drf.settings",
-        "documentation": {}
-    },
-    {
-        "label": "ALLOWED_HOSTS",
-        "kind": 5,
-        "importPath": "emprunts.src.drf.settings",
-        "description": "emprunts.src.drf.settings",
-        "peekOfCode": "ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='*').split(',')\nINSTALLED_APPS = [\n    'django.contrib.contenttypes',\n    'rest_framework',\n    'corsheaders',\n    'drf_spectacular',\n    'loans',\n]\nMIDDLEWARE = [\n    'corsheaders.middleware.CorsMiddleware',",
-        "detail": "emprunts.src.drf.settings",
-        "documentation": {}
-    },
-    {
-        "label": "INSTALLED_APPS",
-        "kind": 5,
-        "importPath": "emprunts.src.drf.settings",
-        "description": "emprunts.src.drf.settings",
-        "peekOfCode": "INSTALLED_APPS = [\n    'django.contrib.contenttypes',\n    'rest_framework',\n    'corsheaders',\n    'drf_spectacular',\n    'loans',\n]\nMIDDLEWARE = [\n    'corsheaders.middleware.CorsMiddleware',\n    'django.middleware.common.CommonMiddleware',",
-        "detail": "emprunts.src.drf.settings",
-        "documentation": {}
-    },
-    {
-        "label": "MIDDLEWARE",
-        "kind": 5,
-        "importPath": "emprunts.src.drf.settings",
-        "description": "emprunts.src.drf.settings",
-        "peekOfCode": "MIDDLEWARE = [\n    'corsheaders.middleware.CorsMiddleware',\n    'django.middleware.common.CommonMiddleware',\n    \"loans.adapters.middlewares.jwt_auth.JWTAuthMiddleware\",\n]\nROOT_URLCONF = 'drf.urls'\nDATABASES = {\n    'default': {\n        'ENGINE': 'django.db.backends.postgresql',\n        'NAME': config(\"DB_NAME\"),",
-        "detail": "emprunts.src.drf.settings",
-        "documentation": {}
-    },
-    {
-        "label": "ROOT_URLCONF",
-        "kind": 5,
-        "importPath": "emprunts.src.drf.settings",
-        "description": "emprunts.src.drf.settings",
-        "peekOfCode": "ROOT_URLCONF = 'drf.urls'\nDATABASES = {\n    'default': {\n        'ENGINE': 'django.db.backends.postgresql',\n        'NAME': config(\"DB_NAME\"),\n        'USER': config(\"POSTGRES_USER\"),\n        'PASSWORD': config('POSTGRES_PASSWORD', default='postgres123'),\n        'HOST': config(\"DB_HOST\"),\n        'PORT': config(\"DB_PORT\"),\n    }",
-        "detail": "emprunts.src.drf.settings",
-        "documentation": {}
-    },
-    {
-        "label": "DATABASES",
-        "kind": 5,
-        "importPath": "emprunts.src.drf.settings",
-        "description": "emprunts.src.drf.settings",
-        "peekOfCode": "DATABASES = {\n    'default': {\n        'ENGINE': 'django.db.backends.postgresql',\n        'NAME': config(\"DB_NAME\"),\n        'USER': config(\"POSTGRES_USER\"),\n        'PASSWORD': config('POSTGRES_PASSWORD', default='postgres123'),\n        'HOST': config(\"DB_HOST\"),\n        'PORT': config(\"DB_PORT\"),\n    }\n}",
-        "detail": "emprunts.src.drf.settings",
-        "documentation": {}
-    },
-    {
-        "label": "REST_FRAMEWORK",
-        "kind": 5,
-        "importPath": "emprunts.src.drf.settings",
-        "description": "emprunts.src.drf.settings",
-        "peekOfCode": "REST_FRAMEWORK = {\n    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',\n    'DEFAULT_RENDERER_CLASSES': [\n        'rest_framework.renderers.JSONRenderer',\n    ],\n    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',\n    'PAGE_SIZE': 20,\n    \"DEFAULT_AUTHENTICATION_CLASSES\": [],\n    \"DEFAULT_PERMISSION_CLASSES\": [],\n    \"UNAUTHENTICATED_USER\": None",
-        "detail": "emprunts.src.drf.settings",
-        "documentation": {}
-    },
-    {
-        "label": "SPECTACULAR_SETTINGS",
-        "kind": 5,
-        "importPath": "emprunts.src.drf.settings",
-        "description": "emprunts.src.drf.settings",
-        "peekOfCode": "SPECTACULAR_SETTINGS = {\n    'TITLE': 'Service Emprunts API',\n    'DESCRIPTION': 'API de gestion des emprunts — Bibliothèque DIT',\n    'VERSION': '1.0.0',\n}\n# URLs des autres microservices\nSERVICE_LIVRES_URL = config('SERVICE_LIVRES_URL')\nSERVICE_UTILISATEURS_URL = config(\n    'SERVICE_UTILISATEURS_URL',)\nCORS_ALLOW_ALL_ORIGINS = True",
-        "detail": "emprunts.src.drf.settings",
-        "documentation": {}
-    },
-    {
-        "label": "SERVICE_LIVRES_URL",
-        "kind": 5,
-        "importPath": "emprunts.src.drf.settings",
-        "description": "emprunts.src.drf.settings",
-        "peekOfCode": "SERVICE_LIVRES_URL = config('SERVICE_LIVRES_URL')\nSERVICE_UTILISATEURS_URL = config(\n    'SERVICE_UTILISATEURS_URL',)\nCORS_ALLOW_ALL_ORIGINS = True\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nLANGUAGE_CODE = 'fr-fr'\nTIME_ZONE = 'Africa/Dakar'\nUSE_TZ = True\n# Models/Migrations\nMIGRATION_MODULES = {",
-        "detail": "emprunts.src.drf.settings",
-        "documentation": {}
-    },
-    {
-        "label": "SERVICE_UTILISATEURS_URL",
-        "kind": 5,
-        "importPath": "emprunts.src.drf.settings",
-        "description": "emprunts.src.drf.settings",
-        "peekOfCode": "SERVICE_UTILISATEURS_URL = config(\n    'SERVICE_UTILISATEURS_URL',)\nCORS_ALLOW_ALL_ORIGINS = True\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nLANGUAGE_CODE = 'fr-fr'\nTIME_ZONE = 'Africa/Dakar'\nUSE_TZ = True\n# Models/Migrations\nMIGRATION_MODULES = {\n    'loans': 'loans.adapters.database.migrations',",
-        "detail": "emprunts.src.drf.settings",
-        "documentation": {}
-    },
-    {
-        "label": "CORS_ALLOW_ALL_ORIGINS",
-        "kind": 5,
-        "importPath": "emprunts.src.drf.settings",
-        "description": "emprunts.src.drf.settings",
-        "peekOfCode": "CORS_ALLOW_ALL_ORIGINS = True\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nLANGUAGE_CODE = 'fr-fr'\nTIME_ZONE = 'Africa/Dakar'\nUSE_TZ = True\n# Models/Migrations\nMIGRATION_MODULES = {\n    'loans': 'loans.adapters.database.migrations',\n}\n# JWT Settings",
-        "detail": "emprunts.src.drf.settings",
-        "documentation": {}
-    },
-    {
-        "label": "DEFAULT_AUTO_FIELD",
-        "kind": 5,
-        "importPath": "emprunts.src.drf.settings",
-        "description": "emprunts.src.drf.settings",
-        "peekOfCode": "DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nLANGUAGE_CODE = 'fr-fr'\nTIME_ZONE = 'Africa/Dakar'\nUSE_TZ = True\n# Models/Migrations\nMIGRATION_MODULES = {\n    'loans': 'loans.adapters.database.migrations',\n}\n# JWT Settings\nJWT_SECRET_KEY = config(\"JWT_SECRET_KEY\")",
-        "detail": "emprunts.src.drf.settings",
-        "documentation": {}
-    },
-    {
-        "label": "LANGUAGE_CODE",
-        "kind": 5,
-        "importPath": "emprunts.src.drf.settings",
-        "description": "emprunts.src.drf.settings",
-        "peekOfCode": "LANGUAGE_CODE = 'fr-fr'\nTIME_ZONE = 'Africa/Dakar'\nUSE_TZ = True\n# Models/Migrations\nMIGRATION_MODULES = {\n    'loans': 'loans.adapters.database.migrations',\n}\n# JWT Settings\nJWT_SECRET_KEY = config(\"JWT_SECRET_KEY\")\nJWT_ALGORITHM = config(\"JWT_ALGORITHM\")",
-        "detail": "emprunts.src.drf.settings",
-        "documentation": {}
-    },
-    {
-        "label": "TIME_ZONE",
-        "kind": 5,
-        "importPath": "emprunts.src.drf.settings",
-        "description": "emprunts.src.drf.settings",
-        "peekOfCode": "TIME_ZONE = 'Africa/Dakar'\nUSE_TZ = True\n# Models/Migrations\nMIGRATION_MODULES = {\n    'loans': 'loans.adapters.database.migrations',\n}\n# JWT Settings\nJWT_SECRET_KEY = config(\"JWT_SECRET_KEY\")\nJWT_ALGORITHM = config(\"JWT_ALGORITHM\")\nJWT_COOKIE_NAME = config(\"JWT_COOKIE_NAME\")",
-        "detail": "emprunts.src.drf.settings",
-        "documentation": {}
-    },
-    {
-        "label": "USE_TZ",
-        "kind": 5,
-        "importPath": "emprunts.src.drf.settings",
-        "description": "emprunts.src.drf.settings",
-        "peekOfCode": "USE_TZ = True\n# Models/Migrations\nMIGRATION_MODULES = {\n    'loans': 'loans.adapters.database.migrations',\n}\n# JWT Settings\nJWT_SECRET_KEY = config(\"JWT_SECRET_KEY\")\nJWT_ALGORITHM = config(\"JWT_ALGORITHM\")\nJWT_COOKIE_NAME = config(\"JWT_COOKIE_NAME\")",
-        "detail": "emprunts.src.drf.settings",
-        "documentation": {}
-    },
-    {
-        "label": "MIGRATION_MODULES",
-        "kind": 5,
-        "importPath": "emprunts.src.drf.settings",
-        "description": "emprunts.src.drf.settings",
-        "peekOfCode": "MIGRATION_MODULES = {\n    'loans': 'loans.adapters.database.migrations',\n}\n# JWT Settings\nJWT_SECRET_KEY = config(\"JWT_SECRET_KEY\")\nJWT_ALGORITHM = config(\"JWT_ALGORITHM\")\nJWT_COOKIE_NAME = config(\"JWT_COOKIE_NAME\")",
-        "detail": "emprunts.src.drf.settings",
-        "documentation": {}
-    },
-    {
-        "label": "JWT_SECRET_KEY",
-        "kind": 5,
-        "importPath": "emprunts.src.drf.settings",
-        "description": "emprunts.src.drf.settings",
-        "peekOfCode": "JWT_SECRET_KEY = config(\"JWT_SECRET_KEY\")\nJWT_ALGORITHM = config(\"JWT_ALGORITHM\")\nJWT_COOKIE_NAME = config(\"JWT_COOKIE_NAME\")",
-        "detail": "emprunts.src.drf.settings",
-        "documentation": {}
-    },
-    {
-        "label": "JWT_ALGORITHM",
-        "kind": 5,
-        "importPath": "emprunts.src.drf.settings",
-        "description": "emprunts.src.drf.settings",
-        "peekOfCode": "JWT_ALGORITHM = config(\"JWT_ALGORITHM\")\nJWT_COOKIE_NAME = config(\"JWT_COOKIE_NAME\")",
-        "detail": "emprunts.src.drf.settings",
-        "documentation": {}
-    },
-    {
-        "label": "JWT_COOKIE_NAME",
-        "kind": 5,
-        "importPath": "emprunts.src.drf.settings",
-        "description": "emprunts.src.drf.settings",
-        "peekOfCode": "JWT_COOKIE_NAME = config(\"JWT_COOKIE_NAME\")",
-        "detail": "emprunts.src.drf.settings",
-        "documentation": {}
-    },
-    {
-        "label": "urlpatterns",
-        "kind": 5,
-        "importPath": "emprunts.src.drf.urls",
-        "description": "emprunts.src.drf.urls",
-        "peekOfCode": "urlpatterns = [\n    path('api/', include('loans.adapters.http.urls')),\n] + urlpatterns_scalar",
-        "detail": "emprunts.src.drf.urls",
-        "documentation": {}
-    },
-    {
-        "label": "application",
-        "kind": 5,
-        "importPath": "emprunts.src.drf.wsgi",
-        "description": "emprunts.src.drf.wsgi",
-        "peekOfCode": "application = get_wsgi_application()",
-        "detail": "emprunts.src.drf.wsgi",
-        "documentation": {}
-    },
-    {
-        "label": "Migration",
-        "kind": 6,
-        "importPath": "emprunts.src.loans.adapters.database.migrations.0001_initial",
-        "description": "emprunts.src.loans.adapters.database.migrations.0001_initial",
-        "peekOfCode": "class Migration(migrations.Migration):\n    initial = True\n    dependencies = [\n    ]\n    operations = [\n        migrations.CreateModel(\n            name='Emprunt',\n            fields=[\n                ('id', models.UUIDField(primary_key=True, serialize=False)),\n                ('utilisateur_id', models.CharField(",
-        "detail": "emprunts.src.loans.adapters.database.migrations.0001_initial",
-        "documentation": {}
-    },
-    {
-        "label": "Migration",
-        "kind": 6,
-        "importPath": "emprunts.src.loans.adapters.database.migrations.0002_rename_notes_emprunt_comment_and_more",
-        "description": "emprunts.src.loans.adapters.database.migrations.0002_rename_notes_emprunt_comment_and_more",
-        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('loans', '0001_initial'),\n    ]\n    operations = [\n        migrations.RenameField(\n            model_name='emprunt',\n            old_name='notes',\n            new_name='comment',\n        ),",
-        "detail": "emprunts.src.loans.adapters.database.migrations.0002_rename_notes_emprunt_comment_and_more",
-        "documentation": {}
-    },
-    {
-        "label": "Migration",
-        "kind": 6,
-        "importPath": "emprunts.src.loans.adapters.database.migrations.0003_retouremprunt",
-        "description": "emprunts.src.loans.adapters.database.migrations.0003_retouremprunt",
-        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('loans', '0002_rename_notes_emprunt_comment_and_more'),\n    ]\n    operations = [\n        migrations.CreateModel(\n            name='RetourEmprunt',\n            fields=[\n                ('id', models.UUIDField(primary_key=True, serialize=False)),\n            ],",
-        "detail": "emprunts.src.loans.adapters.database.migrations.0003_retouremprunt",
-        "documentation": {}
-    },
-    {
-        "label": "Migration",
-        "kind": 6,
-        "importPath": "emprunts.src.loans.adapters.database.migrations.0004_emprunt_before_notification_is_sent_and_more",
-        "description": "emprunts.src.loans.adapters.database.migrations.0004_emprunt_before_notification_is_sent_and_more",
-        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('loans', '0003_retouremprunt'),\n    ]\n    operations = [\n        migrations.AddField(\n            model_name='emprunt',\n            name='before_notification_is_sent',\n            field=models.BooleanField(default=False),\n        ),",
-        "detail": "emprunts.src.loans.adapters.database.migrations.0004_emprunt_before_notification_is_sent_and_more",
-        "documentation": {}
-    },
-    {
-        "label": "Migration",
-        "kind": 6,
-        "importPath": "emprunts.src.loans.adapters.database.migrations.0005_emprunt_rating",
-        "description": "emprunts.src.loans.adapters.database.migrations.0005_emprunt_rating",
-        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('loans', '0004_emprunt_before_notification_is_sent_and_more'),\n    ]\n    operations = [\n        migrations.AddField(\n            model_name='emprunt',\n            name='rating',\n            field=models.PositiveSmallIntegerField(blank=True, null=True),\n        ),",
-        "detail": "emprunts.src.loans.adapters.database.migrations.0005_emprunt_rating",
-        "documentation": {}
-    },
-    {
-        "label": "Migration",
-        "kind": 6,
-        "importPath": "emprunts.src.loans.adapters.database.migrations.0006_emprunt_notes",
-        "description": "emprunts.src.loans.adapters.database.migrations.0006_emprunt_notes",
-        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('loans', '0005_emprunt_rating'),\n    ]\n    operations = [\n        migrations.AddField(\n            model_name='emprunt',\n            name='notes',\n            field=models.TextField(blank=True),\n        ),",
-        "detail": "emprunts.src.loans.adapters.database.migrations.0006_emprunt_notes",
-        "documentation": {}
-    },
-    {
-        "label": "Emprunt",
-        "kind": 6,
-        "importPath": "emprunts.src.loans.adapters.database.models.emprunt",
-        "description": "emprunts.src.loans.adapters.database.models.emprunt",
-        "peekOfCode": "class Emprunt(models.Model):\n    # New\n    id = models.UUIDField(primary_key=True)\n    # Références inter-services (IDs sans FK)\n    utilisateur_id = models.CharField(max_length=255, db_index=True)\n    livre_id = models.CharField(max_length=255, db_index=True)\n    # Dénormalisation pour éviter les appels répétés aux autres services\n    utilisateur_nom = models.CharField(max_length=200, blank=True)\n    utilisateur_carte = models.CharField(max_length=20, blank=True)\n    utilisateur_email = models.CharField(null=True)  # TODO: use EmailField",
-        "detail": "emprunts.src.loans.adapters.database.models.emprunt",
-        "documentation": {}
-    },
-    {
-        "label": "RetourEmprunt",
-        "kind": 6,
-        "importPath": "emprunts.src.loans.adapters.database.models.retour",
-        "description": "emprunts.src.loans.adapters.database.models.retour",
-        "peekOfCode": "class RetourEmprunt(models.Model):\n    id = models.UUIDField(primary_key=True)\n    # Others fields\n    class Meta:\n        app_label = \"loans\"",
-        "detail": "emprunts.src.loans.adapters.database.models.retour",
-        "documentation": {}
-    },
-    {
-        "label": "LoanRepositoryImpl",
-        "kind": 6,
-        "importPath": "emprunts.src.loans.adapters.database.repositories.loan_repository",
-        "description": "emprunts.src.loans.adapters.database.repositories.loan_repository",
-        "peekOfCode": "class LoanRepositoryImpl(LoanRepository):\n    def __init__(self):\n        pass\n    def save(self, loan: Loan) -> None:\n        # excluded_fields: Set[str] = {\"id\", \"date_emprunt\"}\n        defaults: Dict[str, Any] = {\n            \"livre_id\": loan.book_id,\n            \"utilisateur_id\": loan.borrower_id,\n            \"utilisateur_nom\": loan.reader.name if loan.reader else '',\n            \"utilisateur_carte\": '',",
-        "detail": "emprunts.src.loans.adapters.database.repositories.loan_repository",
-        "documentation": {}
-    },
-    {
-        "label": "BorrowABookResponseSerializer",
-        "kind": 6,
-        "importPath": "emprunts.src.loans.adapters.http.serializers",
-        "description": "emprunts.src.loans.adapters.http.serializers",
-        "peekOfCode": "class BorrowABookResponseSerializer(serializers.Serializer):\n    loan_id = serializers.UUIDField(source=\"id\")\n    borrower_id = serializers.CharField()\n    borrower_name = serializers.CharField(source=\"reader.name\")\n    borrower_email = serializers.CharField(source=\"reader.email\")\n    borrowed_book = serializers.CharField(source=\"book.title\")\n    borrowed_book_id = serializers.CharField(source=\"book.id\")\nclass CreerEmpruntSerializer(serializers.Serializer):\n    \"\"\"Serializer pour créer un emprunt.\"\"\"\n    book_id = serializers.CharField()",
-        "detail": "emprunts.src.loans.adapters.http.serializers",
-        "documentation": {}
-    },
-    {
-        "label": "CreerEmpruntSerializer",
-        "kind": 6,
-        "importPath": "emprunts.src.loans.adapters.http.serializers",
-        "description": "emprunts.src.loans.adapters.http.serializers",
-        "peekOfCode": "class CreerEmpruntSerializer(serializers.Serializer):\n    \"\"\"Serializer pour créer un emprunt.\"\"\"\n    book_id = serializers.CharField()\n    term = serializers.DateField(required=False)\n    comment = serializers.CharField(\n        required=False, allow_blank=True, default=\"\")\nclass RetourEmpruntSerializer(serializers.Serializer):\n    \"\"\"Serializer pour enregistrer un retour.\"\"\"\n    loan_id = serializers.UUIDField()\nclass ReturnLoanResponseSerializer(serializers.Serializer):",
-        "detail": "emprunts.src.loans.adapters.http.serializers",
-        "documentation": {}
-    },
-    {
-        "label": "RetourEmpruntSerializer",
-        "kind": 6,
-        "importPath": "emprunts.src.loans.adapters.http.serializers",
-        "description": "emprunts.src.loans.adapters.http.serializers",
-        "peekOfCode": "class RetourEmpruntSerializer(serializers.Serializer):\n    \"\"\"Serializer pour enregistrer un retour.\"\"\"\n    loan_id = serializers.UUIDField()\nclass ReturnLoanResponseSerializer(serializers.Serializer):\n    loan_id = serializers.UUIDField(source=\"id\")\n    borrower_id = serializers.CharField()\n    borrower_name = serializers.CharField(source=\"reader.name\")\n    borrower_email = serializers.CharField(source=\"reader.email\")\n    borrowed_book = serializers.CharField(source=\"book.title\")\n    borrowed_book_id = serializers.CharField(source=\"book.id\")",
-        "detail": "emprunts.src.loans.adapters.http.serializers",
-        "documentation": {}
-    },
-    {
-        "label": "ReturnLoanResponseSerializer",
-        "kind": 6,
-        "importPath": "emprunts.src.loans.adapters.http.serializers",
-        "description": "emprunts.src.loans.adapters.http.serializers",
-        "peekOfCode": "class ReturnLoanResponseSerializer(serializers.Serializer):\n    loan_id = serializers.UUIDField(source=\"id\")\n    borrower_id = serializers.CharField()\n    borrower_name = serializers.CharField(source=\"reader.name\")\n    borrower_email = serializers.CharField(source=\"reader.email\")\n    borrowed_book = serializers.CharField(source=\"book.title\")\n    borrowed_book_id = serializers.CharField(source=\"book.id\")\nclass RateBookSerializer(serializers.Serializer):\n    loan_id = serializers.UUIDField()\n    rating = serializers.IntegerField(min_value=1, max_value=5)",
-        "detail": "emprunts.src.loans.adapters.http.serializers",
-        "documentation": {}
-    },
-    {
-        "label": "RateBookSerializer",
-        "kind": 6,
-        "importPath": "emprunts.src.loans.adapters.http.serializers",
-        "description": "emprunts.src.loans.adapters.http.serializers",
-        "peekOfCode": "class RateBookSerializer(serializers.Serializer):\n    loan_id = serializers.UUIDField()\n    rating = serializers.IntegerField(min_value=1, max_value=5)",
-        "detail": "emprunts.src.loans.adapters.http.serializers",
-        "documentation": {}
-    },
-    {
-        "label": "router",
-        "kind": 5,
-        "importPath": "emprunts.src.loans.adapters.http.urls",
-        "description": "emprunts.src.loans.adapters.http.urls",
-        "peekOfCode": "router = DefaultRouter()\nrouter.register(r'emprunts', EmpruntViewSet, basename='emprunt')\nurlpatterns = [\n    path('', include(router.urls)),\n]",
-        "detail": "emprunts.src.loans.adapters.http.urls",
-        "documentation": {}
-    },
-    {
-        "label": "urlpatterns",
-        "kind": 5,
-        "importPath": "emprunts.src.loans.adapters.http.urls",
-        "description": "emprunts.src.loans.adapters.http.urls",
-        "peekOfCode": "urlpatterns = [\n    path('', include(router.urls)),\n]",
-        "detail": "emprunts.src.loans.adapters.http.urls",
-        "documentation": {}
-    },
-    {
-        "label": "EmpruntViewSet",
-        "kind": 6,
-        "importPath": "emprunts.src.loans.adapters.http.views",
-        "description": "emprunts.src.loans.adapters.http.views",
-        "peekOfCode": "class EmpruntViewSet(viewsets.ViewSet):\n    \"\"\"\n    Gestion complète des emprunts.\n    \"\"\"\n    # filter_backends = [filters.OrderingFilter]\n    # ordering_fields = ['date_emprunt', 'date_retour_prevue', 'statut']\n    # ordering = ['-date_emprunt']\n    # http_method_names = ['get', 'post', 'patch', 'delete', 'head', 'options']\n    def get_queryset(self):\n        return Emprunt.objects.all()",
-        "detail": "emprunts.src.loans.adapters.http.views",
-        "documentation": {}
-    },
-    {
-        "label": "JWTAuthMiddleware",
-        "kind": 6,
-        "importPath": "emprunts.src.loans.adapters.middlewares.jwt_auth",
-        "description": "emprunts.src.loans.adapters.middlewares.jwt_auth",
-        "peekOfCode": "class JWTAuthMiddleware:\n    \"\"\"\n    Middleware DRF — lit le JWT depuis un cookie HttpOnly,\n    injecte user_id, user_email, user_role dans la request.\n    \"\"\"\n    EXCLUDED_PATHS = [\"/\", \"/api/docs/\", \"/api/schema/\"]\n    def __init__(self, get_response):\n        self.get_response = get_response\n    def __call__(self, request):\n        if request.path in self.EXCLUDED_PATHS:",
-        "detail": "emprunts.src.loans.adapters.middlewares.jwt_auth",
-        "documentation": {}
-    },
-    {
-        "label": "get_filter_parameters",
-        "kind": 2,
-        "importPath": "emprunts.src.loans.adapters.scalar.get_filter_parameters",
-        "description": "emprunts.src.loans.adapters.scalar.get_filter_parameters",
-        "peekOfCode": "def get_filter_parameters(filter_class: Type[FilterSet]) -> List[OpenApiParameter]:\n    \"\"\"\n    Automatically generate OpenAPI parameters from a FilterSet class.\n    Args:\n        filter_class: The FilterSet class to generate parameters from\n    Returns:\n        List of OpenApiParameter objects\n    \"\"\"\n    parameters = []\n    for field_name, filter_instance in filter_class().filters.items():",
-        "detail": "emprunts.src.loans.adapters.scalar.get_filter_parameters",
-        "documentation": {}
-    },
-    {
-        "label": "scalar_viewer",
-        "kind": 2,
-        "importPath": "emprunts.src.loans.adapters.scalar.scalar",
-        "description": "emprunts.src.loans.adapters.scalar.scalar",
-        "peekOfCode": "def scalar_viewer(request):\n    openapi_url = \"/api/schema/\"\n    title = \"Scalar Api Reference\"\n    scalar_js_url = \"https://cdn.jsdelivr.net/npm/@scalar/api-reference\"\n    scalar_proxy_url = \"\"\n    scalar_favicon_url = \"/static/favicon.ico\"\n    html = f\"\"\"\n    <!DOCTYPE html>\n    <html>\n    <head>",
-        "detail": "emprunts.src.loans.adapters.scalar.scalar",
-        "documentation": {}
-    },
-    {
-        "label": "urlpatterns_scalar",
-        "kind": 5,
-        "importPath": "emprunts.src.loans.adapters.scalar.scalar",
-        "description": "emprunts.src.loans.adapters.scalar.scalar",
-        "peekOfCode": "urlpatterns_scalar = [\n    path(\"api/schema/\", SpectacularAPIView.as_view(), name=\"schema\"),\n    path(\"api/docs/\", scalar_viewer, name=\"docs\"),\n]",
-        "detail": "emprunts.src.loans.adapters.scalar.scalar",
-        "documentation": {}
-    },
-    {
-        "label": "BookService",
-        "kind": 6,
-        "importPath": "emprunts.src.loans.adapters.services.book",
-        "description": "emprunts.src.loans.adapters.services.book",
-        "peekOfCode": "class BookService(BookServiceInterface):\n    def __init__(self, base_url: str | None = None):\n        self.base_url = BOOK_SERVICE_API_URL\n    def get_book_by_id(self, book_id: str) -> Optional[Book]:\n        \"\"\"Récupère les infos d'un livre.\"\"\"\n        try:\n            url = f\"{self.base_url}/api/livres/{book_id}/\"\n            response = requests.get(url, timeout=5)\n            if response.status_code == 404:\n                return None",
-        "detail": "emprunts.src.loans.adapters.services.book",
-        "documentation": {}
-    },
-    {
-        "label": "FakeBookService",
-        "kind": 6,
-        "importPath": "emprunts.src.loans.adapters.services.book",
-        "description": "emprunts.src.loans.adapters.services.book",
-        "peekOfCode": "class FakeBookService(BookServiceInterface):\n    def __init__(self,):\n        ...\n    def get_book_by_id(self, book_id: str) -> Optional[Book]:\n        \"\"\"Récupère les infos d'un livre.\"\"\"\n        book = Book(\n            id=book_id,\n            title=\"Untitled Book\",\n            author=\"Unknown Author\",\n            numbers_of_copies=1,",
-        "detail": "emprunts.src.loans.adapters.services.book",
-        "documentation": {}
-    },
-    {
-        "label": "BOOK_SERVICE_API_URL",
-        "kind": 5,
-        "importPath": "emprunts.src.loans.adapters.services.book",
-        "description": "emprunts.src.loans.adapters.services.book",
-        "peekOfCode": "BOOK_SERVICE_API_URL = os.getenv(\"SERVICE_LIVRES_URL\", \"http://not-found:8000\")\nclass BookService(BookServiceInterface):\n    def __init__(self, base_url: str | None = None):\n        self.base_url = BOOK_SERVICE_API_URL\n    def get_book_by_id(self, book_id: str) -> Optional[Book]:\n        \"\"\"Récupère les infos d'un livre.\"\"\"\n        try:\n            url = f\"{self.base_url}/api/livres/{book_id}/\"\n            response = requests.get(url, timeout=5)\n            if response.status_code == 404:",
-        "detail": "emprunts.src.loans.adapters.services.book",
-        "documentation": {}
-    },
-    {
-        "label": "BrevoEmailService",
-        "kind": 6,
-        "importPath": "emprunts.src.loans.adapters.services.brevo_email_service",
-        "description": "emprunts.src.loans.adapters.services.brevo_email_service",
-        "peekOfCode": "class BrevoEmailService(EmailServiceInterface):\n    def __init__(self):\n        self.__api_key: str = \"\"\n        self.__api_base_url: str = \"\"\n    def send_email_with_template(self, email: str,  template_id: str, params: Dict[str, str | int]):\n        sleep(5)\n        print(\n            f\"====\\nEmail envoyé à {email}. 'template_id' {template_id}\\nWith params: {params}\\n===\")\n        # TODO: A Implementer\n        return",
-        "detail": "emprunts.src.loans.adapters.services.brevo_email_service",
-        "documentation": {}
-    },
-    {
-        "label": "Book",
-        "kind": 6,
-        "importPath": "emprunts.src.loans.app.domain.book",
-        "description": "emprunts.src.loans.app.domain.book",
-        "peekOfCode": "class Book:\n    id: str\n    title: str\n    author: str\n    isbn: str\n    numbers_of_copies: int = 1\n    cover: str = \"\"\n    def __post_init__(self):\n        if not self.id:\n            raise ValueError(\"Book ID cannot be empty\")",
-        "detail": "emprunts.src.loans.app.domain.book",
-        "documentation": {}
-    },
-    {
-        "label": "Email",
-        "kind": 6,
-        "importPath": "emprunts.src.loans.app.domain.email",
-        "description": "emprunts.src.loans.app.domain.email",
-        "peekOfCode": "class Email:\n    value: str\n    def __post_init__(self):\n        if \"@\" not in self.value:\n            raise ValueError(f\"Invalid email address: {self.value}\")\n    def __str__(self):\n        return self.value",
-        "detail": "emprunts.src.loans.app.domain.email",
-        "documentation": {}
-    },
-    {
-        "label": "LoanStatus",
-        "kind": 6,
-        "importPath": "emprunts.src.loans.app.domain.loan",
-        "description": "emprunts.src.loans.app.domain.loan",
-        "peekOfCode": "class LoanStatus(str, Enum):\n    PENDING = \"pending\"\n    APPROVED = \"approved\"\n    REJECTED = \"rejected\"\n    COMPLETED = \"completed\"\nDEFAULT_BOOK_LOAN_DURATION_DAYS = 14  # Durée par défaut d'un emprunt en jours\n@dataclass(kw_only=True)\nclass Loan:\n    id: UUID\n    borrower_id: str",
-        "detail": "emprunts.src.loans.app.domain.loan",
-        "documentation": {}
-    },
-    {
-        "label": "Loan",
-        "kind": 6,
-        "importPath": "emprunts.src.loans.app.domain.loan",
-        "description": "emprunts.src.loans.app.domain.loan",
-        "peekOfCode": "class Loan:\n    id: UUID\n    borrower_id: str\n    book: Book\n    reader: Reader\n    term: date\n    borrow_date: date = field(default_factory=date.today)\n    status: LoanStatus = field(default=LoanStatus.PENDING)\n    comment: Optional[str] = None\n    penalty: int = 0",
-        "detail": "emprunts.src.loans.app.domain.loan",
-        "documentation": {}
-    },
-    {
-        "label": "DEFAULT_BOOK_LOAN_DURATION_DAYS",
-        "kind": 5,
-        "importPath": "emprunts.src.loans.app.domain.loan",
-        "description": "emprunts.src.loans.app.domain.loan",
-        "peekOfCode": "DEFAULT_BOOK_LOAN_DURATION_DAYS = 14  # Durée par défaut d'un emprunt en jours\n@dataclass(kw_only=True)\nclass Loan:\n    id: UUID\n    borrower_id: str\n    book: Book\n    reader: Reader\n    term: date\n    borrow_date: date = field(default_factory=date.today)\n    status: LoanStatus = field(default=LoanStatus.PENDING)",
-        "detail": "emprunts.src.loans.app.domain.loan",
-        "documentation": {}
-    },
-    {
-        "label": "Reader",
-        "kind": 6,
-        "importPath": "emprunts.src.loans.app.domain.reader",
-        "description": "emprunts.src.loans.app.domain.reader",
-        "peekOfCode": "class Reader:\n    id: str\n    name: str\n    email: Optional[Email] = None\n    def __post_init__(self):\n        if not self.name:\n            raise ValueError(\"Reader name cannot be empty\")\n    def __str__(self):\n        return f\"{self.name} <{self.email}>\"",
-        "detail": "emprunts.src.loans.app.domain.reader",
-        "documentation": {}
-    },
-    {
-        "label": "User",
-        "kind": 6,
-        "importPath": "emprunts.src.loans.app.domain.user",
-        "description": "emprunts.src.loans.app.domain.user",
-        "peekOfCode": "class User:\n    id: str\n    name: str\n    email: str\n    role: str\n    is_active: bool = True",
-        "detail": "emprunts.src.loans.app.domain.user",
-        "documentation": {}
-    },
-    {
-        "label": "BorrowCommand",
-        "kind": 6,
-        "importPath": "emprunts.src.loans.app.handlers.borrow_a_book",
-        "description": "emprunts.src.loans.app.handlers.borrow_a_book",
-        "peekOfCode": "class BorrowCommand:\n    book_id: str\n    user: User\n    nb_copies: int = 1\n    term: Optional[date] = None\n    comment: str | None = None\nclass BookAlreadyBorrowedException(Exception):\n    ...\nclass NoCopiesAvailableException(Exception):\n    ...",
-        "detail": "emprunts.src.loans.app.handlers.borrow_a_book",
-        "documentation": {}
-    },
-    {
-        "label": "BookAlreadyBorrowedException",
-        "kind": 6,
-        "importPath": "emprunts.src.loans.app.handlers.borrow_a_book",
-        "description": "emprunts.src.loans.app.handlers.borrow_a_book",
-        "peekOfCode": "class BookAlreadyBorrowedException(Exception):\n    ...\nclass NoCopiesAvailableException(Exception):\n    ...\nclass BorrowABook:\n    def __init__(\n        self,\n        loan_repository: LoanRepository,\n        book_service: BookServiceInterface,\n        email_service: EmailServiceInterface,",
-        "detail": "emprunts.src.loans.app.handlers.borrow_a_book",
-        "documentation": {}
-    },
-    {
-        "label": "NoCopiesAvailableException",
-        "kind": 6,
-        "importPath": "emprunts.src.loans.app.handlers.borrow_a_book",
-        "description": "emprunts.src.loans.app.handlers.borrow_a_book",
-        "peekOfCode": "class NoCopiesAvailableException(Exception):\n    ...\nclass BorrowABook:\n    def __init__(\n        self,\n        loan_repository: LoanRepository,\n        book_service: BookServiceInterface,\n        email_service: EmailServiceInterface,\n        executor: ThreadPoolExecutor | None = None,\n    ):",
-        "detail": "emprunts.src.loans.app.handlers.borrow_a_book",
-        "documentation": {}
-    },
-    {
-        "label": "BorrowABook",
-        "kind": 6,
-        "importPath": "emprunts.src.loans.app.handlers.borrow_a_book",
-        "description": "emprunts.src.loans.app.handlers.borrow_a_book",
-        "peekOfCode": "class BorrowABook:\n    def __init__(\n        self,\n        loan_repository: LoanRepository,\n        book_service: BookServiceInterface,\n        email_service: EmailServiceInterface,\n        executor: ThreadPoolExecutor | None = None,\n    ):\n        self.loan_repository = loan_repository\n        self.book_service = book_service",
-        "detail": "emprunts.src.loans.app.handlers.borrow_a_book",
-        "documentation": {}
-    },
-    {
-        "label": "logger",
-        "kind": 5,
-        "importPath": "emprunts.src.loans.app.handlers.borrow_a_book",
-        "description": "emprunts.src.loans.app.handlers.borrow_a_book",
-        "peekOfCode": "logger = logging.getLogger(__name__)\nNEW_LOAN_EMAIL_TEMPLATE_ID = \"NEW_LOAN_EMAIL_TEMPLATE_ID_0001\"\n@dataclass(frozen=True)\nclass BorrowCommand:\n    book_id: str\n    user: User\n    nb_copies: int = 1\n    term: Optional[date] = None\n    comment: str | None = None\nclass BookAlreadyBorrowedException(Exception):",
-        "detail": "emprunts.src.loans.app.handlers.borrow_a_book",
-        "documentation": {}
-    },
-    {
-        "label": "NEW_LOAN_EMAIL_TEMPLATE_ID",
-        "kind": 5,
-        "importPath": "emprunts.src.loans.app.handlers.borrow_a_book",
-        "description": "emprunts.src.loans.app.handlers.borrow_a_book",
-        "peekOfCode": "NEW_LOAN_EMAIL_TEMPLATE_ID = \"NEW_LOAN_EMAIL_TEMPLATE_ID_0001\"\n@dataclass(frozen=True)\nclass BorrowCommand:\n    book_id: str\n    user: User\n    nb_copies: int = 1\n    term: Optional[date] = None\n    comment: str | None = None\nclass BookAlreadyBorrowedException(Exception):\n    ...",
-        "detail": "emprunts.src.loans.app.handlers.borrow_a_book",
-        "documentation": {}
-    },
-    {
-        "label": "NotifyUsers3DaysBeforeLoanDue",
-        "kind": 6,
-        "importPath": "emprunts.src.loans.app.handlers.notify_users_before_loan_due",
-        "description": "emprunts.src.loans.app.handlers.notify_users_before_loan_due",
-        "peekOfCode": "class NotifyUsers3DaysBeforeLoanDue():\n    \"\"\"\n        Notifier les utilisateurs 3 jrs avant l'échéance de l'emprunt\n    \"\"\"\n    def __init__(self, loan_repository: LoanRepository, email_service: EmailServiceInterface, max_workers: int = 2,):\n        self.email_service = email_service\n        self.loan_repository = loan_repository\n        self.max_workers = max_workers\n    def execute(self) -> None:\n        emails = self.loan_repository.get_borrower_emails_with_loan_due_in_3_days(",
-        "detail": "emprunts.src.loans.app.handlers.notify_users_before_loan_due",
-        "documentation": {}
-    },
-    {
-        "label": "logger",
-        "kind": 5,
-        "importPath": "emprunts.src.loans.app.handlers.notify_users_before_loan_due",
-        "description": "emprunts.src.loans.app.handlers.notify_users_before_loan_due",
-        "peekOfCode": "logger = logging.getLogger(__name__)\nTEMPLATE_ID = \"templateId651\"\nclass NotifyUsers3DaysBeforeLoanDue():\n    \"\"\"\n        Notifier les utilisateurs 3 jrs avant l'échéance de l'emprunt\n    \"\"\"\n    def __init__(self, loan_repository: LoanRepository, email_service: EmailServiceInterface, max_workers: int = 2,):\n        self.email_service = email_service\n        self.loan_repository = loan_repository\n        self.max_workers = max_workers",
-        "detail": "emprunts.src.loans.app.handlers.notify_users_before_loan_due",
-        "documentation": {}
-    },
-    {
-        "label": "TEMPLATE_ID",
-        "kind": 5,
-        "importPath": "emprunts.src.loans.app.handlers.notify_users_before_loan_due",
-        "description": "emprunts.src.loans.app.handlers.notify_users_before_loan_due",
-        "peekOfCode": "TEMPLATE_ID = \"templateId651\"\nclass NotifyUsers3DaysBeforeLoanDue():\n    \"\"\"\n        Notifier les utilisateurs 3 jrs avant l'échéance de l'emprunt\n    \"\"\"\n    def __init__(self, loan_repository: LoanRepository, email_service: EmailServiceInterface, max_workers: int = 2,):\n        self.email_service = email_service\n        self.loan_repository = loan_repository\n        self.max_workers = max_workers\n    def execute(self) -> None:",
-        "detail": "emprunts.src.loans.app.handlers.notify_users_before_loan_due",
-        "documentation": {}
-    },
-    {
-        "label": "NotifyUsersOnLoanOverdue",
-        "kind": 6,
-        "importPath": "emprunts.src.loans.app.handlers.notify_users_on_loan_overdue",
-        "description": "emprunts.src.loans.app.handlers.notify_users_on_loan_overdue",
-        "peekOfCode": "class NotifyUsersOnLoanOverdue:\n    \"\"\"\n    Notifier les utilisateurs dont le prêt est en retard (retard détecté)\n    \"\"\"\n    def __init__(\n        self,\n        loan_repository: LoanRepository,\n        email_service: EmailServiceInterface,\n        max_workers: int = 10,\n    ):",
-        "detail": "emprunts.src.loans.app.handlers.notify_users_on_loan_overdue",
-        "documentation": {}
-    },
-    {
-        "label": "logger",
-        "kind": 5,
-        "importPath": "emprunts.src.loans.app.handlers.notify_users_on_loan_overdue",
-        "description": "emprunts.src.loans.app.handlers.notify_users_on_loan_overdue",
-        "peekOfCode": "logger = logging.getLogger(__name__)\nOVERDUE_TEMPLATE_ID = \"loan_overdue_v1\"\nclass NotifyUsersOnLoanOverdue:\n    \"\"\"\n    Notifier les utilisateurs dont le prêt est en retard (retard détecté)\n    \"\"\"\n    def __init__(\n        self,\n        loan_repository: LoanRepository,\n        email_service: EmailServiceInterface,",
-        "detail": "emprunts.src.loans.app.handlers.notify_users_on_loan_overdue",
-        "documentation": {}
-    },
-    {
-        "label": "OVERDUE_TEMPLATE_ID",
-        "kind": 5,
-        "importPath": "emprunts.src.loans.app.handlers.notify_users_on_loan_overdue",
-        "description": "emprunts.src.loans.app.handlers.notify_users_on_loan_overdue",
-        "peekOfCode": "OVERDUE_TEMPLATE_ID = \"loan_overdue_v1\"\nclass NotifyUsersOnLoanOverdue:\n    \"\"\"\n    Notifier les utilisateurs dont le prêt est en retard (retard détecté)\n    \"\"\"\n    def __init__(\n        self,\n        loan_repository: LoanRepository,\n        email_service: EmailServiceInterface,\n        max_workers: int = 10,",
-        "detail": "emprunts.src.loans.app.handlers.notify_users_on_loan_overdue",
-        "documentation": {}
-    },
-    {
-        "label": "RateBookCommand",
-        "kind": 6,
-        "importPath": "emprunts.src.loans.app.handlers.rate_book",
-        "description": "emprunts.src.loans.app.handlers.rate_book",
-        "peekOfCode": "class RateBookCommand:\n    loan_id: str\n    user_id: str\n    rating: int\nclass RateBook:\n    def __init__(self, loan_repository: LoanRepository):\n        self.loan_repository = loan_repository\n    def execute(self, command: RateBookCommand) -> None:\n        # TODO: Optimiser les deux req de db (find_by_id et has_ever_borrowed_book): Condasser en une seule\n        if not (1 <= command.rating <= 5):",
-        "detail": "emprunts.src.loans.app.handlers.rate_book",
-        "documentation": {}
-    },
-    {
-        "label": "RateBook",
-        "kind": 6,
-        "importPath": "emprunts.src.loans.app.handlers.rate_book",
-        "description": "emprunts.src.loans.app.handlers.rate_book",
-        "peekOfCode": "class RateBook:\n    def __init__(self, loan_repository: LoanRepository):\n        self.loan_repository = loan_repository\n    def execute(self, command: RateBookCommand) -> None:\n        # TODO: Optimiser les deux req de db (find_by_id et has_ever_borrowed_book): Condasser en une seule\n        if not (1 <= command.rating <= 5):\n            raise ValueError(\"La note doit etre entre 1 et 5.\")\n        loan = self.loan_repository.find_by_id(command.loan_id)\n        if not loan:\n            raise ValueError(\"Emprunt introuvable.\")",
-        "detail": "emprunts.src.loans.app.handlers.rate_book",
-        "documentation": {}
-    },
-    {
-        "label": "LoanNotFoundException",
-        "kind": 6,
-        "importPath": "emprunts.src.loans.app.handlers.return_loan",
-        "description": "emprunts.src.loans.app.handlers.return_loan",
-        "peekOfCode": "class LoanNotFoundException(Exception):\n    ...\nclass ReturnLoan:\n    def __init__(\n        self,\n        loan_repository: LoanRepository,\n        book_service: BookServiceInterface,\n        email_service: EmailServiceInterface,\n        executor: ThreadPoolExecutor | None = None,\n    ) -> None:",
-        "detail": "emprunts.src.loans.app.handlers.return_loan",
-        "documentation": {}
-    },
-    {
-        "label": "ReturnLoan",
-        "kind": 6,
-        "importPath": "emprunts.src.loans.app.handlers.return_loan",
-        "description": "emprunts.src.loans.app.handlers.return_loan",
-        "peekOfCode": "class ReturnLoan:\n    def __init__(\n        self,\n        loan_repository: LoanRepository,\n        book_service: BookServiceInterface,\n        email_service: EmailServiceInterface,\n        executor: ThreadPoolExecutor | None = None,\n    ) -> None:\n        self.loan_repository = loan_repository\n        self.book_service = book_service",
-        "detail": "emprunts.src.loans.app.handlers.return_loan",
-        "documentation": {}
-    },
-    {
-        "label": "logger",
-        "kind": 5,
-        "importPath": "emprunts.src.loans.app.handlers.return_loan",
-        "description": "emprunts.src.loans.app.handlers.return_loan",
-        "peekOfCode": "logger = logging.getLogger(__name__)\nLOAN_RETURNED_EMAIL_TEMPLATE_ID = \"LOAN_RETURNED_EMAIL_TEMPLATE_ID_0001\"\nclass LoanNotFoundException(Exception):\n    ...\nclass ReturnLoan:\n    def __init__(\n        self,\n        loan_repository: LoanRepository,\n        book_service: BookServiceInterface,\n        email_service: EmailServiceInterface,",
-        "detail": "emprunts.src.loans.app.handlers.return_loan",
-        "documentation": {}
-    },
-    {
-        "label": "LOAN_RETURNED_EMAIL_TEMPLATE_ID",
-        "kind": 5,
-        "importPath": "emprunts.src.loans.app.handlers.return_loan",
-        "description": "emprunts.src.loans.app.handlers.return_loan",
-        "peekOfCode": "LOAN_RETURNED_EMAIL_TEMPLATE_ID = \"LOAN_RETURNED_EMAIL_TEMPLATE_ID_0001\"\nclass LoanNotFoundException(Exception):\n    ...\nclass ReturnLoan:\n    def __init__(\n        self,\n        loan_repository: LoanRepository,\n        book_service: BookServiceInterface,\n        email_service: EmailServiceInterface,\n        executor: ThreadPoolExecutor | None = None,",
-        "detail": "emprunts.src.loans.app.handlers.return_loan",
-        "documentation": {}
-    },
-    {
-        "label": "BookServiceInterface",
-        "kind": 6,
-        "importPath": "emprunts.src.loans.app.ports.book_service_interface",
-        "description": "emprunts.src.loans.app.ports.book_service_interface",
-        "peekOfCode": "class BookServiceInterface(Protocol):\n    def get_book_by_id(self, book_id: str) -> Optional[Book]:\n        raise NotImplementedError\n    def new_loan(self, book_id: str, reader_id: str, term: date) -> None:\n        raise NotImplementedError\n    def loan_returned(self, book_id: str, reader_id: str) -> None:\n        raise NotImplementedError",
-        "detail": "emprunts.src.loans.app.ports.book_service_interface",
-        "documentation": {}
-    },
-    {
-        "label": "EmailServiceInterface",
-        "kind": 6,
-        "importPath": "emprunts.src.loans.app.ports.email_service",
-        "description": "emprunts.src.loans.app.ports.email_service",
-        "peekOfCode": "class EmailServiceInterface(Protocol):\n    def send_email_with_template(self, email: str, template_id: str, params: Dict[str, str | int]) -> None:\n        \"\"\"In background\"\"\"\n        raise NotImplementedError",
-        "detail": "emprunts.src.loans.app.ports.email_service",
-        "documentation": {}
-    },
-    {
-        "label": "LoanRepository",
-        "kind": 6,
-        "importPath": "emprunts.src.loans.app.ports.loan_repository",
-        "description": "emprunts.src.loans.app.ports.loan_repository",
-        "peekOfCode": "class LoanRepository(Protocol):\n    def save(self, loan: Loan) -> None:\n        raise NotImplementedError\n    def find_by_id(self, loan_id: str) -> Optional[Loan]:\n        raise NotImplementedError\n    def count_active_loans_by_book_id(self, book_id: str) -> int:\n        raise NotImplementedError\n    def already_borrowed_by_reader_and_not_returned(self, book_id: str, reader_id: str) -> bool:\n        raise NotImplementedError\n    def rate(self, loan_id: str, rating: int) -> None:",
-        "detail": "emprunts.src.loans.app.ports.loan_repository",
-        "documentation": {}
-    },
-    {
-        "label": "ServiceException",
-        "kind": 6,
-        "importPath": "emprunts.src.loans.client",
-        "description": "emprunts.src.loans.client",
-        "peekOfCode": "class ServiceException(Exception):\n    \"\"\"Exception levée lors d'une erreur de communication inter-services.\"\"\"\n    def __init__(self, message, status_code=None):\n        self.status_code = status_code\n        super().__init__(message)\nclass LivresClient:\n    \"\"\"Client pour le Service Livres.\"\"\"\n    BASE_URL = None\n    @classmethod\n    def get_base_url(cls):",
-        "detail": "emprunts.src.loans.client",
-        "documentation": {}
-    },
-    {
-        "label": "LivresClient",
-        "kind": 6,
-        "importPath": "emprunts.src.loans.client",
-        "description": "emprunts.src.loans.client",
-        "peekOfCode": "class LivresClient:\n    \"\"\"Client pour le Service Livres.\"\"\"\n    BASE_URL = None\n    @classmethod\n    def get_base_url(cls):\n        if cls.BASE_URL is None:\n            cls.BASE_URL = settings.SERVICE_LIVRES_URL\n        return cls.BASE_URL\n    @classmethod\n    # get_livre_by_id --- IGNORE ---",
-        "detail": "emprunts.src.loans.client",
-        "documentation": {}
-    },
-    {
-        "label": "UtilisateursClient",
-        "kind": 6,
-        "importPath": "emprunts.src.loans.client",
-        "description": "emprunts.src.loans.client",
-        "peekOfCode": "class UtilisateursClient:\n    \"\"\"Client pour le Service Utilisateurs.\"\"\"\n    BASE_URL = None\n    @classmethod\n    def get_base_url(cls):\n        if cls.BASE_URL is None:\n            cls.BASE_URL = settings.SERVICE_UTILISATEURS_URL\n        return cls.BASE_URL\n    @classmethod\n    def get_utilisateur(cls, utilisateur_id: int) -> dict:",
-        "detail": "emprunts.src.loans.client",
-        "documentation": {}
-    },
-    {
-        "label": "UTILISATEURS",
-        "kind": 5,
-        "importPath": "emprunts.seed",
-        "description": "emprunts.seed",
-        "peekOfCode": "UTILISATEURS = [\n    {'id': 1,  'nom': 'Administrateur DIT', 'carte': 'ADMIN001',   'type': 'ADMIN'},\n    {'id': 2,  'nom': 'Amadou Diallo',\n        'carte': 'PROF001',    'type': 'PROFESSEUR'},\n    {'id': 3,  'nom': 'Fatou Ndiaye',\n        'carte': 'PROF002',    'type': 'PROFESSEUR'},\n    {'id': 4,  'nom': 'Omar Cisse',\n        'carte': 'PROF003',    'type': 'PROFESSEUR'},\n    {'id': 5,  'nom': 'Aminata Gueye',\n        'carte': 'PROF004',    'type': 'PROFESSEUR'},",
-        "detail": "emprunts.seed",
-        "documentation": {}
-    },
-    {
-        "label": "LIVRES_RAW",
-        "kind": 5,
-        "importPath": "emprunts.seed",
-        "description": "emprunts.seed",
-        "peekOfCode": "LIVRES_RAW = [\n    (1,  \"Introduction a l'IA\",           '9782744005084', 'Stuart Russell',     'IA'),\n    (2,  'Deep Learning',                  '9782100780730', 'Ian Goodfellow',     'IA'),\n    (3,  'NLP with Python',                '9780596516499', 'Steven Bird',        'IA'),\n    (4,  'Pattern Recognition and ML',\n     '9780387310732', 'Christopher Bishop', 'IA'),\n    (5,  'Hands-On Machine Learning',\n     '9781492032649', 'Aurelien Geron',     'IA'),\n    (6,  'Reinforcement Learning',\n     '9780262039246', 'Richard Sutton',     'IA'),",
-        "detail": "emprunts.seed",
-        "documentation": {}
-    },
-    {
-        "label": "LIVRES",
-        "kind": 5,
-        "importPath": "emprunts.seed",
-        "description": "emprunts.seed",
-        "peekOfCode": "LIVRES = [{'id': i, 'titre': t, 'isbn': isbn, 'auteur': a, 'cat': c}\n          for (i, t, isbn, a, c) in LIVRES_RAW]\nLIVRES_PAR_CAT = {}\nfor livre in LIVRES:\n    LIVRES_PAR_CAT.setdefault(livre['cat'], []).append(livre)\nPROBA_CATEGORIE = ['IA', 'IA', 'IA', 'INFO',\n                   'INFO', 'INFO', 'MATH', 'MATH', 'SCI', 'LIT']\nPREF_UTILISATEUR = {u['id']: random.choice(\n    PROBA_CATEGORIE) for u in UTILISATEURS}\nprint(\"Generation de l'historique des emprunts (avec patterns)...\")",
-        "detail": "emprunts.seed",
-        "documentation": {}
-    },
-    {
-        "label": "LIVRES_PAR_CAT",
-        "kind": 5,
-        "importPath": "emprunts.seed",
-        "description": "emprunts.seed",
-        "peekOfCode": "LIVRES_PAR_CAT = {}\nfor livre in LIVRES:\n    LIVRES_PAR_CAT.setdefault(livre['cat'], []).append(livre)\nPROBA_CATEGORIE = ['IA', 'IA', 'IA', 'INFO',\n                   'INFO', 'INFO', 'MATH', 'MATH', 'SCI', 'LIT']\nPREF_UTILISATEUR = {u['id']: random.choice(\n    PROBA_CATEGORIE) for u in UTILISATEURS}\nprint(\"Generation de l'historique des emprunts (avec patterns)...\")\nEmprunt.objects.all().delete()\nNB_EMPRUNTS_CIBLE = 500",
-        "detail": "emprunts.seed",
-        "documentation": {}
-    },
-    {
-        "label": "PROBA_CATEGORIE",
-        "kind": 5,
-        "importPath": "emprunts.seed",
-        "description": "emprunts.seed",
-        "peekOfCode": "PROBA_CATEGORIE = ['IA', 'IA', 'IA', 'INFO',\n                   'INFO', 'INFO', 'MATH', 'MATH', 'SCI', 'LIT']\nPREF_UTILISATEUR = {u['id']: random.choice(\n    PROBA_CATEGORIE) for u in UTILISATEURS}\nprint(\"Generation de l'historique des emprunts (avec patterns)...\")\nEmprunt.objects.all().delete()\nNB_EMPRUNTS_CIBLE = 500\nPROBA_FAVORITE = 0.70\ntoday = date.today()\nemprunts_a_creer = []",
-        "detail": "emprunts.seed",
-        "documentation": {}
-    },
-    {
-        "label": "PREF_UTILISATEUR",
-        "kind": 5,
-        "importPath": "emprunts.seed",
-        "description": "emprunts.seed",
-        "peekOfCode": "PREF_UTILISATEUR = {u['id']: random.choice(\n    PROBA_CATEGORIE) for u in UTILISATEURS}\nprint(\"Generation de l'historique des emprunts (avec patterns)...\")\nEmprunt.objects.all().delete()\nNB_EMPRUNTS_CIBLE = 500\nPROBA_FAVORITE = 0.70\ntoday = date.today()\nemprunts_a_creer = []\nfor _ in range(NB_EMPRUNTS_CIBLE):\n    utilisateur = random.choice(UTILISATEURS)",
-        "detail": "emprunts.seed",
-        "documentation": {}
-    },
-    {
-        "label": "NB_EMPRUNTS_CIBLE",
-        "kind": 5,
-        "importPath": "emprunts.seed",
-        "description": "emprunts.seed",
-        "peekOfCode": "NB_EMPRUNTS_CIBLE = 500\nPROBA_FAVORITE = 0.70\ntoday = date.today()\nemprunts_a_creer = []\nfor _ in range(NB_EMPRUNTS_CIBLE):\n    utilisateur = random.choice(UTILISATEURS)\n    pref = PREF_UTILISATEUR[utilisateur['id']]\n    if random.random() < PROBA_FAVORITE:\n        livre = random.choice(LIVRES_PAR_CAT[pref])\n    else:",
-        "detail": "emprunts.seed",
-        "documentation": {}
-    },
-    {
-        "label": "PROBA_FAVORITE",
-        "kind": 5,
-        "importPath": "emprunts.seed",
-        "description": "emprunts.seed",
-        "peekOfCode": "PROBA_FAVORITE = 0.70\ntoday = date.today()\nemprunts_a_creer = []\nfor _ in range(NB_EMPRUNTS_CIBLE):\n    utilisateur = random.choice(UTILISATEURS)\n    pref = PREF_UTILISATEUR[utilisateur['id']]\n    if random.random() < PROBA_FAVORITE:\n        livre = random.choice(LIVRES_PAR_CAT[pref])\n    else:\n        livre = random.choice(LIVRES)",
-        "detail": "emprunts.seed",
-        "documentation": {}
-    },
-    {
-        "label": "today",
-        "kind": 5,
-        "importPath": "emprunts.seed",
-        "description": "emprunts.seed",
-        "peekOfCode": "today = date.today()\nemprunts_a_creer = []\nfor _ in range(NB_EMPRUNTS_CIBLE):\n    utilisateur = random.choice(UTILISATEURS)\n    pref = PREF_UTILISATEUR[utilisateur['id']]\n    if random.random() < PROBA_FAVORITE:\n        livre = random.choice(LIVRES_PAR_CAT[pref])\n    else:\n        livre = random.choice(LIVRES)\n    jours_passes = random.randint(1, 180)",
-        "detail": "emprunts.seed",
-        "documentation": {}
-    },
-    {
-        "label": "emprunts_a_creer",
-        "kind": 5,
-        "importPath": "emprunts.seed",
-        "description": "emprunts.seed",
-        "peekOfCode": "emprunts_a_creer = []\nfor _ in range(NB_EMPRUNTS_CIBLE):\n    utilisateur = random.choice(UTILISATEURS)\n    pref = PREF_UTILISATEUR[utilisateur['id']]\n    if random.random() < PROBA_FAVORITE:\n        livre = random.choice(LIVRES_PAR_CAT[pref])\n    else:\n        livre = random.choice(LIVRES)\n    jours_passes = random.randint(1, 180)\n    date_emprunt = today - timedelta(days=jours_passes)",
-        "detail": "emprunts.seed",
-        "documentation": {}
-    },
-    {
-        "label": "distribution",
-        "kind": 5,
-        "importPath": "emprunts.seed",
-        "description": "emprunts.seed",
-        "peekOfCode": "distribution = Counter(PREF_UTILISATEUR.values())\nfor cat, n in sorted(distribution.items(), key=lambda x: -x[1]):\n    print(f\"  {cat:5s} : {n} utilisateurs\")\nprint(\"\\nHistorique pret pour l'export DVC !\")",
-        "detail": "emprunts.seed",
         "documentation": {}
     },
     {
@@ -4261,33 +2398,6 @@
         "description": "services.utilisateurs.users.migrations.0001_initial",
         "peekOfCode": "class Migration(migrations.Migration):\n    initial = True\n    dependencies = [\n        ('auth', '0012_alter_user_first_name_max_length'),\n    ]\n    operations = [\n        migrations.CreateModel(\n            name='User',\n            fields=[\n                ('password', models.CharField(max_length=128, verbose_name='password')),",
         "detail": "services.utilisateurs.users.migrations.0001_initial",
-        "documentation": {}
-    },
-    {
-        "label": "Migration",
-        "kind": 6,
-        "importPath": "services.utilisateurs.users.migrations.0002_alter_user_is_active",
-        "description": "services.utilisateurs.users.migrations.0002_alter_user_is_active",
-        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('users', '0001_initial'),\n    ]\n    operations = [\n        migrations.AlterField(\n            model_name='user',\n            name='is_active',\n            field=models.BooleanField(default=False, verbose_name='Actif'),\n        ),",
-        "detail": "services.utilisateurs.users.migrations.0002_alter_user_is_active",
-        "documentation": {}
-    },
-    {
-        "label": "Migration",
-        "kind": 6,
-        "importPath": "services.utilisateurs.users.migrations.0003_alter_user_is_active",
-        "description": "services.utilisateurs.users.migrations.0003_alter_user_is_active",
-        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('users', '0002_alter_user_is_active'),\n    ]\n    operations = [\n        migrations.AlterField(\n            model_name='user',\n            name='is_active',\n            field=models.BooleanField(default=True, verbose_name='Actif'),\n        ),",
-        "detail": "services.utilisateurs.users.migrations.0003_alter_user_is_active",
-        "documentation": {}
-    },
-    {
-        "label": "UserAdmin",
-        "kind": 6,
-        "importPath": "services.utilisateurs.users.admin",
-        "description": "services.utilisateurs.users.admin",
-        "peekOfCode": "class UserAdmin(admin.ModelAdmin):\n    list_display=('id','first_name','last_name','email','role')\n    search_fields=['first_name','last_name']",
-        "detail": "services.utilisateurs.users.admin",
         "documentation": {}
     },
     {
