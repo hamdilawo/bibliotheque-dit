@@ -1,7 +1,13 @@
-from decouple import config
+import os
 
-MODEL_PATH = config('MODEL_PATH', default='/app/model/model.pkl')
-DATA_PATH = config('DATA_PATH', default='/app/data/loans.csv')
-SERVICE_LIVRES_URL = config('SERVICE_LIVRES_URL', default='http://livres:8001')
-SERVICE_EMPRUNTS_URL = config('SERVICE_EMPRUNTS_URL', default='http://emprunts:8003')
-N_RECOMMENDATIONS = config('N_RECOMMENDATIONS', default=5, cast=int)
+ARTIFACTS_PATH = os.environ.get('ARTIFACTS_PATH', '/app/model/recommender_artifacts.pkl')
+DATA_PATH = os.environ.get('DATA_PATH', '/app/data/emprunt.csv')
+BOOKS_PATH = os.environ.get('BOOKS_PATH', '/app/data/books.json')
+
+SERVICE_LIVRES_URL = os.environ.get('SERVICE_LIVRES_URL', 'http://livres:8001')
+SERVICE_EMPRUNTS_URL = os.environ.get('SERVICE_EMPRUNTS_URL', 'http://emprunts:8003')
+
+N_RECOMMENDATIONS = int(os.environ.get('N_RECOMMENDATIONS', '5'))
+ALPHA = float(os.environ.get('ALPHA', '0.6'))
+MIN_USER_RATINGS = int(os.environ.get('MIN_USER_RATINGS', '3'))
+REF_WEIGHT = float(os.environ.get('REF_WEIGHT', '0.3'))

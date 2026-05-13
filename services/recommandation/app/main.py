@@ -9,20 +9,29 @@ Endpoints :
   GET  /metrics                        → métriques du modèle actuel
   GET  /popular                        → livres populaires (fallback)
 """
+import asyncio
+import io
 import logging
-import httpx
-import pandas as pd
 from contextlib import asynccontextmanager
 from pathlib import Path
-from fastapi import FastAPI, HTTPException, BackgroundTasks
+from typing import Dict, List, Optional
+
+import httpx
+import pandas as pd
+from fastapi import BackgroundTasks, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from typing import List, Optional
 
 from .config import (
-    MODEL_PATH, DATA_PATH,
-    SERVICE_LIVRES_URL, SERVICE_EMPRUNTS_URL,
+    ALPHA,
+    ARTIFACTS_PATH,
+    BOOKS_PATH,
+    DATA_PATH,
+    MIN_USER_RATINGS,
     N_RECOMMENDATIONS,
+    REF_WEIGHT,
+    SERVICE_EMPRUNTS_URL,
+    SERVICE_LIVRES_URL,
 )
 from .model import RecommendationModel
 
@@ -30,7 +39,22 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # État global du modèle
-model_state = {"model": None, "entrainement_en_cours": False}
+model_state = {
+    "model": None,
+    "ratings": None,
+    "entrainement_en_cours": False,
+}
+livres_cache: Dict[str, dict] = {}
+
+
+def _resolve_artifacts_path() -> str:
+    candidates = [ARTIFACTS_PATH]
+    if "artifacts" in ARTIFACTS_PATH:
+        candidates.append(ARTIFACTS_PATH.replace("artifacts", "artefacts"))
+    for path in candidates:
+        if Path(path).exists():
+            return path
+    return ARTIFACTS_PATH
 
 
 # ------------------------------------------------------------------ #
@@ -40,10 +64,24 @@ model_state = {"model": None, "entrainement_en_cours": False}
 async def lifespan(app: FastAPI):
     """Charge le modèle au démarrage si disponible."""
     try:
-        model_state["model"] = RecommendationModel.charger(MODEL_PATH)
+        artifacts_path = _resolve_artifacts_path()
+        model_state["model"] = RecommendationModel.charger(artifacts_path)
         logger.info("Modèle chargé au démarrage.")
+        if model_state["model"].ratings is None:
+            ratings = _charger_ratings_locales()
+            model_state["model"].ratings = ratings
+            model_state["ratings"] = ratings
+        else:
+            model_state["ratings"] = model_state["model"].ratings
     except FileNotFoundError:
-        logger.warning(f"Pas de modèle pré-entraîné à {MODEL_PATH}. Entraînez-le via POST /train.")
+        logger.warning(f"Pas de modèle pré-entraîné à {ARTIFACTS_PATH}. Entraînez-le via POST /train.")
+    except Exception as exc:
+        model_state["model"] = None
+        model_state["ratings"] = None
+        logger.warning(
+            f"Impossible de charger le modèle ({exc}). "
+            "Lancez POST /train pour régénérer des artefacts compatibles."
+        )
     yield
     logger.info("Arrêt du service recommandation.")
 
@@ -67,12 +105,13 @@ app.add_middleware(
 # Schémas Pydantic
 # ------------------------------------------------------------------ #
 class RecommandationItem(BaseModel):
-    livre_id: int
+    livre_id: Optional[int] = None
     score: float
     titre: Optional[str] = None
     auteur: Optional[str] = None
     isbn: Optional[str] = None
     disponible: Optional[bool] = None
+    categorie: Optional[str] = None
 
 
 class RecommandationsResponse(BaseModel):
@@ -91,52 +130,139 @@ class TrainResponse(BaseModel):
 # ------------------------------------------------------------------ #
 # Helpers
 # ------------------------------------------------------------------ #
+async def _fetch_livre_by_isbn(client: httpx.AsyncClient, isbn: str) -> Optional[dict]:
+    key = RecommendationModel.normalize_isbn(isbn)
+    if not key:
+        return None
+    if key in livres_cache:
+        return livres_cache[key]
+
+    try:
+        resp = await client.get(
+            f"{SERVICE_LIVRES_URL}/api/livres/search/",
+            params={"q": isbn},
+        )
+        if resp.status_code != 200:
+            return None
+        data = resp.json() or {}
+        results = data.get("results") if isinstance(data, dict) else data
+        if not results:
+            return None
+        match = None
+        for livre in results:
+            if RecommendationModel.normalize_isbn(livre.get("isbn")) == key:
+                match = livre
+                break
+        match = match or results[0]
+        livres_cache[key] = match
+        return match
+    except Exception:
+        return None
+
+
 async def enrichir_avec_details_livres(
     recommandations: List[dict]
 ) -> List[RecommandationItem]:
     """Appelle le Service Livres pour enrichir les recommandations."""
-    resultat = []
+    resultat: List[RecommandationItem] = []
     async with httpx.AsyncClient(timeout=5.0) as client:
+        tasks = []
         for reco in recommandations:
-            item = RecommandationItem(
-                livre_id=reco['livre_id'],
-                score=reco['score']
-            )
-            try:
-                resp = await client.get(
-                    f"{SERVICE_LIVRES_URL}/api/livres/{reco['livre_id']}/"
-                )
-                if resp.status_code == 200:
-                    data = resp.json()
-                    item.titre = data.get('titre')
-                    item.auteur = data.get('auteur')
-                    item.isbn = data.get('isbn')
-                    item.disponible = data.get('disponible')
-            except Exception:
-                pass  # On retourne quand même la reco sans détails
-            resultat.append(item)
+            isbn = reco.get("isbn") or reco.get("isbn_norm")
+            tasks.append(_fetch_livre_by_isbn(client, isbn or ""))
+        details_list = await asyncio.gather(*tasks, return_exceptions=True)
+
+    for reco, details in zip(recommandations, details_list):
+        isbn = reco.get("isbn") or reco.get("isbn_norm")
+        item = RecommandationItem(
+            livre_id=None,
+            score=float(reco.get("score", 0.0)),
+            titre=reco.get("title"),
+            auteur=reco.get("author"),
+            isbn=isbn,
+            categorie=reco.get("categorie"),
+        )
+        if isinstance(details, dict):
+            item.livre_id = details.get("id")
+            item.titre = details.get("titre") or item.titre
+            item.auteur = details.get("auteur") or item.auteur
+            item.isbn = details.get("isbn") or item.isbn
+            item.disponible = details.get("disponible")
+        resultat.append(item)
     return resultat
 
 
-async def telecharger_donnees_emprunts() -> pd.DataFrame:
-    """Télécharge l'historique des emprunts depuis le Service Emprunts."""
+def _charger_ratings_locales() -> Optional[pd.DataFrame]:
+    if not Path(DATA_PATH).exists():
+        return None
+    try:
+        df = pd.read_csv(DATA_PATH)
+        return RecommendationModel.preparer_emprunts(df)
+    except Exception as exc:
+        logger.warning(f"Impossible de charger les ratings locaux: {exc}")
+        return None
+
+
+def _charger_livres_locaux() -> Optional[pd.DataFrame]:
+    if not Path(BOOKS_PATH).exists():
+        return None
+    try:
+        return pd.read_json(BOOKS_PATH)
+    except Exception as exc:
+        logger.warning(f"Impossible de charger books.json: {exc}")
+        return None
+
+
+async def _charger_livres_service() -> Optional[pd.DataFrame]:
+    async with httpx.AsyncClient(timeout=20.0) as client:
+        try:
+            page = 1
+            rows = []
+            while True:
+                resp = await client.get(
+                    f"{SERVICE_LIVRES_URL}/api/livres/",
+                    params={"page": page},
+                )
+                resp.raise_for_status()
+                data = resp.json()
+                if isinstance(data, dict) and "results" in data:
+                    rows.extend(data.get("results") or [])
+                    if not data.get("next"):
+                        break
+                    page += 1
+                elif isinstance(data, list):
+                    rows.extend(data)
+                    break
+                else:
+                    break
+            return pd.DataFrame(rows)
+        except Exception as exc:
+            logger.warning(f"Livres service indisponible: {exc}")
+            return None
+
+
+async def _charger_emprunts_service() -> Optional[pd.DataFrame]:
     async with httpx.AsyncClient(timeout=30.0) as client:
         try:
             resp = await client.get(f"{SERVICE_EMPRUNTS_URL}/api/emprunts/export_csv/")
             resp.raise_for_status()
-            import io
             df = pd.read_csv(io.StringIO(resp.text))
             logger.info(f"Données téléchargées : {len(df)} emprunts")
             return df
-        except Exception as e:
-            # Fallback : lire depuis le fichier local (DVC)
-            if Path(DATA_PATH).exists():
-                logger.info(f"Fallback : lecture depuis {DATA_PATH}")
-                return pd.read_csv(DATA_PATH)
-            raise HTTPException(
-                status_code=503,
-                detail=f"Impossible de récupérer les données : {e}"
-            )
+        except Exception as exc:
+            logger.warning(f"Emprunts service indisponible: {exc}")
+            return None
+
+
+async def telecharger_donnees_emprunts() -> pd.DataFrame:
+    """Télécharge l'historique des emprunts depuis le Service Emprunts."""
+    df = await _charger_emprunts_service()
+    if df is not None:
+        return df
+    if Path(DATA_PATH).exists():
+        logger.info(f"Fallback : lecture depuis {DATA_PATH}")
+        return pd.read_csv(DATA_PATH)
+    raise HTTPException(status_code=503, detail="Impossible de récupérer les données d'emprunts.")
 
 
 def entrainer_en_arriere_plan():
@@ -148,20 +274,38 @@ def entrainer_en_arriere_plan():
 async def _entrainer():
     model_state["entrainement_en_cours"] = True
     try:
-        df = await telecharger_donnees_emprunts()
-        if df.empty or len(df) < 5:
+        emprunts_df = await telecharger_donnees_emprunts()
+        livres_df = await _charger_livres_service()
+        if livres_df is None:
+            livres_df = _charger_livres_locaux()
+
+        if emprunts_df is None or emprunts_df.empty or len(emprunts_df) < 5:
             logger.warning("Pas assez de données pour entraîner le modèle.")
+            return
+        if livres_df is None or livres_df.empty:
+            logger.warning("Pas de données livres disponibles pour l'entraînement.")
             return
 
         model = RecommendationModel()
-        metrics = model.entrainer(df)
-        model.sauvegarder(MODEL_PATH)
+        livre_id_to_isbn = None
+        if "id" in livres_df.columns and "isbn" in livres_df.columns:
+            livre_id_to_isbn = livres_df.set_index("id")["isbn"].to_dict()
 
-        # Sauvegarder aussi les données localement pour DVC
+        metrics = model.entrainer(
+            emprunts_df,
+            livres_df,
+            livre_id_to_isbn=livre_id_to_isbn,
+            alpha=ALPHA,
+            min_user_ratings=MIN_USER_RATINGS,
+        )
+        model.sauvegarder(ARTIFACTS_PATH)
+
+        # Sauvegarder aussi les données localement
         Path(DATA_PATH).parent.mkdir(parents=True, exist_ok=True)
-        df.to_csv(DATA_PATH, index=False)
+        emprunts_df.to_csv(DATA_PATH, index=False)
 
         model_state["model"] = model
+        model_state["ratings"] = model.ratings
         logger.info(f"Entraînement terminé. Métriques : {metrics}")
     except Exception as e:
         logger.error(f"Erreur entraînement : {e}")
@@ -187,7 +331,11 @@ async def health():
     response_model=RecommandationsResponse,
     summary="Recommandations personnalisées",
 )
-async def get_recommendations(user_id: int, n: int = N_RECOMMENDATIONS):
+async def get_recommendations(
+    user_id: int,
+    n: int = N_RECOMMENDATIONS,
+    ref_isbn: Optional[str] = None,
+):
     """
     Retourne les N meilleures recommandations de livres pour un utilisateur.
 
@@ -203,14 +351,20 @@ async def get_recommendations(user_id: int, n: int = N_RECOMMENDATIONS):
     model: RecommendationModel = model_state["model"]
 
     try:
-        recos_brutes = model.recommander(utilisateur_id=user_id, n=n)
+        recos_brutes = model.recommander(
+            utilisateur_id=user_id,
+            n=n,
+            ratings=model_state.get("ratings"),
+            ref_isbn=ref_isbn,
+            ref_weight=REF_WEIGHT,
+        )
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
     # Enrichir avec les détails des livres
     recos_enrichies = await enrichir_avec_details_livres(recos_brutes)
 
-    connu = user_id in model.user_ids
+    connu = user_id in model.artifacts.get("user_index", {})
     return RecommandationsResponse(
         utilisateur_id=user_id,
         recommandations=recos_enrichies,
@@ -263,13 +417,20 @@ async def get_popular(n: int = 10):
     if model_state["model"] is None:
         raise HTTPException(status_code=503, detail="Aucun modèle chargé.")
 
-    import numpy as np
     model: RecommendationModel = model_state["model"]
-    popularite = model.matrice.sum(axis=0)
-    top_indices = np.argsort(popularite)[::-1][:n]
+    popularity = model.artifacts.get("popularity")
+    if popularity is None or popularity.empty:
+        raise HTTPException(status_code=503, detail="Pas de données de popularité.")
 
-    livres = [
-        {"livre_id": int(model.livre_ids[i]), "emprunts": int(popularite[i])}
-        for i in top_indices
-    ]
+    top = popularity.sort_values("score", ascending=False).head(n)
+    livres = []
+    async with httpx.AsyncClient(timeout=5.0) as client:
+        for isbn_norm, row in top.iterrows():
+            details = await _fetch_livre_by_isbn(client, isbn_norm)
+            livres.append({
+                "livre_id": details.get("id") if isinstance(details, dict) else None,
+                "isbn": isbn_norm,
+                "emprunts": int(row.get("count", 0)),
+            })
+
     return {"top_livres": livres}

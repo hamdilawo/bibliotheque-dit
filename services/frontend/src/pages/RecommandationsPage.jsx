@@ -6,6 +6,7 @@ import { Card, Button, Spinner, EmptyState, StatCard } from '../components/UI';
 import toast from 'react-hot-toast';
 
 function RecoCard({ reco, rank }) {
+  const displayId = reco.livre_id ?? reco.isbn;
   return (
     <Card className="flex items-start gap-4 hover:shadow-md transition-shadow">
       <div className="w-10 h-10 rounded-full bg-yellow-100 text-yellow-700 flex items-center
@@ -14,7 +15,7 @@ function RecoCard({ reco, rank }) {
       </div>
       <div className="flex-1 min-w-0">
         <h3 className="font-semibold text-gray-800 truncate">
-          {reco.titre || `Livre #${reco.livre_id}`}
+          {reco.titre || (displayId ? `Livre #${displayId}` : 'Livre')}
         </h3>
         {reco.auteur && <p className="text-sm text-gray-500">{reco.auteur}</p>}
         {reco.isbn && <p className="text-xs text-gray-400 mt-0.5">ISBN : {reco.isbn}</p>}
@@ -90,7 +91,7 @@ export default function RecommandationsPage() {
             <Star className="text-yellow-500" /> Recommandations
           </h1>
           <p className="text-sm text-gray-500 mt-0.5">
-            Basées sur votre historique d'emprunts (SVD)
+            Basées sur votre historique d'emprunts (hybride)
           </p>
         </div>
         <div className="flex gap-2">
@@ -140,7 +141,9 @@ export default function RecommandationsPage() {
               />
             ) : (
               <div className="flex flex-col gap-3">
-                {recos.map((r, i) => <RecoCard key={r.livre_id} reco={r} rank={i + 1} />)}
+                {recos.map((r, i) => (
+                  <RecoCard key={r.livre_id ?? r.isbn ?? i} reco={r} rank={i + 1} />
+                ))}
               </div>
             )}
           </div>
@@ -157,11 +160,13 @@ export default function RecommandationsPage() {
               ) : (
                 <div>
                   {populaires.map((l, i) => (
-                    <div key={l.livre_id}
+                    <div key={l.livre_id ?? l.isbn ?? i}
                       className="flex items-center gap-3 px-4 py-3 border-b last:border-0">
                       <span className="text-sm font-bold text-gray-400 w-5">{i + 1}</span>
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-gray-800">Livre #{l.livre_id}</p>
+                        <p className="text-sm font-medium text-gray-800">
+                          Livre #{l.livre_id ?? l.isbn ?? '—'}
+                        </p>
                         <div className="w-full bg-gray-100 rounded-full h-1.5 mt-1">
                           <div
                             className="bg-blue-500 h-1.5 rounded-full"
