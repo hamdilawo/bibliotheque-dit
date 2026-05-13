@@ -42,9 +42,9 @@ class JWTAuthMiddleware:
         try:
             user = User(
                 id=payload["user_id"],
-                name=payload.get("user_name", "Unknown"),
-                email=payload["user_email"],
-                role=payload["user_role"],
+                name=payload.get("full_name", "Unknown"),
+                email=payload["email"],
+                role=payload["role"],
             )
             request.authenticated_user = user
         except KeyError as exc:

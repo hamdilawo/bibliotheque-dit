@@ -8,7 +8,7 @@ from .models import User
 
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
-  
+
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     """
     Elle personnalise le token JWT pour y ajouter des informations supplémentaires 
@@ -17,21 +17,21 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
 
     @classmethod
     def get_token(cls, user):
-         # Récupère le token JWT standard
+        # Récupère le token JWT standard
         token = super().get_token(user)
-        
+
         # Ajout des infos de ton modèle User
         # Ajoute des infos personnalisées dans le token
         # convertir tous les types non sérialisables en str
         # super().get_token() ajoute automatiquement user_id
         # mais comme c'est un UUID il faut le forcer en str
-         # user_id déjà ajouté automatiquement par simplejwt → supprimer
-        # donc commentons la ligne 
-        #token['user_id']      = str(user.id)
-        token['email']      = user.email
-        token['full_name']  = str(user.full_name)   # @property
-        token['role']       = user.role
-        token['is_active']   = user.is_active
+        # user_id déjà ajouté automatiquement par simplejwt → supprimer
+        # donc commentons la ligne
+        # token['user_id']      = str(user.id) TODO: POurquoir commenter
+        token['email'] = user.email
+        token['full_name'] = str(user.full_name)   # @property
+        token['role'] = user.role
+        token['is_active'] = user.is_active
 
         return token
 
@@ -42,10 +42,11 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
 
         # Tu peux aussi ajouter des infos dans la réponse API
         # sans les mettre dans le token
-        data['id']=str(self.user.id) # str() obligatoire pour UUID, UUID non sérialisable
-        data['email']     = self.user.email
+        # str() obligatoire pour UUID, UUID non sérialisable
+        data['id'] = str(self.user.id)
+        data['email'] = self.user.email
         data['full_name'] = self.user.full_name
-        data['role']      = self.user.role
+        data['role'] = self.user.role
 
         return data
 
@@ -57,7 +58,8 @@ class UserListSerializer(serializers.ModelSerializer):
      Retourne uniquement les infos essentielles
     """
     # read_only=True car c'est une valeur calculée, on ne peut pas la modifier directement.
-    full_name = serializers.CharField(read_only=True)  # lit/expose le @property du modèle
+    # lit/expose le @property du modèle
+    full_name = serializers.CharField(read_only=True)
 
     class Meta:
         model = User
@@ -71,6 +73,8 @@ class UserListSerializer(serializers.ModelSerializer):
         ]
 
 # Serializer complet pour le détail GET /api/users/<id>/
+
+
 class UserDetailSerializer(serializers.ModelSerializer):
     """Serializer complet pour le détail d'un utilisateur."""
     full_name = serializers.CharField(read_only=True)  # @property du modèle
@@ -78,9 +82,9 @@ class UserDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
-           # Ne jamais exposer password dans une réponse API, même hashé. 
+            # Ne jamais exposer password dans une réponse API, même hashé.
             'id',
-            'full_name',   
+            'full_name',
             'first_name',
             'last_name',
             'email',
@@ -96,7 +100,6 @@ class UserDetailSerializer(serializers.ModelSerializer):
             'date_joined',  # généré automatiquement à la création
             'last_login',   # géré par Django automatiquement
         ]
-
 
 
 # Serializer pour la création POST /api/users/
@@ -145,11 +148,13 @@ class UserCreateSerializer(serializers.ModelSerializer):
         """Crée un utilisateur avec le mot de passe hashé."""
         password = validated_data.pop('password')
         user = User(**validated_data)
-        user.set_password(password)   #  hashage du mot de passe
+        user.set_password(password)  # hashage du mot de passe
         user.save()
         return user
 
 # Serializer pour la mise à jour PATCH /api/users/<id>/
+
+
 class UserUpdateSerializer(serializers.ModelSerializer):
     """Serializer pour la mise à jour d'un utilisateur."""
 
@@ -164,10 +169,10 @@ class UserUpdateSerializer(serializers.ModelSerializer):
         read_only_fields = []  # aucun champ read_only ici, tout est modifiable
         extra_kwargs = {
             'email':      {'required': False},  # PATCH → champs optionnels
-            'first_name': {'required': False},  
+            'first_name': {'required': False},
             'last_name':  {'required': False},
             'role':       {'required': False},
-            
+
         }
 
     def validate_email(self, value):
@@ -189,8 +194,9 @@ class UserUpdateSerializer(serializers.ModelSerializer):
     def validate_first_name(self, value):
         """Vérifie que le prénom n'est pas vide."""
         if value and len(value.strip()) == 0:
-            raise serializers.ValidationError("Le prénom ne peut pas être vide.")
-        return value.strip()  #  supprime les espaces inutiles
+            raise serializers.ValidationError(
+                "Le prénom ne peut pas être vide.")
+        return value.strip()  # supprime les espaces inutiles
 
     def validate_last_name(self, value):
         """Vérifie que le nom n'est pas vide."""
@@ -208,16 +214,20 @@ class UserUpdateSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         """Met à jour uniquement les champs fournis."""
-        instance.first_name = validated_data.get('first_name', instance.first_name)
-        instance.last_name  = validated_data.get('last_name', instance.last_name)
-        instance.role       = validated_data.get('role', instance.role)
+        instance.first_name = validated_data.get(
+            'first_name', instance.first_name)
+        instance.last_name = validated_data.get(
+            'last_name', instance.last_name)
+        instance.role = validated_data.get('role', instance.role)
         instance.save()
         return instance
-    
+
 # Serializer pour la modification du mot de passe PATCH /api/users/change-password/
+
+
 class UserChangePasswordSerializer(serializers.Serializer):
     """Serializer pour la modification du mot de passe."""
-    
+
     #  On n'utilise pas ModelSerializer ici
     # car password n'est pas un champ direct du modèle
 
@@ -268,10 +278,11 @@ class UserChangePasswordSerializer(serializers.Serializer):
     def save(self):
         """Applique le nouveau mot de passe."""
         user = self.context['request'].user
-        user.set_password(self.validated_data['new_password'])  #  hashage automatique
+        # hashage automatique
+        user.set_password(self.validated_data['new_password'])
         user.save()
         return user
-    
+
 
 class UserDeactivateSerializer(serializers.ModelSerializer):
     """Serializer pour la désactivation d'un utilisateur (soft delete)."""
@@ -294,8 +305,3 @@ class UserDeactivateSerializer(serializers.ModelSerializer):
         instance.is_active = False
         instance.save()
         return instance
-    
-
-
-
-

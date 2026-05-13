@@ -140,38 +140,6 @@
         "documentation": {}
     },
     {
-        "label": "path",
-        "importPath": "django.urls",
-        "description": "django.urls",
-        "isExtraImport": true,
-        "detail": "django.urls",
-        "documentation": {}
-    },
-    {
-        "label": "include",
-        "importPath": "django.urls",
-        "description": "django.urls",
-        "isExtraImport": true,
-        "detail": "django.urls",
-        "documentation": {}
-    },
-    {
-        "label": "path",
-        "importPath": "django.urls",
-        "description": "django.urls",
-        "isExtraImport": true,
-        "detail": "django.urls",
-        "documentation": {}
-    },
-    {
-        "label": "include",
-        "importPath": "django.urls",
-        "description": "django.urls",
-        "isExtraImport": true,
-        "detail": "django.urls",
-        "documentation": {}
-    },
-    {
         "label": "urlpatterns_scalar",
         "importPath": "src.loans.adapters.scalar.scalar",
         "description": "src.loans.adapters.scalar.scalar",
@@ -324,30 +292,6 @@
         "documentation": {}
     },
     {
-        "label": "models",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "migrations",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
-        "label": "models",
-        "importPath": "django.db",
-        "description": "django.db",
-        "isExtraImport": true,
-        "detail": "django.db",
-        "documentation": {}
-    },
-    {
         "label": "migrations",
         "importPath": "django.db",
         "description": "django.db",
@@ -401,30 +345,6 @@
         "description": "decimal",
         "isExtraImport": true,
         "detail": "decimal",
-        "documentation": {}
-    },
-    {
-        "label": "timezone",
-        "importPath": "django.utils",
-        "description": "django.utils",
-        "isExtraImport": true,
-        "detail": "django.utils",
-        "documentation": {}
-    },
-    {
-        "label": "timezone",
-        "importPath": "django.utils",
-        "description": "django.utils",
-        "isExtraImport": true,
-        "detail": "django.utils",
-        "documentation": {}
-    },
-    {
-        "label": "timezone",
-        "importPath": "django.utils",
-        "description": "django.utils",
-        "isExtraImport": true,
-        "detail": "django.utils",
         "documentation": {}
     },
     {
@@ -533,62 +453,6 @@
     },
     {
         "label": "date",
-        "importPath": "datetime",
-        "description": "datetime",
-        "isExtraImport": true,
-        "detail": "datetime",
-        "documentation": {}
-    },
-    {
-        "label": "date",
-        "importPath": "datetime",
-        "description": "datetime",
-        "isExtraImport": true,
-        "detail": "datetime",
-        "documentation": {}
-    },
-    {
-        "label": "date",
-        "importPath": "datetime",
-        "description": "datetime",
-        "isExtraImport": true,
-        "detail": "datetime",
-        "documentation": {}
-    },
-    {
-        "label": "timedelta",
-        "importPath": "datetime",
-        "description": "datetime",
-        "isExtraImport": true,
-        "detail": "datetime",
-        "documentation": {}
-    },
-    {
-        "label": "timedelta",
-        "importPath": "datetime",
-        "description": "datetime",
-        "isExtraImport": true,
-        "detail": "datetime",
-        "documentation": {}
-    },
-    {
-        "label": "timedelta",
-        "importPath": "datetime",
-        "description": "datetime",
-        "isExtraImport": true,
-        "detail": "datetime",
-        "documentation": {}
-    },
-    {
-        "label": "date",
-        "importPath": "datetime",
-        "description": "datetime",
-        "isExtraImport": true,
-        "detail": "datetime",
-        "documentation": {}
-    },
-    {
-        "label": "timedelta",
         "importPath": "datetime",
         "description": "datetime",
         "isExtraImport": true,
@@ -828,62 +692,6 @@
         "documentation": {}
     },
     {
-        "label": "Optional",
-        "importPath": "typing",
-        "description": "typing",
-        "isExtraImport": true,
-        "detail": "typing",
-        "documentation": {}
-    },
-    {
-        "label": "Optional",
-        "importPath": "typing",
-        "description": "typing",
-        "isExtraImport": true,
-        "detail": "typing",
-        "documentation": {}
-    },
-    {
-        "label": "Self",
-        "importPath": "typing",
-        "description": "typing",
-        "isExtraImport": true,
-        "detail": "typing",
-        "documentation": {}
-    },
-    {
-        "label": "Optional",
-        "importPath": "typing",
-        "description": "typing",
-        "isExtraImport": true,
-        "detail": "typing",
-        "documentation": {}
-    },
-    {
-        "label": "Optional",
-        "importPath": "typing",
-        "description": "typing",
-        "isExtraImport": true,
-        "detail": "typing",
-        "documentation": {}
-    },
-    {
-        "label": "Protocol",
-        "importPath": "typing",
-        "description": "typing",
-        "isExtraImport": true,
-        "detail": "typing",
-        "documentation": {}
-    },
-    {
-        "label": "Protocol",
-        "importPath": "typing",
-        "description": "typing",
-        "isExtraImport": true,
-        "detail": "typing",
-        "documentation": {}
-    },
-    {
         "label": "Annotated",
         "importPath": "typing",
         "description": "typing",
@@ -1108,38 +916,6 @@
         "documentation": {}
     },
     {
-        "label": "status",
-        "importPath": "rest_framework",
-        "description": "rest_framework",
-        "isExtraImport": true,
-        "detail": "rest_framework",
-        "documentation": {}
-    },
-    {
-        "label": "filters",
-        "importPath": "rest_framework",
-        "description": "rest_framework",
-        "isExtraImport": true,
-        "detail": "rest_framework",
-        "documentation": {}
-    },
-    {
-        "label": "serializers",
-        "importPath": "rest_framework",
-        "description": "rest_framework",
-        "isExtraImport": true,
-        "detail": "rest_framework",
-        "documentation": {}
-    },
-    {
-        "label": "viewsets",
-        "importPath": "rest_framework",
-        "description": "rest_framework",
-        "isExtraImport": true,
-        "detail": "rest_framework",
-        "documentation": {}
-    },
-    {
         "label": "filters",
         "importPath": "rest_framework",
         "description": "rest_framework",
@@ -1153,14 +929,6 @@
         "description": "rest_framework",
         "isExtraImport": true,
         "detail": "rest_framework",
-        "documentation": {}
-    },
-    {
-        "label": "DefaultRouter",
-        "importPath": "rest_framework.routers",
-        "description": "rest_framework.routers",
-        "isExtraImport": true,
-        "detail": "rest_framework.routers",
         "documentation": {}
     },
     {
@@ -1252,22 +1020,6 @@
         "documentation": {}
     },
     {
-        "label": "action",
-        "importPath": "rest_framework.decorators",
-        "description": "rest_framework.decorators",
-        "isExtraImport": true,
-        "detail": "rest_framework.decorators",
-        "documentation": {}
-    },
-    {
-        "label": "Response",
-        "importPath": "rest_framework.response",
-        "description": "rest_framework.response",
-        "isExtraImport": true,
-        "detail": "rest_framework.response",
-        "documentation": {}
-    },
-    {
         "label": "Response",
         "importPath": "rest_framework.response",
         "description": "rest_framework.response",
@@ -1308,14 +1060,6 @@
         "documentation": {}
     },
     {
-        "label": "HttpResponse",
-        "importPath": "django.http",
-        "description": "django.http",
-        "isExtraImport": true,
-        "detail": "django.http",
-        "documentation": {}
-    },
-    {
         "label": "extend_schema",
         "importPath": "drf_spectacular.utils",
         "description": "drf_spectacular.utils",
@@ -1325,22 +1069,6 @@
     },
     {
         "label": "OpenApiParameter",
-        "importPath": "drf_spectacular.utils",
-        "description": "drf_spectacular.utils",
-        "isExtraImport": true,
-        "detail": "drf_spectacular.utils",
-        "documentation": {}
-    },
-    {
-        "label": "OpenApiParameter",
-        "importPath": "drf_spectacular.utils",
-        "description": "drf_spectacular.utils",
-        "isExtraImport": true,
-        "detail": "drf_spectacular.utils",
-        "documentation": {}
-    },
-    {
-        "label": "extend_schema",
         "importPath": "drf_spectacular.utils",
         "description": "drf_spectacular.utils",
         "isExtraImport": true,
@@ -1406,20 +1134,20 @@
         "documentation": {}
     },
     {
+        "label": "BookService",
+        "importPath": "src.loans.adapters.services.book",
+        "description": "src.loans.adapters.services.book",
+        "isExtraImport": true,
+        "detail": "src.loans.adapters.services.book",
+        "documentation": {}
+    },
+    {
         "label": "jwt",
         "kind": 6,
         "isExtraImport": true,
         "importPath": "jwt",
         "description": "jwt",
         "detail": "jwt",
-        "documentation": {}
-    },
-    {
-        "label": "settings",
-        "importPath": "django.conf",
-        "description": "django.conf",
-        "isExtraImport": true,
-        "detail": "django.conf",
         "documentation": {}
     },
     {
@@ -1524,22 +1252,6 @@
         "description": "rest_framework.fields",
         "isExtraImport": true,
         "detail": "rest_framework.fields",
-        "documentation": {}
-    },
-    {
-        "label": "SpectacularAPIView",
-        "importPath": "drf_spectacular.views",
-        "description": "drf_spectacular.views",
-        "isExtraImport": true,
-        "detail": "drf_spectacular.views",
-        "documentation": {}
-    },
-    {
-        "label": "SpectacularSwaggerView",
-        "importPath": "drf_spectacular.views",
-        "description": "drf_spectacular.views",
-        "isExtraImport": true,
-        "detail": "drf_spectacular.views",
         "documentation": {}
     },
     {
@@ -1752,62 +1464,6 @@
         "documentation": {}
     },
     {
-        "label": "dataclass",
-        "importPath": "dataclasses",
-        "description": "dataclasses",
-        "isExtraImport": true,
-        "detail": "dataclasses",
-        "documentation": {}
-    },
-    {
-        "label": "dataclass",
-        "importPath": "dataclasses",
-        "description": "dataclasses",
-        "isExtraImport": true,
-        "detail": "dataclasses",
-        "documentation": {}
-    },
-    {
-        "label": "dataclass",
-        "importPath": "dataclasses",
-        "description": "dataclasses",
-        "isExtraImport": true,
-        "detail": "dataclasses",
-        "documentation": {}
-    },
-    {
-        "label": "field",
-        "importPath": "dataclasses",
-        "description": "dataclasses",
-        "isExtraImport": true,
-        "detail": "dataclasses",
-        "documentation": {}
-    },
-    {
-        "label": "dataclass",
-        "importPath": "dataclasses",
-        "description": "dataclasses",
-        "isExtraImport": true,
-        "detail": "dataclasses",
-        "documentation": {}
-    },
-    {
-        "label": "dataclass",
-        "importPath": "dataclasses",
-        "description": "dataclasses",
-        "isExtraImport": true,
-        "detail": "dataclasses",
-        "documentation": {}
-    },
-    {
-        "label": "Enum",
-        "importPath": "enum",
-        "description": "enum",
-        "isExtraImport": true,
-        "detail": "enum",
-        "documentation": {}
-    },
-    {
         "label": "Enum",
         "importPath": "enum",
         "description": "enum",
@@ -1845,22 +1501,6 @@
         "isExtraImport": true,
         "importPath": "uuid",
         "description": "uuid",
-        "detail": "uuid",
-        "documentation": {}
-    },
-    {
-        "label": "UUID",
-        "importPath": "uuid",
-        "description": "uuid",
-        "isExtraImport": true,
-        "detail": "uuid",
-        "documentation": {}
-    },
-    {
-        "label": "uuid7",
-        "importPath": "uuid",
-        "description": "uuid",
-        "isExtraImport": true,
         "detail": "uuid",
         "documentation": {}
     },
@@ -2084,163 +1724,11 @@
         "documentation": {}
     },
     {
-        "label": "Counter",
-        "importPath": "collections",
-        "description": "collections",
-        "isExtraImport": true,
-        "detail": "collections",
-        "documentation": {}
-    },
-    {
         "label": "Emprunt",
         "importPath": "loans.models",
         "description": "loans.models",
         "isExtraImport": true,
         "detail": "loans.models",
-        "documentation": {}
-    },
-    {
-        "label": "Book",
-        "importPath": "services.emprunts.loans.app.domain.book",
-        "description": "services.emprunts.loans.app.domain.book",
-        "isExtraImport": true,
-        "detail": "services.emprunts.loans.app.domain.book",
-        "documentation": {}
-    },
-    {
-        "label": "Book",
-        "importPath": "services.emprunts.loans.app.domain.book",
-        "description": "services.emprunts.loans.app.domain.book",
-        "isExtraImport": true,
-        "detail": "services.emprunts.loans.app.domain.book",
-        "documentation": {}
-    },
-    {
-        "label": "Book",
-        "importPath": "services.emprunts.loans.app.domain.book",
-        "description": "services.emprunts.loans.app.domain.book",
-        "isExtraImport": true,
-        "detail": "services.emprunts.loans.app.domain.book",
-        "documentation": {}
-    },
-    {
-        "label": "BookRepository",
-        "importPath": "services.emprunts.loans.app.ports.book_repository",
-        "description": "services.emprunts.loans.app.ports.book_repository",
-        "isExtraImport": true,
-        "detail": "services.emprunts.loans.app.ports.book_repository",
-        "documentation": {}
-    },
-    {
-        "label": "BookRepository",
-        "importPath": "services.emprunts.loans.app.ports.book_repository",
-        "description": "services.emprunts.loans.app.ports.book_repository",
-        "isExtraImport": true,
-        "detail": "services.emprunts.loans.app.ports.book_repository",
-        "documentation": {}
-    },
-    {
-        "label": "ServiceException",
-        "importPath": "services.emprunts.loans.client",
-        "description": "services.emprunts.loans.client",
-        "isExtraImport": true,
-        "detail": "services.emprunts.loans.client",
-        "documentation": {}
-    },
-    {
-        "label": "Emprunt",
-        "importPath": "services.emprunts.loans.adapters.dal.models",
-        "description": "services.emprunts.loans.adapters.dal.models",
-        "isExtraImport": true,
-        "detail": "services.emprunts.loans.adapters.dal.models",
-        "documentation": {}
-    },
-    {
-        "label": "Loan",
-        "importPath": "services.emprunts.loans.app.domain.loan",
-        "description": "services.emprunts.loans.app.domain.loan",
-        "isExtraImport": true,
-        "detail": "services.emprunts.loans.app.domain.loan",
-        "documentation": {}
-    },
-    {
-        "label": "LoanStatus",
-        "importPath": "services.emprunts.loans.app.domain.loan",
-        "description": "services.emprunts.loans.app.domain.loan",
-        "isExtraImport": true,
-        "detail": "services.emprunts.loans.app.domain.loan",
-        "documentation": {}
-    },
-    {
-        "label": "Loan",
-        "importPath": "services.emprunts.loans.app.domain.loan",
-        "description": "services.emprunts.loans.app.domain.loan",
-        "isExtraImport": true,
-        "detail": "services.emprunts.loans.app.domain.loan",
-        "documentation": {}
-    },
-    {
-        "label": "Loan",
-        "importPath": "services.emprunts.loans.app.domain.loan",
-        "description": "services.emprunts.loans.app.domain.loan",
-        "isExtraImport": true,
-        "detail": "services.emprunts.loans.app.domain.loan",
-        "documentation": {}
-    },
-    {
-        "label": "LoanRepository",
-        "importPath": "services.emprunts.loans.app.ports.loan_repository",
-        "description": "services.emprunts.loans.app.ports.loan_repository",
-        "isExtraImport": true,
-        "detail": "services.emprunts.loans.app.ports.loan_repository",
-        "documentation": {}
-    },
-    {
-        "label": "LoanRepository",
-        "importPath": "services.emprunts.loans.app.ports.loan_repository",
-        "description": "services.emprunts.loans.app.ports.loan_repository",
-        "isExtraImport": true,
-        "detail": "services.emprunts.loans.app.ports.loan_repository",
-        "documentation": {}
-    },
-    {
-        "label": "Reader",
-        "importPath": "services.emprunts.loans.app.domain.reader",
-        "description": "services.emprunts.loans.app.domain.reader",
-        "isExtraImport": true,
-        "detail": "services.emprunts.loans.app.domain.reader",
-        "documentation": {}
-    },
-    {
-        "label": "Reader",
-        "importPath": "services.emprunts.loans.app.domain.reader",
-        "description": "services.emprunts.loans.app.domain.reader",
-        "isExtraImport": true,
-        "detail": "services.emprunts.loans.app.domain.reader",
-        "documentation": {}
-    },
-    {
-        "label": "Email",
-        "importPath": "services.emprunts.loans.app.domain.email",
-        "description": "services.emprunts.loans.app.domain.email",
-        "isExtraImport": true,
-        "detail": "services.emprunts.loans.app.domain.email",
-        "documentation": {}
-    },
-    {
-        "label": "Email",
-        "importPath": "services.emprunts.loans.app.domain.email",
-        "description": "services.emprunts.loans.app.domain.email",
-        "isExtraImport": true,
-        "detail": "services.emprunts.loans.app.domain.email",
-        "documentation": {}
-    },
-    {
-        "label": "Emprunt",
-        "importPath": "services.emprunts.loans.adapters.dao.models",
-        "description": "services.emprunts.loans.adapters.dao.models",
-        "isExtraImport": true,
-        "detail": "services.emprunts.loans.adapters.dao.models",
         "documentation": {}
     },
     {
@@ -3727,7 +3215,7 @@
         "kind": 6,
         "importPath": "emprunts.src.loans.adapters.services.book",
         "description": "emprunts.src.loans.adapters.services.book",
-        "peekOfCode": "class BookService(BookServiceInterface):\n    def __init__(self, base_url: str):\n        self.base_url = base_url\n    def get_book_by_id(self, book_id: str) -> Optional[Book]:\n        \"\"\"Récupère les infos d'un livre.\"\"\"\n        try:\n            url = f\"{self.base_url}/api/livres/{book_id}/\"\n            response = requests.get(url, timeout=5)\n            if response.status_code == 404:\n                return None",
+        "peekOfCode": "class BookService(BookServiceInterface):\n    def __init__(self, base_url: str | None = None):\n        self.base_url = BOOK_SERVICE_API_URL\n    def get_book_by_id(self, book_id: str) -> Optional[Book]:\n        \"\"\"Récupère les infos d'un livre.\"\"\"\n        try:\n            url = f\"{self.base_url}/api/livres/{book_id}/\"\n            response = requests.get(url, timeout=5)\n            if response.status_code == 404:\n                return None",
         "detail": "emprunts.src.loans.adapters.services.book",
         "documentation": {}
     },
@@ -3737,6 +3225,15 @@
         "importPath": "emprunts.src.loans.adapters.services.book",
         "description": "emprunts.src.loans.adapters.services.book",
         "peekOfCode": "class FakeBookService(BookServiceInterface):\n    def __init__(self,):\n        ...\n    def get_book_by_id(self, book_id: str) -> Optional[Book]:\n        \"\"\"Récupère les infos d'un livre.\"\"\"\n        book = Book(\n            id=book_id,\n            title=\"Untitled Book\",\n            author=\"Unknown Author\",\n            numbers_of_copies=1,",
+        "detail": "emprunts.src.loans.adapters.services.book",
+        "documentation": {}
+    },
+    {
+        "label": "BOOK_SERVICE_API_URL",
+        "kind": 5,
+        "importPath": "emprunts.src.loans.adapters.services.book",
+        "description": "emprunts.src.loans.adapters.services.book",
+        "peekOfCode": "BOOK_SERVICE_API_URL = os.getenv(\"SERVICE_LIVRES_URL\", \"http://not-found:8000\")\nclass BookService(BookServiceInterface):\n    def __init__(self, base_url: str | None = None):\n        self.base_url = BOOK_SERVICE_API_URL\n    def get_book_by_id(self, book_id: str) -> Optional[Book]:\n        \"\"\"Récupère les infos d'un livre.\"\"\"\n        try:\n            url = f\"{self.base_url}/api/livres/{book_id}/\"\n            response = requests.get(url, timeout=5)\n            if response.status_code == 404:",
         "detail": "emprunts.src.loans.adapters.services.book",
         "documentation": {}
     },
@@ -3754,7 +3251,7 @@
         "kind": 6,
         "importPath": "emprunts.src.loans.app.domain.book",
         "description": "emprunts.src.loans.app.domain.book",
-        "peekOfCode": "class Book:\n    id: str\n    title: str\n    author: str\n    isbn: str\n    numbers_of_copies: int = 1\n    def __post_init__(self):\n        if not self.id:\n            raise ValueError(\"Book ID cannot be empty\")\n        if not self.title:",
+        "peekOfCode": "class Book:\n    id: str\n    title: str\n    author: str\n    isbn: str\n    numbers_of_copies: int = 1\n    cover: str = \"\"\n    def __post_init__(self):\n        if not self.id:\n            raise ValueError(\"Book ID cannot be empty\")",
         "detail": "emprunts.src.loans.app.domain.book",
         "documentation": {}
     },
@@ -4125,339 +3622,6 @@
         "description": "emprunts.seed",
         "peekOfCode": "distribution = Counter(PREF_UTILISATEUR.values())\nfor cat, n in sorted(distribution.items(), key=lambda x: -x[1]):\n    print(f\"  {cat:5s} : {n} utilisateurs\")\nprint(\"\\nHistorique pret pour l'export DVC !\")",
         "detail": "emprunts.seed",
-        "documentation": {}
-    },
-    {
-        "label": "urlpatterns",
-        "kind": 5,
-        "importPath": "services.emprunts.emprunts_service.urls",
-        "description": "services.emprunts.emprunts_service.urls",
-        "peekOfCode": "urlpatterns = [\n    path('api/', include('loans.adapters.http.urls')),\n    path('api/schema/', SpectacularAPIView.as_view(), name='schema'),\n    path('api/docs/', SpectacularSwaggerView.as_view(url_name='schema'),\n         name='swagger-ui'),\n]",
-        "detail": "services.emprunts.emprunts_service.urls",
-        "documentation": {}
-    },
-    {
-        "label": "Migration",
-        "kind": 6,
-        "importPath": "services.emprunts.loans.adapters.dal.migrations.0001_initial",
-        "description": "services.emprunts.loans.adapters.dal.migrations.0001_initial",
-        "peekOfCode": "class Migration(migrations.Migration):\n    initial = True\n    dependencies = []\n    operations = [\n        migrations.CreateModel(\n            name='Emprunt',\n            fields=[\n                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False)),\n                ('utilisateur_id', models.PositiveIntegerField(db_index=True)),\n                ('livre_id', models.PositiveIntegerField(db_index=True)),",
-        "detail": "services.emprunts.loans.adapters.dal.migrations.0001_initial",
-        "documentation": {}
-    },
-    {
-        "label": "BookRepositoryImpl",
-        "kind": 6,
-        "importPath": "services.emprunts.loans.adapters.dal.repositories.book_repository",
-        "description": "services.emprunts.loans.adapters.dal.repositories.book_repository",
-        "peekOfCode": "class BookRepositoryImpl(BookRepository):\n    def __init__(self, base_url: str):\n        self.base_url = base_url\n    def get_book_by_id(self, book_id: str) -> Optional[Book]:\n        \"\"\"Récupère les infos d'un livre.\"\"\"\n        try:\n            url = f\"{self.base_url}/api/livres/{book_id}/\"\n            response = requests.get(url, timeout=5)\n            if response.status_code == 404:\n                return None",
-        "detail": "services.emprunts.loans.adapters.dal.repositories.book_repository",
-        "documentation": {}
-    },
-    {
-        "label": "LoanRepositoryImpl",
-        "kind": 6,
-        "importPath": "services.emprunts.loans.adapters.dal.repositories.loan_repository",
-        "description": "services.emprunts.loans.adapters.dal.repositories.loan_repository",
-        "peekOfCode": "class LoanRepositoryImpl(LoanRepository):\n    def __init__(self):\n        pass\n    def save(self, loan: Loan) -> None:\n        # Convertir le domaine Loan en modèle Django et sauvegarder\n        #        emprunt = Emprunt.objects.create(\n        #     utilisateur_id=utilisateur_id,\n        #     livre_id=livre_id,\n        #     utilisateur_nom=f\"{utilisateur.get('nom_complet', '')}\",\n        #     utilisateur_carte=utilisateur.get('numero_carte', ''),",
-        "detail": "services.emprunts.loans.adapters.dal.repositories.loan_repository",
-        "documentation": {}
-    },
-    {
-        "label": "Emprunt",
-        "kind": 6,
-        "importPath": "services.emprunts.loans.adapters.dal.models",
-        "description": "services.emprunts.loans.adapters.dal.models",
-        "peekOfCode": "class Emprunt(models.Model):\n    STATUT_CHOICES = [\n        ('EN_COURS', 'En cours'),\n        ('RETOURNE', 'Retourné'),\n        ('APPROVE', 'Apprové'),\n        ('REJETE', 'Rejeté'),\n    ]\n    # New\n    id = models.UUIDField(primary_key=True)\n    # Références inter-services (IDs sans FK)",
-        "detail": "services.emprunts.loans.adapters.dal.models",
-        "documentation": {}
-    },
-    {
-        "label": "EmpruntListSerializer",
-        "kind": 6,
-        "importPath": "services.emprunts.loans.adapters.http.serializers",
-        "description": "services.emprunts.loans.adapters.http.serializers",
-        "peekOfCode": "class EmpruntListSerializer(serializers.ModelSerializer):\n    \"\"\"Serializer allégé pour les listes.\"\"\"\n    est_en_retard = serializers.BooleanField(read_only=True)\n    jours_restants = serializers.IntegerField(read_only=True)\n    class Meta:\n        model = Emprunt\n        fields = [\n            'id', 'utilisateur_id', 'utilisateur_nom', 'utilisateur_carte',\n            'livre_id', 'livre_titre', 'livre_auteur', 'livre_isbn',\n            'date_emprunt', 'date_retour_prevue', 'date_retour_effective',",
-        "detail": "services.emprunts.loans.adapters.http.serializers",
-        "documentation": {}
-    },
-    {
-        "label": "EmpruntDetailSerializer",
-        "kind": 6,
-        "importPath": "services.emprunts.loans.adapters.http.serializers",
-        "description": "services.emprunts.loans.adapters.http.serializers",
-        "peekOfCode": "class EmpruntDetailSerializer(serializers.ModelSerializer):\n    \"\"\"Serializer complet.\"\"\"\n    est_en_retard = serializers.BooleanField(read_only=True)\n    jours_restants = serializers.IntegerField(read_only=True)\n    class Meta:\n        model = Emprunt\n        fields = '__all__'\n        read_only_fields = [\n            'date_emprunt', 'statut', 'jours_retard', 'penalite_fcfa',\n            'utilisateur_nom', 'utilisateur_carte',",
-        "detail": "services.emprunts.loans.adapters.http.serializers",
-        "documentation": {}
-    },
-    {
-        "label": "CreerEmpruntSerializer",
-        "kind": 6,
-        "importPath": "services.emprunts.loans.adapters.http.serializers",
-        "description": "services.emprunts.loans.adapters.http.serializers",
-        "peekOfCode": "class CreerEmpruntSerializer(serializers.Serializer):\n    \"\"\"Serializer pour créer un emprunt.\"\"\"\n    utilisateur_id = serializers.IntegerField()\n    livre_id = serializers.IntegerField()\n    notes = serializers.CharField(required=False, allow_blank=True)\nclass RetourEmpruntSerializer(serializers.Serializer):\n    \"\"\"Serializer pour enregistrer un retour.\"\"\"\n    notes = serializers.CharField(required=False, allow_blank=True)\nclass EmpruntExportSerializer(serializers.ModelSerializer):\n    \"\"\"Serializer pour export CSV destiné au pipeline DVC/ML.\"\"\"",
-        "detail": "services.emprunts.loans.adapters.http.serializers",
-        "documentation": {}
-    },
-    {
-        "label": "RetourEmpruntSerializer",
-        "kind": 6,
-        "importPath": "services.emprunts.loans.adapters.http.serializers",
-        "description": "services.emprunts.loans.adapters.http.serializers",
-        "peekOfCode": "class RetourEmpruntSerializer(serializers.Serializer):\n    \"\"\"Serializer pour enregistrer un retour.\"\"\"\n    notes = serializers.CharField(required=False, allow_blank=True)\nclass EmpruntExportSerializer(serializers.ModelSerializer):\n    \"\"\"Serializer pour export CSV destiné au pipeline DVC/ML.\"\"\"\n    class Meta:\n        model = Emprunt\n        fields = [\n            'id', 'utilisateur_id', 'livre_id',\n            'date_emprunt', 'date_retour_effective',",
-        "detail": "services.emprunts.loans.adapters.http.serializers",
-        "documentation": {}
-    },
-    {
-        "label": "EmpruntExportSerializer",
-        "kind": 6,
-        "importPath": "services.emprunts.loans.adapters.http.serializers",
-        "description": "services.emprunts.loans.adapters.http.serializers",
-        "peekOfCode": "class EmpruntExportSerializer(serializers.ModelSerializer):\n    \"\"\"Serializer pour export CSV destiné au pipeline DVC/ML.\"\"\"\n    class Meta:\n        model = Emprunt\n        fields = [\n            'id', 'utilisateur_id', 'livre_id',\n            'date_emprunt', 'date_retour_effective',\n            'statut', 'jours_retard',\n        ]",
-        "detail": "services.emprunts.loans.adapters.http.serializers",
-        "documentation": {}
-    },
-    {
-        "label": "router",
-        "kind": 5,
-        "importPath": "services.emprunts.loans.adapters.http.urls",
-        "description": "services.emprunts.loans.adapters.http.urls",
-        "peekOfCode": "router = DefaultRouter()\nrouter.register(r'emprunts', EmpruntViewSet, basename='emprunt')\nurlpatterns = [\n    path('', include(router.urls)),\n]",
-        "detail": "services.emprunts.loans.adapters.http.urls",
-        "documentation": {}
-    },
-    {
-        "label": "urlpatterns",
-        "kind": 5,
-        "importPath": "services.emprunts.loans.adapters.http.urls",
-        "description": "services.emprunts.loans.adapters.http.urls",
-        "peekOfCode": "urlpatterns = [\n    path('', include(router.urls)),\n]",
-        "detail": "services.emprunts.loans.adapters.http.urls",
-        "documentation": {}
-    },
-    {
-        "label": "EmpruntViewSet",
-        "kind": 6,
-        "importPath": "services.emprunts.loans.adapters.http.views",
-        "description": "services.emprunts.loans.adapters.http.views",
-        "peekOfCode": "class EmpruntViewSet(viewsets.ModelViewSet):\n    \"\"\"\n    Gestion complète des emprunts.\n    Endpoints :\n    - POST   /api/emprunts/emprunter/          → emprunter un livre\n    - POST   /api/emprunts/{id}/retourner/     → retourner un livre\n    - GET    /api/emprunts/                    → liste de tous les emprunts\n    - GET    /api/emprunts/{id}/               → détail d'un emprunt\n    - GET    /api/emprunts/historique/         → historique par utilisateur\n    - GET    /api/emprunts/retards/            → liste des retards",
-        "detail": "services.emprunts.loans.adapters.http.views",
-        "documentation": {}
-    },
-    {
-        "label": "Book",
-        "kind": 6,
-        "importPath": "services.emprunts.loans.app.domain.book",
-        "description": "services.emprunts.loans.app.domain.book",
-        "peekOfCode": "class Book:\n    id: str\n    title: str\n    author: str\n    isbn: str\n    numbers_of_copies: int = 1\n    def __post_init__(self):\n        if not self.id:\n            raise ValueError(\"Book ID cannot be empty\")\n        if not self.title:",
-        "detail": "services.emprunts.loans.app.domain.book",
-        "documentation": {}
-    },
-    {
-        "label": "Email",
-        "kind": 6,
-        "importPath": "services.emprunts.loans.app.domain.email",
-        "description": "services.emprunts.loans.app.domain.email",
-        "peekOfCode": "class Email:\n    value: str\n    def __post_init__(self):\n        if \"@\" not in self.value:\n            raise ValueError(f\"Invalid email address: {self.value}\")\n    def __str__(self):\n        return self.value",
-        "detail": "services.emprunts.loans.app.domain.email",
-        "documentation": {}
-    },
-    {
-        "label": "LoanStatus",
-        "kind": 6,
-        "importPath": "services.emprunts.loans.app.domain.loan",
-        "description": "services.emprunts.loans.app.domain.loan",
-        "peekOfCode": "class LoanStatus(str, Enum):\n    PENDING = \"pending\"\n    APPROVED = \"approved\"\n    REJECTED = \"rejected\"\n    COMPLETED = \"completed\"\nDEFAULT_BOOK_LOAN_DURATION_DAYS = 14  # Durée par défaut d'un emprunt en jours\n@dataclass(kw_only=True)\nclass Loan:\n    id: UUID\n    borrower_id: str",
-        "detail": "services.emprunts.loans.app.domain.loan",
-        "documentation": {}
-    },
-    {
-        "label": "Loan",
-        "kind": 6,
-        "importPath": "services.emprunts.loans.app.domain.loan",
-        "description": "services.emprunts.loans.app.domain.loan",
-        "peekOfCode": "class Loan:\n    id: UUID\n    borrower_id: str\n    book: Optional[Book]\n    reader: Optional[Reader]\n    term: date\n    borrow_date: date = field(default_factory=date.today)\n    status: LoanStatus = field(default=LoanStatus.PENDING)\n    notes: str = \"\"\n    @classmethod",
-        "detail": "services.emprunts.loans.app.domain.loan",
-        "documentation": {}
-    },
-    {
-        "label": "DEFAULT_BOOK_LOAN_DURATION_DAYS",
-        "kind": 5,
-        "importPath": "services.emprunts.loans.app.domain.loan",
-        "description": "services.emprunts.loans.app.domain.loan",
-        "peekOfCode": "DEFAULT_BOOK_LOAN_DURATION_DAYS = 14  # Durée par défaut d'un emprunt en jours\n@dataclass(kw_only=True)\nclass Loan:\n    id: UUID\n    borrower_id: str\n    book: Optional[Book]\n    reader: Optional[Reader]\n    term: date\n    borrow_date: date = field(default_factory=date.today)\n    status: LoanStatus = field(default=LoanStatus.PENDING)",
-        "detail": "services.emprunts.loans.app.domain.loan",
-        "documentation": {}
-    },
-    {
-        "label": "Reader",
-        "kind": 6,
-        "importPath": "services.emprunts.loans.app.domain.reader",
-        "description": "services.emprunts.loans.app.domain.reader",
-        "peekOfCode": "class Reader:\n    id: str\n    name: str\n    email: Email\n    def __post_init__(self):\n        if not self.name:\n            raise ValueError(\"Reader name cannot be empty\")\n    def __str__(self):\n        return f\"{self.name} <{self.email}>\"",
-        "detail": "services.emprunts.loans.app.domain.reader",
-        "documentation": {}
-    },
-    {
-        "label": "BorrowCommand",
-        "kind": 6,
-        "importPath": "services.emprunts.loans.app.handlers.borrow_a_book",
-        "description": "services.emprunts.loans.app.handlers.borrow_a_book",
-        "peekOfCode": "class BorrowCommand:\n    book_id: str\n    nb_copies: int\n    reader_id: str\n    reader_email: str\n    reader_name: str\n    term: Optional[date] = None\nclass Borrow():\n    def __init__(self, loan_repository: LoanRepository, book_repository: BookRepository):\n        self.loan_repository = loan_repository",
-        "detail": "services.emprunts.loans.app.handlers.borrow_a_book",
-        "documentation": {}
-    },
-    {
-        "label": "Borrow",
-        "kind": 6,
-        "importPath": "services.emprunts.loans.app.handlers.borrow_a_book",
-        "description": "services.emprunts.loans.app.handlers.borrow_a_book",
-        "peekOfCode": "class Borrow():\n    def __init__(self, loan_repository: LoanRepository, book_repository: BookRepository):\n        self.loan_repository = loan_repository\n        self.book_repository = book_repository\n    def execute(self, command: BorrowCommand) -> Loan:\n        already_borrowed = self.loan_repository.already_borrowed_by_reader_and_not_returned(\n            book_id=command.book_id, reader_id=command.reader_id)\n        if already_borrowed:\n            raise Exception(\n                \"You have already borrowed this book and not returned it yet\")",
-        "detail": "services.emprunts.loans.app.handlers.borrow_a_book",
-        "documentation": {}
-    },
-    {
-        "label": "BookRepository",
-        "kind": 6,
-        "importPath": "services.emprunts.loans.app.ports.book_repository",
-        "description": "services.emprunts.loans.app.ports.book_repository",
-        "peekOfCode": "class BookRepository(Protocol):\n    def get_book_by_id(self, book_id: str) -> Optional[Book]:\n        raise NotImplementedError",
-        "detail": "services.emprunts.loans.app.ports.book_repository",
-        "documentation": {}
-    },
-    {
-        "label": "LoanRepository",
-        "kind": 6,
-        "importPath": "services.emprunts.loans.app.ports.loan_repository",
-        "description": "services.emprunts.loans.app.ports.loan_repository",
-        "peekOfCode": "class LoanRepository(Protocol):\n    def save(self, loan: Loan) -> None:\n        \"\"\"Enregistre un emprunt dans la base de données.\"\"\"\n        raise NotImplementedError\n    def find_by_id(self, loan_id: str) -> Loan:\n        \"\"\"Récupère un prêt par son ID.\"\"\"\n        raise NotImplementedError\n    def count_active_loans_by_book_id(self, book_id: str) -> int:\n        \"\"\"Compte le nombre d'emprunts actifs pour un livre donné.\"\"\"\n        raise NotImplementedError",
-        "detail": "services.emprunts.loans.app.ports.loan_repository",
-        "documentation": {}
-    },
-    {
-        "label": "ServiceException",
-        "kind": 6,
-        "importPath": "services.emprunts.loans.client",
-        "description": "services.emprunts.loans.client",
-        "peekOfCode": "class ServiceException(Exception):\n    \"\"\"Exception levée lors d'une erreur de communication inter-services.\"\"\"\n    def __init__(self, message, status_code=None):\n        self.status_code = status_code\n        super().__init__(message)\nclass LivresClient:\n    \"\"\"Client pour le Service Livres.\"\"\"\n    BASE_URL = None\n    @classmethod\n    def get_base_url(cls):",
-        "detail": "services.emprunts.loans.client",
-        "documentation": {}
-    },
-    {
-        "label": "LivresClient",
-        "kind": 6,
-        "importPath": "services.emprunts.loans.client",
-        "description": "services.emprunts.loans.client",
-        "peekOfCode": "class LivresClient:\n    \"\"\"Client pour le Service Livres.\"\"\"\n    BASE_URL = None\n    @classmethod\n    def get_base_url(cls):\n        if cls.BASE_URL is None:\n            cls.BASE_URL = settings.SERVICE_LIVRES_URL\n        return cls.BASE_URL\n    @classmethod\n    # get_livre_by_id --- IGNORE ---",
-        "detail": "services.emprunts.loans.client",
-        "documentation": {}
-    },
-    {
-        "label": "UtilisateursClient",
-        "kind": 6,
-        "importPath": "services.emprunts.loans.client",
-        "description": "services.emprunts.loans.client",
-        "peekOfCode": "class UtilisateursClient:\n    \"\"\"Client pour le Service Utilisateurs.\"\"\"\n    BASE_URL = None\n    @classmethod\n    def get_base_url(cls):\n        if cls.BASE_URL is None:\n            cls.BASE_URL = settings.SERVICE_UTILISATEURS_URL\n        return cls.BASE_URL\n    @classmethod\n    def get_utilisateur(cls, utilisateur_id: int) -> dict:",
-        "detail": "services.emprunts.loans.client",
-        "documentation": {}
-    },
-    {
-        "label": "UTILISATEURS",
-        "kind": 5,
-        "importPath": "services.emprunts.seed",
-        "description": "services.emprunts.seed",
-        "peekOfCode": "UTILISATEURS = [\n    {'id': 1,  'nom': 'Administrateur DIT', 'carte': 'ADMIN001',   'type': 'ADMIN'},\n    {'id': 2,  'nom': 'Amadou Diallo',\n        'carte': 'PROF001',    'type': 'PROFESSEUR'},\n    {'id': 3,  'nom': 'Fatou Ndiaye',\n        'carte': 'PROF002',    'type': 'PROFESSEUR'},\n    {'id': 4,  'nom': 'Omar Cisse',\n        'carte': 'PROF003',    'type': 'PROFESSEUR'},\n    {'id': 5,  'nom': 'Aminata Gueye',\n        'carte': 'PROF004',    'type': 'PROFESSEUR'},",
-        "detail": "services.emprunts.seed",
-        "documentation": {}
-    },
-    {
-        "label": "LIVRES_RAW",
-        "kind": 5,
-        "importPath": "services.emprunts.seed",
-        "description": "services.emprunts.seed",
-        "peekOfCode": "LIVRES_RAW = [\n    (1,  \"Introduction a l'IA\",           '9782744005084', 'Stuart Russell',     'IA'),\n    (2,  'Deep Learning',                  '9782100780730', 'Ian Goodfellow',     'IA'),\n    (3,  'NLP with Python',                '9780596516499', 'Steven Bird',        'IA'),\n    (4,  'Pattern Recognition and ML',\n     '9780387310732', 'Christopher Bishop', 'IA'),\n    (5,  'Hands-On Machine Learning',\n     '9781492032649', 'Aurelien Geron',     'IA'),\n    (6,  'Reinforcement Learning',\n     '9780262039246', 'Richard Sutton',     'IA'),",
-        "detail": "services.emprunts.seed",
-        "documentation": {}
-    },
-    {
-        "label": "LIVRES",
-        "kind": 5,
-        "importPath": "services.emprunts.seed",
-        "description": "services.emprunts.seed",
-        "peekOfCode": "LIVRES = [{'id': i, 'titre': t, 'isbn': isbn, 'auteur': a, 'cat': c}\n          for (i, t, isbn, a, c) in LIVRES_RAW]\nLIVRES_PAR_CAT = {}\nfor livre in LIVRES:\n    LIVRES_PAR_CAT.setdefault(livre['cat'], []).append(livre)\nPROBA_CATEGORIE = ['IA', 'IA', 'IA', 'INFO',\n                   'INFO', 'INFO', 'MATH', 'MATH', 'SCI', 'LIT']\nPREF_UTILISATEUR = {u['id']: random.choice(\n    PROBA_CATEGORIE) for u in UTILISATEURS}\nprint(\"Generation de l'historique des emprunts (avec patterns)...\")",
-        "detail": "services.emprunts.seed",
-        "documentation": {}
-    },
-    {
-        "label": "LIVRES_PAR_CAT",
-        "kind": 5,
-        "importPath": "services.emprunts.seed",
-        "description": "services.emprunts.seed",
-        "peekOfCode": "LIVRES_PAR_CAT = {}\nfor livre in LIVRES:\n    LIVRES_PAR_CAT.setdefault(livre['cat'], []).append(livre)\nPROBA_CATEGORIE = ['IA', 'IA', 'IA', 'INFO',\n                   'INFO', 'INFO', 'MATH', 'MATH', 'SCI', 'LIT']\nPREF_UTILISATEUR = {u['id']: random.choice(\n    PROBA_CATEGORIE) for u in UTILISATEURS}\nprint(\"Generation de l'historique des emprunts (avec patterns)...\")\nEmprunt.objects.all().delete()\nNB_EMPRUNTS_CIBLE = 500",
-        "detail": "services.emprunts.seed",
-        "documentation": {}
-    },
-    {
-        "label": "PROBA_CATEGORIE",
-        "kind": 5,
-        "importPath": "services.emprunts.seed",
-        "description": "services.emprunts.seed",
-        "peekOfCode": "PROBA_CATEGORIE = ['IA', 'IA', 'IA', 'INFO',\n                   'INFO', 'INFO', 'MATH', 'MATH', 'SCI', 'LIT']\nPREF_UTILISATEUR = {u['id']: random.choice(\n    PROBA_CATEGORIE) for u in UTILISATEURS}\nprint(\"Generation de l'historique des emprunts (avec patterns)...\")\nEmprunt.objects.all().delete()\nNB_EMPRUNTS_CIBLE = 500\nPROBA_FAVORITE = 0.70\ntoday = date.today()\nemprunts_a_creer = []",
-        "detail": "services.emprunts.seed",
-        "documentation": {}
-    },
-    {
-        "label": "PREF_UTILISATEUR",
-        "kind": 5,
-        "importPath": "services.emprunts.seed",
-        "description": "services.emprunts.seed",
-        "peekOfCode": "PREF_UTILISATEUR = {u['id']: random.choice(\n    PROBA_CATEGORIE) for u in UTILISATEURS}\nprint(\"Generation de l'historique des emprunts (avec patterns)...\")\nEmprunt.objects.all().delete()\nNB_EMPRUNTS_CIBLE = 500\nPROBA_FAVORITE = 0.70\ntoday = date.today()\nemprunts_a_creer = []\nfor _ in range(NB_EMPRUNTS_CIBLE):\n    utilisateur = random.choice(UTILISATEURS)",
-        "detail": "services.emprunts.seed",
-        "documentation": {}
-    },
-    {
-        "label": "NB_EMPRUNTS_CIBLE",
-        "kind": 5,
-        "importPath": "services.emprunts.seed",
-        "description": "services.emprunts.seed",
-        "peekOfCode": "NB_EMPRUNTS_CIBLE = 500\nPROBA_FAVORITE = 0.70\ntoday = date.today()\nemprunts_a_creer = []\nfor _ in range(NB_EMPRUNTS_CIBLE):\n    utilisateur = random.choice(UTILISATEURS)\n    pref = PREF_UTILISATEUR[utilisateur['id']]\n    if random.random() < PROBA_FAVORITE:\n        livre = random.choice(LIVRES_PAR_CAT[pref])\n    else:",
-        "detail": "services.emprunts.seed",
-        "documentation": {}
-    },
-    {
-        "label": "PROBA_FAVORITE",
-        "kind": 5,
-        "importPath": "services.emprunts.seed",
-        "description": "services.emprunts.seed",
-        "peekOfCode": "PROBA_FAVORITE = 0.70\ntoday = date.today()\nemprunts_a_creer = []\nfor _ in range(NB_EMPRUNTS_CIBLE):\n    utilisateur = random.choice(UTILISATEURS)\n    pref = PREF_UTILISATEUR[utilisateur['id']]\n    if random.random() < PROBA_FAVORITE:\n        livre = random.choice(LIVRES_PAR_CAT[pref])\n    else:\n        livre = random.choice(LIVRES)",
-        "detail": "services.emprunts.seed",
-        "documentation": {}
-    },
-    {
-        "label": "today",
-        "kind": 5,
-        "importPath": "services.emprunts.seed",
-        "description": "services.emprunts.seed",
-        "peekOfCode": "today = date.today()\nemprunts_a_creer = []\nfor _ in range(NB_EMPRUNTS_CIBLE):\n    utilisateur = random.choice(UTILISATEURS)\n    pref = PREF_UTILISATEUR[utilisateur['id']]\n    if random.random() < PROBA_FAVORITE:\n        livre = random.choice(LIVRES_PAR_CAT[pref])\n    else:\n        livre = random.choice(LIVRES)\n    jours_passes = random.randint(1, 180)",
-        "detail": "services.emprunts.seed",
-        "documentation": {}
-    },
-    {
-        "label": "emprunts_a_creer",
-        "kind": 5,
-        "importPath": "services.emprunts.seed",
-        "description": "services.emprunts.seed",
-        "peekOfCode": "emprunts_a_creer = []\nfor _ in range(NB_EMPRUNTS_CIBLE):\n    utilisateur = random.choice(UTILISATEURS)\n    pref = PREF_UTILISATEUR[utilisateur['id']]\n    if random.random() < PROBA_FAVORITE:\n        livre = random.choice(LIVRES_PAR_CAT[pref])\n    else:\n        livre = random.choice(LIVRES)\n    jours_passes = random.randint(1, 180)\n    date_emprunt = today - timedelta(days=jours_passes)",
-        "detail": "services.emprunts.seed",
-        "documentation": {}
-    },
-    {
-        "label": "distribution",
-        "kind": 5,
-        "importPath": "services.emprunts.seed",
-        "description": "services.emprunts.seed",
-        "peekOfCode": "distribution = Counter(PREF_UTILISATEUR.values())\nfor cat, n in sorted(distribution.items(), key=lambda x: -x[1]):\n    print(f\"  {cat:5s} : {n} utilisateurs\")\nprint(\"\\nHistorique pret pour l'export DVC !\")",
-        "detail": "services.emprunts.seed",
         "documentation": {}
     },
     {
@@ -5149,7 +4313,7 @@
         "kind": 6,
         "importPath": "services.utilisateurs.users.serializers",
         "description": "services.utilisateurs.users.serializers",
-        "peekOfCode": "class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):\n    \"\"\"\n    Elle personnalise le token JWT pour y ajouter des informations supplémentaires \n    sur l'utilisateur, au-delà du contenu par défaut.\n    \"\"\"\n    @classmethod\n    def get_token(cls, user):\n         # Récupère le token JWT standard\n        token = super().get_token(user)\n        # Ajout des infos de ton modèle User",
+        "peekOfCode": "class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):\n    \"\"\"\n    Elle personnalise le token JWT pour y ajouter des informations supplémentaires \n    sur l'utilisateur, au-delà du contenu par défaut.\n    \"\"\"\n    @classmethod\n    def get_token(cls, user):\n        # Récupère le token JWT standard\n        token = super().get_token(user)\n        # Ajout des infos de ton modèle User",
         "detail": "services.utilisateurs.users.serializers",
         "documentation": {}
     },
@@ -5158,7 +4322,7 @@
         "kind": 6,
         "importPath": "services.utilisateurs.users.serializers",
         "description": "services.utilisateurs.users.serializers",
-        "peekOfCode": "class UserListSerializer(serializers.ModelSerializer):\n    \"\"\"\n     Serializer allégé pour les listes:\n     Retourne uniquement les infos essentielles\n    \"\"\"\n    # read_only=True car c'est une valeur calculée, on ne peut pas la modifier directement.\n    full_name = serializers.CharField(read_only=True)  # lit/expose le @property du modèle\n    class Meta:\n        model = User\n        # champs à exposer dans la réponse",
+        "peekOfCode": "class UserListSerializer(serializers.ModelSerializer):\n    \"\"\"\n     Serializer allégé pour les listes:\n     Retourne uniquement les infos essentielles\n    \"\"\"\n    # read_only=True car c'est une valeur calculée, on ne peut pas la modifier directement.\n    # lit/expose le @property du modèle\n    full_name = serializers.CharField(read_only=True)\n    class Meta:\n        model = User",
         "detail": "services.utilisateurs.users.serializers",
         "documentation": {}
     },
@@ -5167,7 +4331,7 @@
         "kind": 6,
         "importPath": "services.utilisateurs.users.serializers",
         "description": "services.utilisateurs.users.serializers",
-        "peekOfCode": "class UserDetailSerializer(serializers.ModelSerializer):\n    \"\"\"Serializer complet pour le détail d'un utilisateur.\"\"\"\n    full_name = serializers.CharField(read_only=True)  # @property du modèle\n    class Meta:\n        model = User\n        fields = [\n           # Ne jamais exposer password dans une réponse API, même hashé. \n            'id',\n            'full_name',   \n            'first_name',",
+        "peekOfCode": "class UserDetailSerializer(serializers.ModelSerializer):\n    \"\"\"Serializer complet pour le détail d'un utilisateur.\"\"\"\n    full_name = serializers.CharField(read_only=True)  # @property du modèle\n    class Meta:\n        model = User\n        fields = [\n            # Ne jamais exposer password dans une réponse API, même hashé.\n            'id',\n            'full_name',\n            'first_name',",
         "detail": "services.utilisateurs.users.serializers",
         "documentation": {}
     },

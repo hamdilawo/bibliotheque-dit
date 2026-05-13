@@ -3,7 +3,6 @@
 name: bibliotheque-dit
 
 services:
-
   db:
     image: postgres:16-alpine
     container_name: dit-postgres
@@ -20,13 +19,13 @@ services:
     networks:
       - bibliotheque-network
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
       timeout: 5s
       retries: 5
-#------------------------------------------------------------------------------
-# MINIO - Stockage d'objets (couvertures livres, photos utilisateurs, exports ML)
-#------------------------------------------------------------------------------
+  #------------------------------------------------------------------------------
+  # MINIO - Stockage d'objets (couvertures livres, photos utilisateurs, exports ML)
+  #------------------------------------------------------------------------------
   minio:
     image: minio/minio:latest
     container_name: dit-minio
@@ -38,8 +37,8 @@ services:
       - minio-data:/data
     command: server /data --console-address ":9091"
     ports:
-      - "9090:9000"   # API S3 — utilisée depuis l'extérieur
-      - "9091:9091"   # Console d'administration web
+      - "9090:9000" # API S3 — utilisée depuis l'extérieur
+      - "9091:9091" # Console d'administration web
     networks:
       - bibliotheque-network
     healthcheck:
@@ -66,7 +65,6 @@ services:
         mc anonymous set download local/couvertures;
         echo 'Buckets MinIO initialisés.';
       "
-
 
   livres:
     container_name: dit-livres
@@ -105,7 +103,7 @@ services:
         condition: service_healthy
     networks:
       - bibliotheque-network
-    profiles: [ "dev" ]
+    profiles: ["dev"]
 
   utilisateurs:
     container_name: dit-utilisateurs
@@ -135,39 +133,7 @@ services:
         condition: service_healthy
     networks:
       - bibliotheque-network
-    profiles: [ "dev" ]
-
-  emprunts:
-    container_name: dit-emprunts
-    build:
-      context: ./services/emprunts
-      dockerfile: Dockerfile
-    restart: unless-stopped
-    environment:
-      DB_NAME: emprunts_db
-      DB_USER: ${DB_USER:-postgres}
-      DB_PASSWORD: ${DB_PASSWORD:-postgres123}
-      DB_HOST: db
-      DB_PORT: 5432
-      SECRET_KEY: ${SECRET_KEY:-changeme-secret-key-2026}
-      DEBUG: "True"
-      ALLOWED_HOSTS: "*"
-      SERVICE_LIVRES_URL: http://livres:8001
-      SERVICE_UTILISATEURS_URL: http://utilisateurs:8002
-    volumes:
-      - ./services/emprunts:/app
-    command: >
-      sh -c "python manage.py migrate &&
-             python seed.py &&
-             python manage.py runserver 0.0.0.0:8003"
-    ports:
-      - "8003:8003"
-    depends_on:
-      db:
-        condition: service_healthy
-    networks:
-      - bibliotheque-network
-    profiles: [ "dev" ]
+    profiles: ["dev"]
 
   recommandation:
     container_name: dit-recommandation
@@ -189,7 +155,7 @@ services:
       - "8004:8004"
     networks:
       - bibliotheque-network
-    profiles: [ "dev" ]
+    profiles: ["dev"]
 
   frontend:
     container_name: dit-frontend
@@ -212,9 +178,59 @@ services:
       - "3000:3000"
     networks:
       - bibliotheque-network
-    profiles: [ "dev" ]
+    profiles: ["dev"]
+
+  # =================== Emprunt =====================
+
+  loans-db:
+    image: postgres:16-alpine
+    container_name: dit-loans-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres123}
+    volumes:
+      - loans-postgres-data:/var/lib/postgresql/data
+    ports:
+      - "${PORT:-25432}:5432"
+    networks:
+      - bibliotheque-loans-service-network
+      - bibliotheque-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+    profiles: ["dev", "loans"]
+
+  loans-api:
+    build:
+      context: ./emprunts
+    entrypoint: ["/entrypoint.sh"]
+    command: ["uv", "run", "python", "manage.py", "runserver", "0.0.0.0:8000"]
+    env_file:
+      - ./emprunts/.env.prod
+      - .env
+    container_name: dit-loans-service
+    restart: unless-stopped
+    ports:
+      - "${PORT:-8008}:8000"
+    networks:
+      - bibliotheque-loans-service-network
+      - bibliotheque-network
+
+    depends_on:
+      loans-db:
+        condition: service_healthy
+
+    profiles: ["dev", "loans"]
+
+# ==================== End Emprunt ================
 
 volumes:
+  loans-postgres-data:
+    name: loans-postgres-data
   postgres-data:
     name: dit-postgres-data
   model-data:
@@ -227,4 +243,8 @@ volumes:
 networks:
   bibliotheque-network:
     name: dit-network
+    driver: bridge
+
+  bibliotheque-loans-service-network:
+    name: bibliotheque-loans-service-network
     driver: bridge

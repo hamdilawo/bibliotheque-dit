@@ -100,7 +100,8 @@ class LivreIn(BaseModel):
             if value < 1000:
                 raise ValueError("L'année doit être supérieure à 1000.")
             if value > annee_courante:
-                raise ValueError(f"L'année ne peut pas dépasser {annee_courante}.")
+                raise ValueError(
+                    f"L'année ne peut pas dépasser {annee_courante}.")
         return value
 
 

@@ -10,6 +10,7 @@ class Book:
     author: str
     isbn: str
     numbers_of_copies: int = 1
+    cover: str = ""
 
     def __post_init__(self):
         if not self.id:

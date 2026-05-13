@@ -14,7 +14,7 @@ from django.http import HttpResponse
 from drf_spectacular.utils import extend_schema, OpenApiParameter
 import csv
 import io
-from src.loans.adapters.services.book import FakeBookService
+from src.loans.adapters.services.book import FakeBookService, BookService
 from .serializers import (
     BorrowABookResponseSerializer,
     CreerEmpruntSerializer, RetourEmpruntSerializer,
@@ -74,7 +74,7 @@ class EmpruntViewSet(viewsets.ViewSet):
         # book_repository = BookRepositoryImpl(
         #     "http://service-livres:8000")  # URL du service Livres
 
-        book_service = FakeBookService()
+        book_service = BookService()
         brevo_email_service = BrevoEmailService()
 
         borrow_a_book = BorrowABook(
@@ -108,7 +108,7 @@ class EmpruntViewSet(viewsets.ViewSet):
 
         return_loan = ReturnLoan(
             email_service=brevo_email_service,
-            loan_repository=loan_repo, book_service=FakeBookService())
+            loan_repository=loan_repo, book_service=BookService())
 
         try:
             loan_returned = return_loan.execute(
