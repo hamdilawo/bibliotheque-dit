@@ -1,106 +1,90 @@
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
+import uuid
 
 
-class UtilisateurManager(BaseUserManager):
-    def create_user(self, email, password=None, **extra_fields):
+class UserManager(BaseUserManager):
+    # password est obligatoire 
+    def create_user(self, email, password, **extra_fields):
         if not email:
-            raise ValueError("L'adresse email est obligatoire.")
+            raise ValueError("L'email est obligatoire")
         email = self.normalize_email(email)
         user = self.model(email=email, **extra_fields)
+        # Le password n'est jamais stocké en clair
+        # Django le hashe automatiquement via set_password()
         user.set_password(password)
         user.save(using=self._db)
         return user
-
-    def create_superuser(self, email, password=None, **extra_fields):
+    # password est obligatoire
+    def create_superuser(self, email, password, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
-        extra_fields.setdefault('type_utilisateur', 'ADMIN')
         return self.create_user(email, password, **extra_fields)
 
 
-class Utilisateur(AbstractBaseUser, PermissionsMixin):
-    TYPE_CHOICES = [
-        ('ETUDIANT', 'Étudiant'),
-        ('PROFESSEUR', 'Professeur'),
-        ('PERSONNEL', 'Personnel'),
-        ('ADMIN', 'Administrateur'),
-    ]
+class User(AbstractBaseUser, PermissionsMixin):
+    STUDENT = 'STUDENT'
+    PROFESSOR = 'PROFESSOR'
+    STAFF = 'STAFF'
 
-    STATUT_CHOICES = [
-        ('ACTIF', 'Actif'),
-        ('SUSPENDU', 'Suspendu'),
-        ('INACTIF', 'Inactif'),
-    ]
+    ROLE_CHOICES = (
+        (STUDENT, 'Etudiant'),
+        (PROFESSOR, 'Professeur'),
+        (STAFF, 'Personnel'),
+    )
 
-    # Identité
-    email = models.EmailField(unique=True)
-    nom = models.CharField(max_length=100)
-    prenom = models.CharField(max_length=100)
-    numero_carte = models.CharField(max_length=20, unique=True, help_text='Numéro de carte étudiant/employé')
+    id = models.UUIDField(  
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False,
+        verbose_name="Identifiant unique"
+    )
+    email = models.EmailField(unique=True, verbose_name="Email")
+    first_name = models.CharField(max_length=50, verbose_name="Prénom")
+    last_name = models.CharField(max_length=50, verbose_name="Nom")
+    role = models.CharField(
+        max_length=30,
+        choices=ROLE_CHOICES,
+        verbose_name="Rôle",
+        # à vérifier pour ces deux derniers champs
+        # blank=True et default='' sur role
+        # pour éviter une erreur à la création si role n'est pas fourni
+        blank=True,
+        default=''
+    )
+    is_active = models.BooleanField(default=True, verbose_name="Actif")
+    is_staff = models.BooleanField(default=False, verbose_name="Staff")
+    date_joined = models.DateTimeField(auto_now_add=True, verbose_name="Date d'inscription")
+    last_login = models.DateTimeField(null=True, blank=True, verbose_name="Dernière connexion")
 
-    # Type et statut
-    type_utilisateur = models.CharField(max_length=20, choices=TYPE_CHOICES, default='ETUDIANT')
-    statut = models.CharField(max_length=20, choices=STATUT_CHOICES, default='ACTIF')
+    objects = UserManager()
 
-    # Informations complémentaires
-    telephone = models.CharField(max_length=20, blank=True)
-    adresse = models.TextField(blank=True)
-    date_naissance = models.DateField(null=True, blank=True)
-    photo = models.ImageField(upload_to='photos/', null=True, blank=True)
-
-    # Quota d'emprunts selon le type
-    quota_emprunts = models.PositiveIntegerField(default=3, help_text='Nombre max de livres simultanés')
-    emprunts_en_cours = models.PositiveIntegerField(default=0)
-
-    # Dates
-    date_inscription = models.DateTimeField(auto_now_add=True)
-    date_modification = models.DateTimeField(auto_now=True)
-    derniere_connexion_api = models.DateTimeField(null=True, blank=True)
-
-    # Django auth
-    is_active = models.BooleanField(default=True)
-    is_staff = models.BooleanField(default=False)
-
-    objects = UtilisateurManager()
-
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['nom', 'prenom', 'numero_carte']
-
+    USERNAME_FIELD = 'email'        #  login avec email
+    REQUIRED_FIELDS = ['first_name', 'last_name']  # champs obligatoires pour createsuperuser
+    
+    # Contient les métadonnées du modèle, c'est-à-dire des options qui ne sont pas des champs.
     class Meta:
-        ordering = ['nom', 'prenom']
+        verbose_name = "Utilisateur"
+        verbose_name_plural = "Utilisateurs"
+        # ordering Définit le tri par défaut des résultats de requêtes.
+        # '-last_name':tri decroissant sur le champ last_name'
+        ordering = ['first_name', 'last_name'] # tri alphabétique croissant 
+
+        #Les index accélèrent les recherches en base de données sur les champs fréquemment utilisés dans les filtres et requêtes.
+        #Sans index :Django parcourt TOUTE la table pour trouver l'email(lent)
+        #Avec index :Django utilise l'index pour trouver directement(rapide)
         indexes = [
             models.Index(fields=['email']),
-            models.Index(fields=['numero_carte']),
-            models.Index(fields=['type_utilisateur']),
+            models.Index(fields=['role']),
         ]
 
+
+
+
     def __str__(self):
-        return f"{self.prenom} {self.nom} ({self.type_utilisateur})"
-
+        return f"{self.email} ({self.role})"
+    
+    # @property est un décorateur Python qui permet d'accéder à une méthode comme si c'était un attribut, sans parenthèses.
     @property
-    def nom_complet(self):
-        return f"{self.prenom} {self.nom}"
-
-    @property
-    def peut_emprunter(self):
-        return (
-            self.statut == 'ACTIF' and
-            self.emprunts_en_cours < self.quota_emprunts
-        )
-
-    def get_quota_par_defaut(self):
-        """Retourne le quota selon le type d'utilisateur."""
-        quotas = {
-            'ETUDIANT': 3,
-            'PROFESSEUR': 10,
-            'PERSONNEL': 5,
-            'ADMIN': 20,
-        }
-        return quotas.get(self.type_utilisateur, 3)
-
-    def save(self, *args, **kwargs):
-        # Auto-assigne le quota par défaut si non modifié
-        if not self.pk:
-            self.quota_emprunts = self.get_quota_par_defaut()
-        super().save(*args, **kwargs)
+    def full_name(self):
+        return f"{self.first_name} {self.last_name}"

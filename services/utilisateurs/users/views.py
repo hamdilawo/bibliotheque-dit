@@ -1,187 +1,225 @@
-from rest_framework import viewsets, status, filters
+from rest_framework import viewsets, filters, status
 from rest_framework.decorators import action
+from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated, AllowAny
-from rest_framework_simplejwt.views import TokenObtainPairView
-from django.db.models import Q
+
 from drf_spectacular.utils import extend_schema, OpenApiParameter
 
-from .models import Utilisateur
+from .models import User
 from .serializers import (
-    UtilisateurListSerializer, UtilisateurDetailSerializer,
-    ProfilPublicSerializer, EmpruntSyncSerializer,
-    CustomTokenObtainPairSerializer,
+    UserListSerializer,
+    UserDetailSerializer,
+    UserCreateSerializer,
+    UserUpdateSerializer,
+    UserChangePasswordSerializer,
+    UserDeactivateSerializer,
+    CustomTokenObtainPairSerializer
+    
 )
 
+from rest_framework.mixins import (
+    ListModelMixin,
+    RetrieveModelMixin,
+    CreateModelMixin,
+    UpdateModelMixin,
+)
 
-class CustomTokenObtainPairView(TokenObtainPairView):
-    """Endpoint de connexion — retourne JWT + infos utilisateur."""
-    serializer_class = CustomTokenObtainPairSerializer
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,   #  login → access + refresh token
+    TokenRefreshView,      #  rafraîchir le token
+    TokenVerifyView,       #  vérifier si token valide
+)
+from rest_framework.viewsets import GenericViewSet
 
 
-class UtilisateurViewSet(viewsets.ModelViewSet):
+# Ce qui permet à Swagger de détecter automatiquement les champs 
+# c'est GenericViewSet qui hérite de GenericAPIView, et 
+# GenericAPIView expose get_serializer_class() 
+# que Swagger lit automatiquement.
+class UserViewSet(
+                  ListModelMixin,
+                  RetrieveModelMixin,
+                  CreateModelMixin,
+                  UpdateModelMixin,
+                  GenericViewSet
+):
     """
     Gestion complète des utilisateurs.
 
     Endpoints :
-    - GET    /api/utilisateurs/              → liste paginée
-    - POST   /api/utilisateurs/              → créer un utilisateur
-    - GET    /api/utilisateurs/{id}/         → profil complet
-    - PUT    /api/utilisateurs/{id}/         → modifier
-    - PATCH  /api/utilisateurs/{id}/         → modification partielle
-    - DELETE /api/utilisateurs/{id}/         → désactiver
-    - GET    /api/utilisateurs/search/       → recherche
-    - GET    /api/utilisateurs/par_type/     → filtrer par type
-    - GET    /api/utilisateurs/{id}/profil_public/ → profil minimal (inter-services)
-    - POST   /api/utilisateurs/{id}/sync_emprunts/ → sync compteur (inter-services)
-    - GET    /api/utilisateurs/statistiques/ → stats globales
+    - GET    /api/users/                   → Liste allégée
+    - GET    /api/users/<id>/              → Détail complet
+    - POST   /api/users/                   → Création
+    - PATCH  /api/users/<id>/              → Mise à jour infos
+    - PATCH  /api/users/<id>/password/     → Modification password
+    - DELETE /api/users/<id>/deactivate/   → Soft delete
     """
-    filter_backends = [filters.OrderingFilter]
-    ordering_fields = ['nom', 'prenom', 'date_inscription', 'type_utilisateur']
-    ordering = ['nom', 'prenom']
 
-    def get_queryset(self):
-        return Utilisateur.objects.filter(is_active=True)
+    queryset = User.objects.all()
 
+    # Filtres et tri
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    search_fields   = ['first_name', 'last_name', 'email', 'role']
+    ordering_fields = ['first_name', 'last_name', 'date_joined', 'role']
+    ordering        = ['first_name', 'last_name']  # tri par défaut
+
+    
+
+    # -------------------------------------------------------
+    # Choix du serializer selon l'action
+    # -------------------------------------------------------
     def get_serializer_class(self):
         if self.action == 'list':
-            return UtilisateurListSerializer
-        if self.action == 'profil_public':
-            return ProfilPublicSerializer
-        return UtilisateurDetailSerializer
+            return UserListSerializer
+        elif self.action == 'retrieve':
+            return UserDetailSerializer
+        elif self.action == 'create':
+            return UserCreateSerializer
+        elif self.action in ['partial_update']:
+            return UserUpdateSerializer
+        elif self.action == 'change_password':
+            return UserChangePasswordSerializer
+        elif self.action == 'deactivate':
+            return UserDeactivateSerializer
+        return UserDetailSerializer  # par défaut
 
+    # -------------------------------------------------------
+    # Permissions selon l'action
+    # -------------------------------------------------------
     def get_permissions(self):
-        # Création ouverte, reste authentifié
         if self.action == 'create':
+            # inscription publique, sans authentification
             return [AllowAny()]
-        return [AllowAny()]  # Simplification pour l'examen
+        elif self.action in ['deactivate']:
+            # Soft delete réservé aux admins
+            return [IsAuthenticated(), IsAdminUser()]
+        elif self.action == 'list':
+            # Liste réservée aux admins
+            return [IsAuthenticated(), IsAdminUser()]
+        else:
+            # Reste → connecté uniquement
+            return [IsAuthenticated()]
 
-    def destroy(self, request, *args, **kwargs):
-        """Soft delete : désactive sans supprimer."""
-        user = self.get_object()
-        user.is_active = False
-        user.statut = 'INACTIF'
-        user.save(update_fields=['is_active', 'statut'])
-        return Response(
-            {'message': f'Utilisateur {user.nom_complet} désactivé.'},
-            status=status.HTTP_200_OK
-        )
-
+    # -------------------------------------------------------
+    # GET /api/users/ → Liste allégée
+    # -------------------------------------------------------
     @extend_schema(
+        summary="Liste des utilisateurs",
         parameters=[
-            OpenApiParameter('q', str, description='Nom, prénom, email ou numéro de carte'),
-            OpenApiParameter('type', str, description='ETUDIANT | PROFESSEUR | PERSONNEL | ADMIN'),
-            OpenApiParameter('statut', str, description='ACTIF | SUSPENDU | INACTIF'),
+            OpenApiParameter('search', str, description='Recherche par nom, prénom, email ou rôle'),
+            OpenApiParameter('role',   str, description='STUDENT | PROFESSOR | STAFF'),
+            OpenApiParameter('ordering', str, description='first_name | last_name | date_joined'),
         ]
     )
-    @action(detail=False, methods=['get'])
-    def search(self, request):
-        """
-        Endpoint 5 — Recherche avancée d'utilisateurs.
-        GET /api/utilisateurs/search/?q=diallo&type=ETUDIANT
-        """
-        queryset = self.get_queryset()
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
 
-        q = request.query_params.get('q', '').strip()
-        if q:
-            queryset = queryset.filter(
-                Q(nom__icontains=q) |
-                Q(prenom__icontains=q) |
-                Q(email__icontains=q) |
-                Q(numero_carte__icontains=q)
+        # Filtre optionnel par rôle
+        role = request.query_params.get('role')
+        if role:
+            queryset = queryset.filter(role=role)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    # -------------------------------------------------------
+    # GET /api/users/<id>/ → Détail complet
+    # -------------------------------------------------------
+    @extend_schema(summary="Détail d'un utilisateur")
+    def retrieve(self, request, *args, **kwargs):
+        instance   = self.get_object()
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    # -------------------------------------------------------
+    # POST /api/users/ → Création
+    # -------------------------------------------------------
+    @extend_schema(summary="Création d'un utilisateur")
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    # -------------------------------------------------------
+    # PATCH /api/users/<id>/ → Mise à jour partielle
+    # -------------------------------------------------------
+    @extend_schema(summary="Mise à jour d'un utilisateur")
+    def partial_update(self, request, *args, **kwargs):
+        instance   = self.get_object()
+
+        # is_active réservé au superuser
+        if 'is_active' in request.data and not request.user.is_superuser:
+            return Response(
+                {"is_active": "Seul un superuser peut modifier ce champ."},
+                status=status.HTTP_403_FORBIDDEN
             )
 
-        type_u = request.query_params.get('type')
-        if type_u:
-            queryset = queryset.filter(type_utilisateur=type_u.upper())
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        statut = request.query_params.get('statut')
-        if statut:
-            queryset = queryset.filter(statut=statut.upper())
+    # -------------------------------------------------------
+    # PATCH /api/users/<id>/password/ → Modification password
+    # -------------------------------------------------------
+    @extend_schema(summary="Modification du mot de passe")
+    @action(detail=True, methods=['patch'], url_path='password')
+    def change_password(self, request, pk=None):
+        serializer = self.get_serializer(
+            data=request.data,
+            context={'request': request}
+        )
+        if serializer.is_valid():
+            serializer.save()
+            return Response(
+                {"message": "Mot de passe modifié avec succès."},
+                status=status.HTTP_200_OK
+            )
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        page = self.paginate_queryset(queryset)
-        if page is not None:
-            serializer = UtilisateurListSerializer(page, many=True)
-            return self.get_paginated_response(serializer.data)
-
-        serializer = UtilisateurListSerializer(queryset, many=True)
-        return Response({'count': queryset.count(), 'results': serializer.data})
-
-    @action(detail=False, methods=['get'])
-    def par_type(self, request):
-        """
-        Endpoint 6 — Lister les utilisateurs par type.
-        GET /api/utilisateurs/par_type/?type=PROFESSEUR
-        """
-        type_u = request.query_params.get('type', 'ETUDIANT').upper()
-        queryset = self.get_queryset().filter(type_utilisateur=type_u)
-        serializer = UtilisateurListSerializer(queryset, many=True)
-        return Response({
-            'type': type_u,
-            'count': queryset.count(),
-            'results': serializer.data,
-        })
-
-    @action(detail=True, methods=['get'])
-    def profil_public(self, request, pk=None):
-        """
-        Endpoint 7 — Profil public minimal (appelé par le service Emprunts).
-        GET /api/utilisateurs/{id}/profil_public/
-        """
+    # -------------------------------------------------------
+    # DELETE /api/users/<id>/deactivate/ → Soft delete
+    # -------------------------------------------------------
+    @extend_schema(summary="Désactivation d'un utilisateur (soft delete)")
+    @action(detail=True, methods=['delete'], url_path='deactivate')
+    def deactivate(self, request, pk=None):
         user = self.get_object()
-        serializer = ProfilPublicSerializer(user)
-        return Response(serializer.data)
 
-    @extend_schema(request=EmpruntSyncSerializer)
-    @action(detail=True, methods=['post'])
-    def sync_emprunts(self, request, pk=None):
-        """
-        Endpoint 8 — Synchronisation du compteur d'emprunts (inter-services).
-        POST /api/utilisateurs/{id}/sync_emprunts/
-        Body: {"action": "incrementer"} ou {"action": "decrementer"}
-        """
-        user = self.get_object()
-        serializer = EmpruntSyncSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
+        #  Empêcher de se désactiver soi-même
+        if user == request.user:
+            return Response(
+                {"error": "Vous ne pouvez pas vous désactiver vous-même."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
-        action_demandee = serializer.validated_data['action']
+        serializer = self.get_serializer(
+            user,
+            data={},
+            partial=True,
+            context={'request': request}
+        )
+        if serializer.is_valid():
+            serializer.save()
+            return Response(
+                {"message": f"Utilisateur {user.email} désactivé avec succès."},
+                status=status.HTTP_200_OK
+            )
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        if action_demandee == 'incrementer':
-            if not user.peut_emprunter:
-                return Response(
-                    {'error': f'Quota atteint ({user.emprunts_en_cours}/{user.quota_emprunts}) ou utilisateur suspendu.'},
-                    status=status.HTTP_400_BAD_REQUEST
-                )
-            user.emprunts_en_cours += 1
-        else:
-            if user.emprunts_en_cours > 0:
-                user.emprunts_en_cours -= 1
+    # -------------------------------------------------------
+    # Désactiver PUT — on utilise uniquement PATCH
+    # -------------------------------------------------------
+    def update(self, request, *args, **kwargs):
+        return Response(
+            {"error": "Méthode PUT non autorisée. Utilisez PATCH."},
+            status=status.HTTP_405_METHOD_NOT_ALLOWED
+        )
 
-        user.save(update_fields=['emprunts_en_cours'])
-        return Response({
-            'message': f'Compteur mis à jour : {user.emprunts_en_cours}/{user.quota_emprunts}',
-            'emprunts_en_cours': user.emprunts_en_cours,
-            'quota_emprunts': user.quota_emprunts,
-            'peut_emprunter': user.peut_emprunter,
-        })
 
-    @action(detail=False, methods=['get'])
-    def statistiques(self, request):
-        """
-        Endpoint 9 — Statistiques globales des utilisateurs.
-        GET /api/utilisateurs/statistiques/
-        """
-        qs = Utilisateur.objects.all()
-        stats = {
-            'total': qs.count(),
-            'actifs': qs.filter(statut='ACTIF').count(),
-            'suspendus': qs.filter(statut='SUSPENDU').count(),
-            'par_type': {
-                'etudiants': qs.filter(type_utilisateur='ETUDIANT').count(),
-                'professeurs': qs.filter(type_utilisateur='PROFESSEUR').count(),
-                'personnel': qs.filter(type_utilisateur='PERSONNEL').count(),
-                'admins': qs.filter(type_utilisateur='ADMIN').count(),
-            },
-            'emprunts_en_cours_total': sum(u.emprunts_en_cours for u in qs),
-        }
-        return Response(stats)
+# finalement on garde CustomTokenObtainPairView pour plus de données sur utilisateur dans le token 
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer  # utilise le serializer custom
+
