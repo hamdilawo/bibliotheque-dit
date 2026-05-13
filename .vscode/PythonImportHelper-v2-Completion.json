@@ -4412,7 +4412,7 @@
         "kind": 5,
         "importPath": "services.utilisateurs.utilisateurs_service.settings",
         "description": "services.utilisateurs.utilisateurs_service.settings",
-        "peekOfCode": "BASE_DIR = Path(__file__).resolve().parent.parent\nSECRET_KEY = config('SECRET_KEY', default='django-insecure-users-service-key-change-in-prod')\nDEBUG = config('DEBUG', default=True, cast=bool)\nALLOWED_HOSTS = config('ALLOWED_HOSTS', default='*').split(',')\nINSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.contenttypes',\n    'django.contrib.auth',\n    'django.contrib.staticfiles',\n    'django.contrib.sessions',  # requis par admin ",
+        "peekOfCode": "BASE_DIR = Path(__file__).resolve().parent.parent\nSECRET_KEY = config(\n    'SECRET_KEY', default='django-insecure-users-service-key-change-in-prod')\nDEBUG = config('DEBUG', default=True, cast=bool)\nALLOWED_HOSTS = config('ALLOWED_HOSTS', default='*').split(',')\nINSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.contenttypes',\n    'django.contrib.auth',\n    'django.contrib.staticfiles',",
         "detail": "services.utilisateurs.utilisateurs_service.settings",
         "documentation": {}
     },
@@ -4421,7 +4421,7 @@
         "kind": 5,
         "importPath": "services.utilisateurs.utilisateurs_service.settings",
         "description": "services.utilisateurs.utilisateurs_service.settings",
-        "peekOfCode": "SECRET_KEY = config('SECRET_KEY', default='django-insecure-users-service-key-change-in-prod')\nDEBUG = config('DEBUG', default=True, cast=bool)\nALLOWED_HOSTS = config('ALLOWED_HOSTS', default='*').split(',')\nINSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.contenttypes',\n    'django.contrib.auth',\n    'django.contrib.staticfiles',\n    'django.contrib.sessions',  # requis par admin \n    'django.contrib.messages',  # requis par admin ",
+        "peekOfCode": "SECRET_KEY = config(\n    'SECRET_KEY', default='django-insecure-users-service-key-change-in-prod')\nDEBUG = config('DEBUG', default=True, cast=bool)\nALLOWED_HOSTS = config('ALLOWED_HOSTS', default='*').split(',')\nINSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.contenttypes',\n    'django.contrib.auth',\n    'django.contrib.staticfiles',\n    'django.contrib.sessions',  # requis par admin",
         "detail": "services.utilisateurs.utilisateurs_service.settings",
         "documentation": {}
     },
@@ -4430,7 +4430,7 @@
         "kind": 5,
         "importPath": "services.utilisateurs.utilisateurs_service.settings",
         "description": "services.utilisateurs.utilisateurs_service.settings",
-        "peekOfCode": "DEBUG = config('DEBUG', default=True, cast=bool)\nALLOWED_HOSTS = config('ALLOWED_HOSTS', default='*').split(',')\nINSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.contenttypes',\n    'django.contrib.auth',\n    'django.contrib.staticfiles',\n    'django.contrib.sessions',  # requis par admin \n    'django.contrib.messages',  # requis par admin \n    'rest_framework',",
+        "peekOfCode": "DEBUG = config('DEBUG', default=True, cast=bool)\nALLOWED_HOSTS = config('ALLOWED_HOSTS', default='*').split(',')\nINSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.contenttypes',\n    'django.contrib.auth',\n    'django.contrib.staticfiles',\n    'django.contrib.sessions',  # requis par admin\n    'django.contrib.messages',  # requis par admin\n    'rest_framework',",
         "detail": "services.utilisateurs.utilisateurs_service.settings",
         "documentation": {}
     },
@@ -4439,7 +4439,7 @@
         "kind": 5,
         "importPath": "services.utilisateurs.utilisateurs_service.settings",
         "description": "services.utilisateurs.utilisateurs_service.settings",
-        "peekOfCode": "ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='*').split(',')\nINSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.contenttypes',\n    'django.contrib.auth',\n    'django.contrib.staticfiles',\n    'django.contrib.sessions',  # requis par admin \n    'django.contrib.messages',  # requis par admin \n    'rest_framework',\n    'rest_framework_simplejwt',",
+        "peekOfCode": "ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='*').split(',')\nINSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.contenttypes',\n    'django.contrib.auth',\n    'django.contrib.staticfiles',\n    'django.contrib.sessions',  # requis par admin\n    'django.contrib.messages',  # requis par admin\n    'rest_framework',\n    'rest_framework_simplejwt',",
         "detail": "services.utilisateurs.utilisateurs_service.settings",
         "documentation": {}
     },
@@ -4448,7 +4448,7 @@
         "kind": 5,
         "importPath": "services.utilisateurs.utilisateurs_service.settings",
         "description": "services.utilisateurs.utilisateurs_service.settings",
-        "peekOfCode": "INSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.contenttypes',\n    'django.contrib.auth',\n    'django.contrib.staticfiles',\n    'django.contrib.sessions',  # requis par admin \n    'django.contrib.messages',  # requis par admin \n    'rest_framework',\n    'rest_framework_simplejwt',\n    'corsheaders',",
+        "peekOfCode": "INSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.contenttypes',\n    'django.contrib.auth',\n    'django.contrib.staticfiles',\n    'django.contrib.sessions',  # requis par admin\n    'django.contrib.messages',  # requis par admin\n    'rest_framework',\n    'rest_framework_simplejwt',\n    'corsheaders',",
         "detail": "services.utilisateurs.utilisateurs_service.settings",
         "documentation": {}
     },
@@ -4457,7 +4457,7 @@
         "kind": 5,
         "importPath": "services.utilisateurs.utilisateurs_service.settings",
         "description": "services.utilisateurs.utilisateurs_service.settings",
-        "peekOfCode": "MIDDLEWARE = [\n    'corsheaders.middleware.CorsMiddleware',\n    'django.middleware.security.SecurityMiddleware',      \n    'django.contrib.sessions.middleware.SessionMiddleware', # requis par admin \n    'django.middleware.common.CommonMiddleware',\n    'django.middleware.csrf.CsrfViewMiddleware',          \n    'django.contrib.auth.middleware.AuthenticationMiddleware', # requis par admin\n    'django.contrib.messages.middleware.MessageMiddleware',    # requis par admin \n]\nROOT_URLCONF = 'utilisateurs_service.urls'",
+        "peekOfCode": "MIDDLEWARE = [\n    'corsheaders.middleware.CorsMiddleware',\n    'django.middleware.security.SecurityMiddleware',\n    'django.contrib.sessions.middleware.SessionMiddleware',  # requis par admin\n    'django.middleware.common.CommonMiddleware',\n    'django.middleware.csrf.CsrfViewMiddleware',\n    'django.contrib.auth.middleware.AuthenticationMiddleware',  # requis par admin\n    'django.contrib.messages.middleware.MessageMiddleware',    # requis par admin\n]\nROOT_URLCONF = 'utilisateurs_service.urls'",
         "detail": "services.utilisateurs.utilisateurs_service.settings",
         "documentation": {}
     },
@@ -4520,7 +4520,7 @@
         "kind": 5,
         "importPath": "services.utilisateurs.utilisateurs_service.settings",
         "description": "services.utilisateurs.utilisateurs_service.settings",
-        "peekOfCode": "CORS_ALLOW_ALL_ORIGINS = True\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nAUTH_USER_MODEL = 'users.User'\nLANGUAGE_CODE = 'fr-fr'\nTIME_ZONE = 'Africa/Dakar'\nUSE_TZ = True\n# configuration des fichiers statiques \n# URL pour accéder aux fichiers statiques\nSTATIC_URL = '/static/'\n# Dossier où collectstatic va copier tous les fichiers",
+        "peekOfCode": "CORS_ALLOW_ALL_ORIGINS = True\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nAUTH_USER_MODEL = 'users.User'\nLANGUAGE_CODE = 'fr-fr'\nTIME_ZONE = 'Africa/Dakar'\nUSE_TZ = True\n# configuration des fichiers statiques\n# URL pour accéder aux fichiers statiques\nSTATIC_URL = '/static/'\n# Dossier où collectstatic va copier tous les fichiers",
         "detail": "services.utilisateurs.utilisateurs_service.settings",
         "documentation": {}
     },
@@ -4529,7 +4529,7 @@
         "kind": 5,
         "importPath": "services.utilisateurs.utilisateurs_service.settings",
         "description": "services.utilisateurs.utilisateurs_service.settings",
-        "peekOfCode": "DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nAUTH_USER_MODEL = 'users.User'\nLANGUAGE_CODE = 'fr-fr'\nTIME_ZONE = 'Africa/Dakar'\nUSE_TZ = True\n# configuration des fichiers statiques \n# URL pour accéder aux fichiers statiques\nSTATIC_URL = '/static/'\n# Dossier où collectstatic va copier tous les fichiers\nSTATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')",
+        "peekOfCode": "DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'\nAUTH_USER_MODEL = 'users.User'\nLANGUAGE_CODE = 'fr-fr'\nTIME_ZONE = 'Africa/Dakar'\nUSE_TZ = True\n# configuration des fichiers statiques\n# URL pour accéder aux fichiers statiques\nSTATIC_URL = '/static/'\n# Dossier où collectstatic va copier tous les fichiers\nSTATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')",
         "detail": "services.utilisateurs.utilisateurs_service.settings",
         "documentation": {}
     },
@@ -4538,7 +4538,7 @@
         "kind": 5,
         "importPath": "services.utilisateurs.utilisateurs_service.settings",
         "description": "services.utilisateurs.utilisateurs_service.settings",
-        "peekOfCode": "AUTH_USER_MODEL = 'users.User'\nLANGUAGE_CODE = 'fr-fr'\nTIME_ZONE = 'Africa/Dakar'\nUSE_TZ = True\n# configuration des fichiers statiques \n# URL pour accéder aux fichiers statiques\nSTATIC_URL = '/static/'\n# Dossier où collectstatic va copier tous les fichiers\nSTATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')\n# Dossiers statiques supplémentaires (optionnel)",
+        "peekOfCode": "AUTH_USER_MODEL = 'users.User'\nLANGUAGE_CODE = 'fr-fr'\nTIME_ZONE = 'Africa/Dakar'\nUSE_TZ = True\n# configuration des fichiers statiques\n# URL pour accéder aux fichiers statiques\nSTATIC_URL = '/static/'\n# Dossier où collectstatic va copier tous les fichiers\nSTATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')\n# Dossiers statiques supplémentaires (optionnel)",
         "detail": "services.utilisateurs.utilisateurs_service.settings",
         "documentation": {}
     },
@@ -4547,7 +4547,7 @@
         "kind": 5,
         "importPath": "services.utilisateurs.utilisateurs_service.settings",
         "description": "services.utilisateurs.utilisateurs_service.settings",
-        "peekOfCode": "LANGUAGE_CODE = 'fr-fr'\nTIME_ZONE = 'Africa/Dakar'\nUSE_TZ = True\n# configuration des fichiers statiques \n# URL pour accéder aux fichiers statiques\nSTATIC_URL = '/static/'\n# Dossier où collectstatic va copier tous les fichiers\nSTATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')\n# Dossiers statiques supplémentaires (optionnel)\n'''STATICFILES_DIRS = [",
+        "peekOfCode": "LANGUAGE_CODE = 'fr-fr'\nTIME_ZONE = 'Africa/Dakar'\nUSE_TZ = True\n# configuration des fichiers statiques\n# URL pour accéder aux fichiers statiques\nSTATIC_URL = '/static/'\n# Dossier où collectstatic va copier tous les fichiers\nSTATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')\n# Dossiers statiques supplémentaires (optionnel)\n'''STATICFILES_DIRS = [",
         "detail": "services.utilisateurs.utilisateurs_service.settings",
         "documentation": {}
     },
@@ -4556,7 +4556,7 @@
         "kind": 5,
         "importPath": "services.utilisateurs.utilisateurs_service.settings",
         "description": "services.utilisateurs.utilisateurs_service.settings",
-        "peekOfCode": "TIME_ZONE = 'Africa/Dakar'\nUSE_TZ = True\n# configuration des fichiers statiques \n# URL pour accéder aux fichiers statiques\nSTATIC_URL = '/static/'\n# Dossier où collectstatic va copier tous les fichiers\nSTATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')\n# Dossiers statiques supplémentaires (optionnel)\n'''STATICFILES_DIRS = [\n    os.path.join(BASE_DIR, 'static'),",
+        "peekOfCode": "TIME_ZONE = 'Africa/Dakar'\nUSE_TZ = True\n# configuration des fichiers statiques\n# URL pour accéder aux fichiers statiques\nSTATIC_URL = '/static/'\n# Dossier où collectstatic va copier tous les fichiers\nSTATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')\n# Dossiers statiques supplémentaires (optionnel)\n'''STATICFILES_DIRS = [\n    os.path.join(BASE_DIR, 'static'),",
         "detail": "services.utilisateurs.utilisateurs_service.settings",
         "documentation": {}
     },
@@ -4565,7 +4565,7 @@
         "kind": 5,
         "importPath": "services.utilisateurs.utilisateurs_service.settings",
         "description": "services.utilisateurs.utilisateurs_service.settings",
-        "peekOfCode": "USE_TZ = True\n# configuration des fichiers statiques \n# URL pour accéder aux fichiers statiques\nSTATIC_URL = '/static/'\n# Dossier où collectstatic va copier tous les fichiers\nSTATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')\n# Dossiers statiques supplémentaires (optionnel)\n'''STATICFILES_DIRS = [\n    os.path.join(BASE_DIR, 'static'),\n]'''",
+        "peekOfCode": "USE_TZ = True\n# configuration des fichiers statiques\n# URL pour accéder aux fichiers statiques\nSTATIC_URL = '/static/'\n# Dossier où collectstatic va copier tous les fichiers\nSTATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')\n# Dossiers statiques supplémentaires (optionnel)\n'''STATICFILES_DIRS = [\n    os.path.join(BASE_DIR, 'static'),\n]'''",
         "detail": "services.utilisateurs.utilisateurs_service.settings",
         "documentation": {}
     },

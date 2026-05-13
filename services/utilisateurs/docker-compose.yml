@@ -17,8 +17,8 @@ services:
     ports:
       - "8002:8002"
     env_file:
-     # chargé mais pas copié dans l'image,nécessaire pour Django
-      - .env                         
+      # chargé mais pas copié dans l'image,nécessaire pour Django
+      - .env
     depends_on:
       db:
         condition: service_healthy
@@ -31,7 +31,7 @@ services:
     container_name: utilisateurs_db
     # env_file supprimé — inutile ici
     #env_file:
-      #- .env                          
+    #- .env
     environment:
       POSTGRES_DB: ${DB_NAME} # lu directement depuis .env
       POSTGRES_USER: ${DB_USER}

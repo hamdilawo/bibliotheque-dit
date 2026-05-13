@@ -1,12 +1,13 @@
 from decouple import config
 from datetime import timedelta
-import os 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = config('SECRET_KEY', default='django-insecure-users-service-key-change-in-prod')
+SECRET_KEY = config(
+    'SECRET_KEY', default='django-insecure-users-service-key-change-in-prod')
 DEBUG = config('DEBUG', default=True, cast=bool)
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='*').split(',')
 
@@ -15,8 +16,8 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.auth',
     'django.contrib.staticfiles',
-    'django.contrib.sessions',  # requis par admin 
-    'django.contrib.messages',  # requis par admin 
+    'django.contrib.sessions',  # requis par admin
+    'django.contrib.messages',  # requis par admin
     'rest_framework',
     'rest_framework_simplejwt',
     'corsheaders',
@@ -26,12 +27,12 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.security.SecurityMiddleware',      
-    'django.contrib.sessions.middleware.SessionMiddleware', # requis par admin 
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',  # requis par admin
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',          
-    'django.contrib.auth.middleware.AuthenticationMiddleware', # requis par admin
-    'django.contrib.messages.middleware.MessageMiddleware',    # requis par admin 
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',  # requis par admin
+    'django.contrib.messages.middleware.MessageMiddleware',    # requis par admin
 ]
 
 ROOT_URLCONF = 'utilisateurs_service.urls'
@@ -94,7 +95,7 @@ LANGUAGE_CODE = 'fr-fr'
 TIME_ZONE = 'Africa/Dakar'
 USE_TZ = True
 
-# configuration des fichiers statiques 
+# configuration des fichiers statiques
 
 # URL pour accéder aux fichiers statiques
 STATIC_URL = '/static/'
@@ -117,4 +118,3 @@ EMAIL_HOST_USER     = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL  = config('DEFAULT_FROM_EMAIL')
 '''
-
