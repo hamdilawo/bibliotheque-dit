@@ -24,6 +24,49 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+#------------------------------------------------------------------------------
+# MINIO - Stockage d'objets (couvertures livres, photos utilisateurs, exports ML)
+#------------------------------------------------------------------------------
+  minio:
+    image: minio/minio:latest
+    container_name: dit-minio
+    restart: unless-stopped
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minioadmin123}
+    volumes:
+      - minio-data:/data
+    command: server /data --console-address ":9091"
+    ports:
+      - "9090:9000"   # API S3 — utilisée depuis l'extérieur
+      - "9091:9091"   # Console d'administration web
+    networks:
+      - bibliotheque-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ── Initialisation des buckets MinIO (one-shot) ───────────────────────────
+  minio-init:
+    image: minio/mc:latest
+    container_name: dit-minio-init
+    depends_on:
+      minio:
+        condition: service_healthy
+    networks:
+      - bibliotheque-network
+    entrypoint: >
+      /bin/sh -c "
+        mc alias set local http://minio:9000 ${MINIO_ROOT_USER:-minioadmin} ${MINIO_ROOT_PASSWORD:-minioadmin123};
+        mc mb --ignore-existing local/couvertures;
+        mc mb --ignore-existing local/photos-utilisateurs;
+        mc mb --ignore-existing local/exports-ml;
+        mc anonymous set download local/couvertures;
+        echo 'Buckets MinIO initialisés.';
+      "
+
 
   livres:
     container_name: dit-livres
@@ -40,16 +83,25 @@ services:
       SECRET_KEY: ${SECRET_KEY:-changeme-secret-key-2026}
       DEBUG: "True"
       ALLOWED_HOSTS: "*"
+      # ── MinIO ────────────────────────────────────────────────────────────
+      MINIO_ENDPOINT: minio:9000
+      MINIO_ACCESS_KEY: ${MINIO_ROOT_USER:-minioadmin}
+      MINIO_SECRET_KEY: ${MINIO_ROOT_PASSWORD:-minioadmin123}
+      MINIO_BUCKET_COUVERTURES: couvertures
+      MINIO_USE_SSL: "false"
+      MINIO_PUBLIC_URL: http://localhost:9090
     volumes:
       - ./services/livres:/app
-    command: >
-      sh -c "python manage.py migrate &&
-             python seed.py &&
-             python manage.py runserver 0.0.0.0:8001"
+    command: sh entrypoint.sh
+
+    env_file:
+      - ./services/livres/.env
     ports:
       - "8001:8001"
     depends_on:
       db:
+        condition: service_healthy
+      minio:
         condition: service_healthy
     networks:
       - bibliotheque-network
@@ -169,6 +221,8 @@ volumes:
     name: dit-model-data
   training-data:
     name: dit-training-data
+  minio-data:
+    name: dit-minio-data
 
 networks:
   bibliotheque-network:
