@@ -30,6 +30,14 @@ class Settings(BaseSettings):
     minio_use_ssl: bool = False
     minio_public_url: str = "http://localhost:9000"
 
+    # ✅ Champs ajoutés — injectés par Docker mais absents de Settings
+    secret_key: str = "votre-cle-secrete-tres-longue-ici"
+    service_livres_url: str = "http://livres:8001"
+    service_utilisateurs_url: str = "http://utilisateurs:8002"
+    service_emprunts_url: str = "http://emprunts:8003"
+    minio_root_user: str = "minioadmin"
+    minio_root_password: str = "minioadmin123"
+
     @property
     def db_url(self) -> str:
         return (
