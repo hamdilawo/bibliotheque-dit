@@ -73,7 +73,6 @@ class LivreIn(BaseModel):
     nombre_pages: Optional[int] = None
     categorie: Optional[UUID] = None
     quantite_totale: int = 1
-    couverture_url: str = ""
     couverture: Optional[UploadFile] = None
 
     model_config = {"arbitrary_types_allowed": True}

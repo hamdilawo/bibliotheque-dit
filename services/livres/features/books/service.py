@@ -57,22 +57,22 @@ async def creer_livre(data: LivreIn) -> dict:
     existing = await Livre.select().where(Livre.isbn == data.isbn).first()
     if existing:
         raise ISBNAlreadyExistsException(data.isbn)
-    content_type = data.couverture.content_type 
-    file_bytes = await data.couverture.read() 
-    # Upload de la couverture vers MinIO — obligatoire
-    object_name = upload_couverture(file_bytes, content_type)
 
     donnees = data.model_dump()
-    donnees.pop("couverture", None)  # Ne pas stocker le fichier lui-même
-    donnees["couverture_url"] = object_name
+    donnees.pop("couverture", None)
+
+    if data.couverture is not None:
+        content_type = data.couverture.content_type or "image/jpeg"
+        file_bytes = await data.couverture.read()
+        object_name = upload_couverture(file_bytes, content_type)
+        donnees["couverture_url"] = object_name
+
     if donnees.get("categorie") is not None:
         donnees["categorie"] = UUID(str(donnees["categorie"]))
 
-
-
     livre = await Livre.insert(Livre(**donnees)).returning(*Livre.all_columns())
     row = livre[0]
-    row["couverture_url_publique"] = get_couverture_url(object_name)
+    row["couverture_url_publique"] = get_couverture_url(row.get("couverture_url", ""))
     return row
 
 
@@ -113,7 +113,6 @@ async def supprimer_livre(livre_id: UUID) -> None:
     if not livre:
         raise LivreNotFoundException(livre_id)
 
-    # Supprime la couverture MinIO si elle existe
     if livre.couverture_url:
         delete_couverture(livre.couverture_url)
 
