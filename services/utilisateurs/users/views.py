@@ -1,5 +1,4 @@
 from rest_framework import viewsets, filters, status
-from rest_framework.views import APIView
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
 from rest_framework.response import Response
@@ -14,7 +13,6 @@ from .serializers import (
     UserUpdateSerializer,
     UserChangePasswordSerializer,
     UserDeactivateSerializer,
-    LoginSerializer,
     CustomTokenObtainPairSerializer
     
 )
@@ -225,41 +223,3 @@ class UserViewSet(
 class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer  # utilise le serializer custom
 
-# -------------------------------------------------------
-# POST /api/auth/login/ → Connexion
-# -------------------------------------------------------
-class LoginView(APIView):
-    """Vue de connexion — accessible sans authentification."""
-    permission_classes = [AllowAny]  # pas besoin d'être connecté
-    serializer_class = LoginSerializer  # Swagger détecte automatiquement
-
-    @extend_schema(
-            summary="Connexion d'un utilisateur",
-            # Dans la view héritant de ModelViewSet(aussi GenericViewSet )  on pas  
-            # besoin de spécifier request et body  
-            #  Serializer détecté automatiquement via get_serializer_class() 
-            # plus simplement , nous ajoutons 
-            # 'serializer_class = LoginSerializer'
-            # à LoginView(APIView)   pour ne plus ajouter request et response  
-            # Swagger va détecter automatiquement   
-    )
-    def post(self, request):
-        serializer = LoginSerializer(
-            data=request.data,
-            context={'request': request}
-        )
-        if serializer.is_valid():
-            user    = serializer.validated_data['user']
-            access  = serializer.validated_data['access']
-            refresh = serializer.validated_data['refresh']
-
-            return Response({
-                'access':    access,
-                'refresh':   refresh,
-                'id':        str(user.id),
-                'email':     user.email,
-                'full_name': user.full_name,  # @property
-                'role':      user.role,
-            }, status=status.HTTP_200_OK)
-
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

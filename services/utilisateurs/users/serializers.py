@@ -8,9 +8,6 @@ from .models import User
 
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
-# CustomTokenObtainPairView est rédondant 
-# LoginView + LoginSerializer couvrent tout ce dont tu as besoin
-# on donc la commenter
   
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     """
@@ -300,49 +297,5 @@ class UserDeactivateSerializer(serializers.ModelSerializer):
     
 
 
-class LoginSerializer(serializers.Serializer):
-    """Serializer pour la connexion d'un utilisateur."""
-
-    email = serializers.EmailField(
-        required=True,
-        style={'input_type': 'email'}
-    )
-    password = serializers.CharField(
-        write_only=True,
-        required=True,
-        style={'input_type': 'password'}
-    )
-
-    def validate(self, attrs):
-        email    = attrs.get('email')
-        password = attrs.get('password')
-
-        # Vérifie que l'utilisateur existe et que le mot de passe est correct
-        user = authenticate(
-            request=self.context.get('request'),
-            email=email,
-            password=password
-        )
-
-        # Mauvais email ou mot de passe
-        if not user:
-            raise serializers.ValidationError(
-                {"error": "Email ou mot de passe incorrect."}
-            )
-
-        # Compte désactivé
-        if not user.is_active:
-            raise serializers.ValidationError(
-                {"error": "Ce compte est désactivé. Contactez l'administrateur."}
-            )
-
-        # Génère les tokens JWT
-        refresh = RefreshToken.for_user(user)
-
-        return {
-            'user':    user,
-            'access':  str(refresh.access_token),
-            'refresh': str(refresh),
-        }
 
 
