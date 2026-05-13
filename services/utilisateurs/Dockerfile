@@ -14,8 +14,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 
 COPY . .
+COPY entrypoint.sh /entrypoint.sh
 
 RUN chown -R appuser:appuser /app
+
+RUN chmod +x /entrypoint.sh && chown appuser:appuser /entrypoint.sh
 
 USER appuser
 

@@ -862,6 +862,14 @@
         "documentation": {}
     },
     {
+        "label": "BookService",
+        "importPath": "src.loans.adapters.services.book",
+        "description": "src.loans.adapters.services.book",
+        "isExtraImport": true,
+        "detail": "src.loans.adapters.services.book",
+        "documentation": {}
+    },
+    {
         "label": "jwt",
         "kind": 6,
         "isExtraImport": true,
@@ -1828,7 +1836,7 @@
         "kind": 6,
         "importPath": "src.loans.adapters.services.book",
         "description": "src.loans.adapters.services.book",
-        "peekOfCode": "class BookService(BookServiceInterface):\n    def __init__(self, base_url: str):\n        self.base_url = base_url\n    def get_book_by_id(self, book_id: str) -> Optional[Book]:\n        \"\"\"Récupère les infos d'un livre.\"\"\"\n        try:\n            url = f\"{self.base_url}/api/livres/{book_id}/\"\n            response = requests.get(url, timeout=5)\n            if response.status_code == 404:\n                return None",
+        "peekOfCode": "class BookService(BookServiceInterface):\n    def __init__(self, base_url: str | None = None):\n        self.base_url = BOOK_SERVICE_API_URL\n    def get_book_by_id(self, book_id: str) -> Optional[Book]:\n        \"\"\"Récupère les infos d'un livre.\"\"\"\n        try:\n            url = f\"{self.base_url}/api/livres/{book_id}/disponibilite/\"\n            response = requests.get(url, timeout=5)\n            if response.status_code == 404:\n                return None",
         "detail": "src.loans.adapters.services.book",
         "documentation": {}
     },
@@ -1838,6 +1846,15 @@
         "importPath": "src.loans.adapters.services.book",
         "description": "src.loans.adapters.services.book",
         "peekOfCode": "class FakeBookService(BookServiceInterface):\n    def __init__(self,):\n        ...\n    def get_book_by_id(self, book_id: str) -> Optional[Book]:\n        \"\"\"Récupère les infos d'un livre.\"\"\"\n        book = Book(\n            id=book_id,\n            title=\"Untitled Book\",\n            author=\"Unknown Author\",\n            numbers_of_copies=1,",
+        "detail": "src.loans.adapters.services.book",
+        "documentation": {}
+    },
+    {
+        "label": "BOOK_SERVICE_API_URL",
+        "kind": 5,
+        "importPath": "src.loans.adapters.services.book",
+        "description": "src.loans.adapters.services.book",
+        "peekOfCode": "BOOK_SERVICE_API_URL = os.getenv(\"SERVICE_LIVRES_URL\", \"http://not-found:8000\")\nclass BookService(BookServiceInterface):\n    def __init__(self, base_url: str | None = None):\n        self.base_url = BOOK_SERVICE_API_URL\n    def get_book_by_id(self, book_id: str) -> Optional[Book]:\n        \"\"\"Récupère les infos d'un livre.\"\"\"\n        try:\n            url = f\"{self.base_url}/api/livres/{book_id}/disponibilite/\"\n            response = requests.get(url, timeout=5)\n            if response.status_code == 404:",
         "detail": "src.loans.adapters.services.book",
         "documentation": {}
     },
@@ -1855,7 +1872,7 @@
         "kind": 6,
         "importPath": "src.loans.app.domain.book",
         "description": "src.loans.app.domain.book",
-        "peekOfCode": "class Book:\n    id: str\n    title: str\n    author: str\n    isbn: str\n    numbers_of_copies: int = 1\n    def __post_init__(self):\n        if not self.id:\n            raise ValueError(\"Book ID cannot be empty\")\n        if not self.title:",
+        "peekOfCode": "class Book:\n    id: str\n    title: str\n    author: str\n    isbn: str\n    numbers_of_copies: int = 1\n    cover: str = \"\"\n    def __post_init__(self):\n        if not self.id:\n            raise ValueError(\"Book ID cannot be empty\")",
         "detail": "src.loans.app.domain.book",
         "documentation": {}
     },

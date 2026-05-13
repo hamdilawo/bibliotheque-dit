@@ -20,7 +20,7 @@ class BookService(BookServiceInterface):
         """Récupère les infos d'un livre."""
 
         try:
-            url = f"{self.base_url}/api/livres/{book_id}/"
+            url = f"{self.base_url}/api/livres/{book_id}/disponibilite/"
             response = requests.get(url, timeout=5)
             if response.status_code == 404:
                 return None
@@ -31,7 +31,7 @@ class BookService(BookServiceInterface):
             book = Book(
                 id=book_id,
                 title=result['titre'],
-                author=result.get("auteur", ""),
+                author=result.get("auteur", "Unknow"),
                 numbers_of_copies=result['quantite_totale'],
                 isbn=result['isbn'],
                 cover=result["couverture_url"]

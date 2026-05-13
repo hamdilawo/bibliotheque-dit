@@ -14,7 +14,7 @@ from .serializers import (
     UserChangePasswordSerializer,
     UserDeactivateSerializer,
     CustomTokenObtainPairSerializer
-    
+
 )
 
 from rest_framework.mixins import (
@@ -25,23 +25,23 @@ from rest_framework.mixins import (
 )
 
 from rest_framework_simplejwt.views import (
-    TokenObtainPairView,   #  login → access + refresh token
-    TokenRefreshView,      #  rafraîchir le token
-    TokenVerifyView,       #  vérifier si token valide
+    TokenObtainPairView,  # login → access + refresh token
+    TokenRefreshView,  # rafraîchir le token
+    TokenVerifyView,  # vérifier si token valide
 )
 from rest_framework.viewsets import GenericViewSet
 
 
-# Ce qui permet à Swagger de détecter automatiquement les champs 
-# c'est GenericViewSet qui hérite de GenericAPIView, et 
-# GenericAPIView expose get_serializer_class() 
+# Ce qui permet à Swagger de détecter automatiquement les champs
+# c'est GenericViewSet qui hérite de GenericAPIView, et
+# GenericAPIView expose get_serializer_class()
 # que Swagger lit automatiquement.
 class UserViewSet(
-                  ListModelMixin,
-                  RetrieveModelMixin,
-                  CreateModelMixin,
-                  UpdateModelMixin,
-                  GenericViewSet
+    ListModelMixin,
+    RetrieveModelMixin,
+    CreateModelMixin,
+    UpdateModelMixin,
+    GenericViewSet
 ):
     """
     Gestion complète des utilisateurs.
@@ -59,15 +59,14 @@ class UserViewSet(
 
     # Filtres et tri
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
-    search_fields   = ['first_name', 'last_name', 'email', 'role']
+    search_fields = ['first_name', 'last_name', 'email', 'role']
     ordering_fields = ['first_name', 'last_name', 'date_joined', 'role']
-    ordering        = ['first_name', 'last_name']  # tri par défaut
-
-    
+    ordering = ['first_name', 'last_name']  # tri par défaut
 
     # -------------------------------------------------------
     # Choix du serializer selon l'action
     # -------------------------------------------------------
+
     def get_serializer_class(self):
         if self.action == 'list':
             return UserListSerializer
@@ -106,9 +105,12 @@ class UserViewSet(
     @extend_schema(
         summary="Liste des utilisateurs",
         parameters=[
-            OpenApiParameter('search', str, description='Recherche par nom, prénom, email ou rôle'),
-            OpenApiParameter('role',   str, description='STUDENT | PROFESSOR | STAFF'),
-            OpenApiParameter('ordering', str, description='first_name | last_name | date_joined'),
+            OpenApiParameter(
+                'search', str, description='Recherche par nom, prénom, email ou rôle'),
+            OpenApiParameter(
+                'role',   str, description='STUDENT | PROFESSOR | STAFF'),
+            OpenApiParameter(
+                'ordering', str, description='first_name | last_name | date_joined'),
         ]
     )
     def list(self, request, *args, **kwargs):
@@ -127,7 +129,7 @@ class UserViewSet(
     # -------------------------------------------------------
     @extend_schema(summary="Détail d'un utilisateur")
     def retrieve(self, request, *args, **kwargs):
-        instance   = self.get_object()
+        instance = self.get_object()
         serializer = self.get_serializer(instance)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -147,7 +149,7 @@ class UserViewSet(
     # -------------------------------------------------------
     @extend_schema(summary="Mise à jour d'un utilisateur")
     def partial_update(self, request, *args, **kwargs):
-        instance   = self.get_object()
+        instance = self.get_object()
 
         # is_active réservé au superuser
         if 'is_active' in request.data and not request.user.is_superuser:
@@ -156,7 +158,8 @@ class UserViewSet(
                 status=status.HTTP_403_FORBIDDEN
             )
 
-        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        serializer = self.get_serializer(
+            instance, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
@@ -219,7 +222,6 @@ class UserViewSet(
         )
 
 
-# finalement on garde CustomTokenObtainPairView pour plus de données sur utilisateur dans le token 
+# finalement on garde CustomTokenObtainPairView pour plus de données sur utilisateur dans le token
 class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer  # utilise le serializer custom
-

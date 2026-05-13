@@ -52,6 +52,7 @@ services:
     image: postgres:16-alpine
     container_name: dit-users-postgres
     restart: unless-stopped
+
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres123}
@@ -74,20 +75,14 @@ services:
     build:
       context: ./services/utilisateurs
       dockerfile: Dockerfile
+    entrypoint: ["/entrypoint.sh"]
     restart: unless-stopped
-    environment:
-      DB_NAME: dit3
-      DB_USER: ${DB_USER:-postgres}
-      DB_PASSWORD: ${DB_PASSWORD:-postgres123}
-      DB_HOST: users-db
-      DB_PORT: 5432
-      DEBUG: "True"
-      ALLOWED_HOSTS: "*"
+    env_file:
+      - .env
+      - ./services/utilisateurs/.env
     volumes:
       - ./services/utilisateurs:/app
-    command: >
-      sh -c "python manage.py migrate &&
-             python manage.py runserver 0.0.0.0:8002"
+    command: sh -c "python manage.py runserver 0.0.0.0:8002"
     ports:
       - "8002:8002"
     depends_on:
@@ -99,50 +94,50 @@ services:
 
   # ========== End Users =======
 
-  recommandation:
-    container_name: dit-recommandation
-    build:
-      context: ./services/recommandation
-      dockerfile: Dockerfile
-    restart: unless-stopped
-    environment:
-      SERVICE_LIVRES_URL: http://livres:8001
-      SERVICE_EMPRUNTS_URL: http://emprunts:8003
-      MODEL_PATH: /app/model/model.pkl
-      DATA_PATH: /app/data/loans.csv
-    volumes:
-      - ./services/recommandation:/app
-      - model-data:/app/model
-      - training-data:/app/data
-    command: uvicorn app.main:app --host 0.0.0.0 --port 8004 --reload
-    ports:
-      - "8004:8004"
-    networks:
-      - bibliotheque-network
-    profiles: ["dev"]
+  # recommandation:
+  #   container_name: dit-recommandation
+  #   build:
+  #     context: ./services/recommandation
+  #     dockerfile: Dockerfile
+  #   restart: unless-stopped
+  #   environment:
+  #     SERVICE_LIVRES_URL: http://livres:8001
+  #     SERVICE_EMPRUNTS_URL: http://emprunts:8003
+  #     MODEL_PATH: /app/model/model.pkl
+  #     DATA_PATH: /app/data/loans.csv
+  #   volumes:
+  #     - ./services/recommandation:/app
+  #     - model-data:/app/model
+  #     - training-data:/app/data
+  #   command: uvicorn app.main:app --host 0.0.0.0 --port 8004 --reload
+  #   ports:
+  #     - "8004:8004"
+  #   networks:
+  #     - bibliotheque-network
+  #   profiles: ["dev"]
 
-  frontend:
-    container_name: dit-frontend
-    build:
-      context: ./services/frontend
-      dockerfile: Dockerfile
-    restart: unless-stopped
-    environment:
-      REACT_APP_LIVRES_URL: http://localhost:8001
-      REACT_APP_USERS_URL: http://localhost:8002
-      REACT_APP_EMPRUNTS_URL: http://localhost:8003
-      REACT_APP_RECO_URL: http://localhost:8004
-      CHOKIDAR_USEPOLLING: "true"
-    volumes:
-      - ./services/frontend/src:/app/src
-      - ./services/frontend/public:/app/public
-      - /app/node_modules
-    command: npm start
-    ports:
-      - "3000:3000"
-    networks:
-      - bibliotheque-network
-    profiles: ["dev"]
+  # frontend:
+  #   container_name: dit-frontend
+  #   build:
+  #     context: ./services/frontend
+  #     dockerfile: Dockerfile
+  #   restart: unless-stopped
+  #   environment:
+  #     REACT_APP_LIVRES_URL: http://localhost:8001
+  #     REACT_APP_USERS_URL: http://localhost:8002
+  #     REACT_APP_EMPRUNTS_URL: http://localhost:8003
+  #     REACT_APP_RECO_URL: http://localhost:8004
+  #     CHOKIDAR_USEPOLLING: "true"
+  #   volumes:
+  #     - ./services/frontend/src:/app/src
+  #     - ./services/frontend/public:/app/public
+  #     - /app/node_modules
+  #   command: npm start
+  #   ports:
+  #     - "3000:3000"
+  #   networks:
+  #     - bibliotheque-network
+  #   profiles: ["dev"]
 
   # =================== Emprunt =====================
 
@@ -171,6 +166,7 @@ services:
   loans-api:
     build:
       context: ./emprunts
+      dockerfile: Dockerfile
     entrypoint: ["/entrypoint.sh"]
     command: ["uv", "run", "python", "manage.py", "runserver", "0.0.0.0:8000"]
     env_file:
