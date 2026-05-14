@@ -101,7 +101,7 @@ export function AdminBooksTab() {
     setDeleting(id)
     try {
       await deleteBook(id, token)
-      setBooks(await fetchBooks())
+      setBooks((prev) => prev.filter((b) => b.id !== id))
       toast.success(`"${title}" supprimé`)
     } catch (e: any) {
       toast.error(e.message)

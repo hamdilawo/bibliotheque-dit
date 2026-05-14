@@ -30,6 +30,11 @@ dit-librairy-api.francecentral.cloudapp.azure.com {
         reverse_proxy localhost:8008
     }
 
+    # MinIO — couvertures livres
+    handle /couvertures* {
+        reverse_proxy localhost:9090
+    }
+
     # Frontend (catch-all)
     handle {
         reverse_proxy localhost:3000
