@@ -209,16 +209,16 @@ services:
   emprunts-dev:
     container_name: loans-api
     build:
-      context: ./emprunts
+      context: ./services/emprunts
       dockerfile: Dockerfile
     entrypoint: ["/entrypoint.sh"]
     restart: unless-stopped
     env_file:
       - .env
-      - ./emprunts/.env.prod
+      - ./services/emprunts/.env.prod
     command: ["uv", "run", "python", "manage.py", "runserver", "0.0.0.0:8000"]
     volumes:
-      - ./emprunts:/app
+      - ./services/emprunts:/app
     ports:
       - "8008:8000"
     depends_on:
@@ -231,13 +231,13 @@ services:
   emprunts:
     container_name: loans-api
     build:
-      context: ./emprunts
+      context: ./services/emprunts
       dockerfile: Dockerfile
     entrypoint: ["/entrypoint.sh"]
     restart: unless-stopped
     env_file:
       - .env
-      - ./emprunts/.env.prod
+      - ./services/emprunts/.env.prod
     command: ["uv", "run", "gunicorn", "src.drf.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "3"]
     ports:
       - "8008:8000"

@@ -2,8 +2,11 @@
 import os
 import sys
 
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
+
 if __name__ == '__main__':
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'emprunts_service.settings')
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE',
+                          'drf.settings')
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
