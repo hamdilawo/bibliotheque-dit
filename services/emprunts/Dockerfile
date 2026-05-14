@@ -27,6 +27,7 @@ RUN uv sync --frozen --no-dev
 FROM python:3.14-slim AS runtime
 
 ENV UV_CACHE_DIR=/tmp/uv-cache
+ENV PYTHONPATH=/app/src
 
 
 RUN groupadd -r appuser && useradd -r -g appuser appuser

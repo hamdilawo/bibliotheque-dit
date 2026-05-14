@@ -2,8 +2,11 @@
 Service métier — Service Livres.
 Toute la logique base de données et MinIO passe par ici.
 """
+import logging
 from typing import Optional
 from uuid import UUID
+
+logger = logging.getLogger(__name__)
 
 from piccolo.columns.combination import Or, Where
 
@@ -114,10 +117,12 @@ async def supprimer_livre(livre_id: UUID) -> None:
         raise LivreNotFoundException(livre_id)
 
     if livre.couverture_url:
-        delete_couverture(livre.couverture_url)
+        try:
+            delete_couverture(livre.couverture_url)
+        except Exception as e:
+            logger.warning(f"Erreur suppression couverture ignorée : {e}")
 
-    livre.actif = False
-    await livre.save()
+    await Livre.update({Livre.actif: False}).where(Livre.id == livre_id)
 
 
 async def rechercher_livres(
