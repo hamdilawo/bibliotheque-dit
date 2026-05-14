@@ -24,6 +24,7 @@ const ROLE_STYLE: Record<string, { bg: string; text: string }> = {
 type Form = { firstName: string; lastName: string; email: string; role: string; password: string }
 const EMPTY: Form = { firstName: '', lastName: '', email: '', role: 'STUDENT', password: '' }
 
+
 export function AdminUsersTab() {
   const [members, setMembers] = useState(MOCK_MEMBERS)
   const [form, setForm] = useState<Form>(EMPTY)
@@ -167,6 +168,7 @@ export function AdminUsersTab() {
               </div>
             </div>
 
+
             <div>
               <label className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Rôle</label>
               <div className="relative mt-1">
@@ -188,7 +190,7 @@ export function AdminUsersTab() {
               disabled={loading}
               className="w-full flex items-center justify-center gap-2 rounded-full bg-primary py-2.5 text-sm font-medium text-primary-foreground shadow-sm hover:opacity-90 transition-opacity disabled:opacity-50 mt-1"
             >
-              
+
               {loading ? (
                 <span className="w-4 h-4 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" />
               ) : (
