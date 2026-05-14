@@ -107,12 +107,10 @@ export default function RecommandationsPage() {
 
       {/* Métriques du modèle */}
       {metriques && (
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
+        <div className="grid grid-cols-2 gap-3 mb-8">
           {[
-            { label: 'Utilisateurs', val: metriques.n_utilisateurs, color: 'text-blue-600 bg-blue-50' },
-            { label: 'Livres indexés', val: metriques.n_livres, color: 'text-purple-600 bg-purple-50' },
-            { label: 'Emprunts analysés', val: metriques.n_emprunts, color: 'text-green-600 bg-green-50' },
-            { label: 'Variance SVD', val: `${(metriques.variance_expliquee * 100).toFixed(1)}%`, color: 'text-amber-600 bg-amber-50' },
+            { label: 'RMSE', val: metriques.rmse ?? 'N/A', color: 'text-blue-600 bg-blue-50' },
+            { label: 'MAE', val: metriques.mae ?? 'N/A', color: 'text-purple-600 bg-purple-50' },
           ].map(s => (
             <div key={s.label} className={`rounded-xl p-4 ${s.color}`}>
               <p className="text-xl font-bold">{s.val}</p>

@@ -68,9 +68,10 @@ export const empruntsService = {
 
 // ── Recommandations ─────────────────────────────────────────────────
 export const recoService = {
-  recommandations: (userId, n = 5) => recoApi.get(`/recommendations/${userId}`, { params: { n } }),
+  recommandations: (userId, n = 5) => recoApi.get(`/recommandation/${userId}`, { params: { n } }),
+  livreSimilaire:  (refIsbn, n = 5) => recoApi.get('/livre_similaire', { params: { ref_isbn: refIsbn, n } }),
   entrainer:       ()              => recoApi.post('/train'),
-  metriques:       ()              => recoApi.get('/metrics'),
+  metriques:       ()              => recoApi.get('/metric'),
   populaires:      (n = 10)        => recoApi.get('/popular', { params: { n } }),
   health:          ()              => recoApi.get('/health'),
 };

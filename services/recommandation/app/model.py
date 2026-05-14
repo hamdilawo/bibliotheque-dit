@@ -65,9 +65,15 @@ class RecommendationModel:
             if col not in df.columns:
                 df[col] = ""
 
+        if "livre_id" not in df.columns:
+            if "id" in df.columns:
+                df["livre_id"] = pd.to_numeric(df["id"], errors="coerce")
+            else:
+                df["livre_id"] = np.nan
+
         df["isbn_norm"] = df["ISBN_13"].apply(cls.normalize_isbn)
         df = df[df["isbn_norm"] != ""].drop_duplicates(subset=["isbn_norm"])
-        return df[["isbn_norm", "title", "author", "categorie", "publishers", "ISBN_13"]]
+        return df[["livre_id", "isbn_norm", "title", "author", "categorie", "publishers", "ISBN_13"]]
 
     @classmethod
     def preparer_emprunts(
@@ -160,6 +166,7 @@ class RecommendationModel:
             if fallback_isbns is None:
                 return None
             return pd.DataFrame({
+                "livre_id": np.nan,
                 "isbn_norm": list(fallback_isbns),
                 "title": "",
                 "author": "",
@@ -183,6 +190,7 @@ class RecommendationModel:
             if fallback_isbns is None:
                 return None
             return pd.DataFrame({
+                "livre_id": np.nan,
                 "isbn_norm": list(fallback_isbns),
                 "title": "",
                 "author": "",
@@ -192,6 +200,12 @@ class RecommendationModel:
 
         df["isbn_norm"] = df["isbn_norm"].apply(cls.normalize_isbn)
         df = df[df["isbn_norm"] != ""].drop_duplicates(subset=["isbn_norm"])
+
+        if "livre_id" not in df.columns:
+            if "id" in df.columns:
+                df["livre_id"] = pd.to_numeric(df["id"], errors="coerce")
+            else:
+                df["livre_id"] = np.nan
 
         for col in ["title", "author", "categorie", "publishers"]:
             if col not in df.columns:
@@ -214,7 +228,7 @@ class RecommendationModel:
             raise ValueError("No ratings available to train the model.")
 
         ratings_enriched = ratings.merge(
-            books_meta[["isbn_norm", "title", "author", "categorie", "publishers"]],
+            books_meta[["livre_id", "isbn_norm", "title", "author", "categorie", "publishers"]],
             on="isbn_norm",
             how="inner",
         )
@@ -222,6 +236,7 @@ class RecommendationModel:
         if ratings_enriched.empty:
             logger.warning("No overlap between ratings and books metadata; disabling content features.")
             books_meta = pd.DataFrame({
+                "livre_id": np.nan,
                 "isbn_norm": ratings["isbn_norm"].unique(),
                 "title": "",
                 "author": "",
@@ -255,6 +270,14 @@ class RecommendationModel:
 
         popularity = ratings_enriched.groupby("isbn_norm")["note"].agg(["mean", "count"])
         popularity["score"] = popularity["mean"] * np.log1p(popularity["count"])
+        error_metrics = self._compute_error_metrics(
+            ratings_enriched=ratings_enriched,
+            user_index=user_index,
+            item_index=item_index,
+            user_factors=user_factors,
+            item_factors=item_factors,
+            popularity=popularity,
+        )
 
         books_meta = books_meta.copy()
         books_meta["categorie_list"] = books_meta["categorie"].apply(self.parse_categories)
@@ -305,9 +328,45 @@ class RecommendationModel:
             "n_emprunts": len(self.ratings),
             "variance_expliquee": round(variance_expliquee, 4),
             "sparsity": round(float(sparsity), 4),
+            "rmse": error_metrics["rmse"],
+            "mae": error_metrics["mae"],
         }
         self.is_trained = True
         return self.metrics
+
+    def _compute_error_metrics(
+        self,
+        ratings_enriched: pd.DataFrame,
+        user_index: Dict[object, int],
+        item_index: Dict[str, int],
+        user_factors,
+        item_factors,
+        popularity: pd.DataFrame,
+    ) -> Dict[str, Optional[float]]:
+        if ratings_enriched is None or ratings_enriched.empty:
+            return {"rmse": None, "mae": None}
+
+        y_true = ratings_enriched["note"].astype(float).to_numpy()
+        preds = np.full(len(ratings_enriched), np.nan, dtype=float)
+
+        if user_factors is not None and item_factors is not None:
+            row_ids = ratings_enriched["user_id"].map(user_index)
+            col_ids = ratings_enriched["isbn_norm"].map(item_index)
+            valid = row_ids.notna() & col_ids.notna()
+            if valid.any():
+                r_idx = row_ids[valid].astype(int).to_numpy()
+                c_idx = col_ids[valid].astype(int).to_numpy()
+                preds[valid.to_numpy()] = np.sum(user_factors[r_idx] * item_factors[c_idx], axis=1)
+
+        fallback = ratings_enriched["isbn_norm"].map(popularity["mean"]).astype(float).to_numpy()
+        global_mean = float(np.nanmean(y_true)) if len(y_true) else 0.0
+        fallback = np.where(np.isnan(fallback), global_mean, fallback)
+        preds = np.where(np.isnan(preds), fallback, preds)
+
+        errors = preds - y_true
+        rmse = float(np.sqrt(np.mean(errors ** 2)))
+        mae = float(np.mean(np.abs(errors)))
+        return {"rmse": round(rmse, 4), "mae": round(mae, 4)}
 
     def _minmax(self, series: pd.Series) -> pd.Series:
         s = series.astype(float)
@@ -430,7 +489,52 @@ class RecommendationModel:
         for col in ["isbn_norm", "title", "author", "categorie", "publishers"]:
             if col not in recs.columns:
                 recs[col] = ""
-        return recs[["isbn_norm", "title", "author", "categorie", "publishers", "score"]].to_dict("records")
+        if "livre_id" not in recs.columns:
+            recs["livre_id"] = np.nan
+        return recs[["livre_id", "isbn_norm", "title", "author", "categorie", "publishers", "score"]].to_dict("records")
+
+    def recommander_depuis_historique(
+        self,
+        utilisateur_id,
+        n: int = 5,
+        ratings: Optional[pd.DataFrame] = None,
+    ) -> List[dict]:
+        if not self.is_trained:
+            raise RuntimeError("Model is not trained yet.")
+
+        artifacts = self.artifacts
+        ratings_df = self._normalize_ratings_schema(ratings if ratings is not None else self.ratings)
+        if ratings_df is None:
+            return []
+
+        utilisateur_id = self._resolve_user_id(utilisateur_id, artifacts)
+        user_hist = ratings_df[ratings_df["user_id"] == utilisateur_id]
+        if user_hist.empty or "isbn_norm" not in user_hist.columns:
+            return []
+
+        seen = set(user_hist["isbn_norm"])
+        scores = self._content_scores_for_user(utilisateur_id, ratings_df, artifacts)
+        if scores is None:
+            return []
+
+        scores = scores.drop(labels=seen, errors="ignore")
+        top = scores.sort_values(ascending=False).head(n)
+
+        books_meta = self._normalize_books_meta_schema(artifacts.get("books_meta"), fallback_isbns=top.index)
+        if books_meta is None:
+            recs = pd.DataFrame({"isbn_norm": top.index, "score": top.values})
+        else:
+            recs = books_meta.set_index("isbn_norm").reindex(top.index).copy()
+            recs.index.name = "isbn_norm"
+            recs["score"] = top.values
+            recs = recs.reset_index()
+
+        for col in ["isbn_norm", "title", "author", "categorie", "publishers"]:
+            if col not in recs.columns:
+                recs[col] = ""
+        if "livre_id" not in recs.columns:
+            recs["livre_id"] = np.nan
+        return recs[["livre_id", "isbn_norm", "title", "author", "categorie", "publishers", "score"]].to_dict("records")
 
     def _resolve_user_id(self, user_id, artifacts: dict):
         user_index = artifacts.get("user_index", {})
@@ -530,4 +634,6 @@ class RecommendationModel:
             "n_livres": len(item_ids),
             "n_emprunts": n_emprunts,
             "variance_expliquee": round(variance, 4),
+            "rmse": None,
+            "mae": None,
         }

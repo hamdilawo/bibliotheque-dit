@@ -275,13 +275,16 @@ curl http://localhost:8003/api/emprunts/export_csv/ -o data/loans.csv
 ### Service Recommandation
 ```bash
 # Recommandations pour l'utilisateur #1
-curl http://localhost:8004/recommendations/1
+curl http://localhost:8004/recommandation/1
+
+# Livres similaires a partir d'un ISBN de reference
+curl "http://localhost:8004/livre_similaire?ref_isbn=9780134610993&n=5"
 
 # Re-entrainer le modele
 curl -X POST http://localhost:8004/train
 
 # Metriques du modele
-curl http://localhost:8004/metrics
+curl http://localhost:8004/metric
 ```
 
 ---
