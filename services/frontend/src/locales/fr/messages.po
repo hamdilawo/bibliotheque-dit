@@ -1,0 +1,99 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2025-12-14 12:20+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: fr\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+
+#: src/modules/$lang/about.tsx:22
+msgid "A modern, typesafe, and powerful starter template for building web applications properly."
+msgstr "A modern, typesafe, and powerful starter template for building web applications properly."
+
+#: src/shared/components/Navbar.tsx:36
+msgid "About"
+msgstr "About"
+
+#: src/modules/$lang/about.tsx:19
+msgid "About ts-starter"
+msgstr "About ts-starter"
+
+#: src/modules/$lang/index.tsx:21
+msgid "Build, ship, and explore TanStack Start with a head start."
+msgstr "Construisez, déployez et explorez TanStack Start avec un coup d'avance."
+
+#: src/modules/$lang/index.tsx:35
+#~ msgid "Docs"
+#~ msgstr "Docs"
+
+#: src/modules/$lang/about.tsx:35
+msgid "DX"
+msgstr "DX"
+
+#: src/shared/components/Navbar.tsx:50
+msgid "GitHub"
+msgstr "GitHub"
+
+#: src/modules/$lang/todos.tsx:37
+msgid "My Tasks"
+msgstr "My Tasks"
+
+#: src/modules/$lang/todos.tsx:78
+msgid "No tasks yet. Add one above!"
+msgstr "No tasks yet. Add one above!"
+
+#: src/shared/components/NotFound.tsx:24
+msgid "Not Found"
+msgstr "Page non trouvée"
+
+#: src/modules/$lang/about.tsx:29
+msgid "Performance"
+msgstr "Performance"
+
+#: src/modules/$lang/todos.tsx:112
+msgid "Powered by TanStack & Bun"
+msgstr "Powered by TanStack & Bun"
+
+#: src/shared/components/NotFound.tsx:27
+msgid "Return to safety"
+msgstr "Retour à l'accueil"
+
+#: src/modules/$lang/index.tsx:30
+msgid "Shadcn UI vibe"
+msgstr "UI de shadcn"
+
+#: src/shared/components/Navbar.tsx:25
+msgid "Shadcn-inspired navbar"
+msgstr "Navbar inspirée de shadcn"
+
+#: src/modules/$lang/todos.tsx:40
+msgid "Stay organized and productive"
+msgstr "Stay organized and productive"
+
+#: src/modules/$lang/index.tsx:27
+#: src/shared/components/Navbar.tsx:22
+msgid "TanStack Start"
+msgstr "TanStack Start"
+
+#: src/shared/components/NotFound.tsx:17
+msgid "The page you are looking for has drifted off course. Let's guide you back home."
+msgstr "La page que vous cherchez s'est égarée. Revenons à l'accueil."
+
+#: src/shared/components/Navbar.tsx:42
+msgid "Todos"
+msgstr "Todos"
+
+#: src/modules/$lang/about.tsx:32
+msgid "Type Safety"
+msgstr "Type Safety"
+
+#: src/modules/$lang/index.tsx:18
+msgid "Welcome to ts-starter"
+msgstr "Bienvenue sur ts-starter"

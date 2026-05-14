@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <!-- French Home -->
+  <url>
+    <loc>https://react-app-starter.com/fr</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://react-app-starter.com/en"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://react-app-starter.com/fr"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://react-app-starter.com/fr"/>
+    <lastmod>2026-04-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <!-- English Home -->
+  <url>
+    <loc>https://react-app-starter.com/en</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://react-app-starter.com/fr"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://react-app-starter.com/en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://react-app-starter.com/fr"/>
+    <lastmod>2026-04-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- French About -->
+  <url>
+    <loc>https://react-app-starter.com/fr/about</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://react-app-starter.com/en/about"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://react-app-starter.com/fr/about"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://react-app-starter.com/fr/about"/>
+    <lastmod>2026-04-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <!-- English About -->
+  <url>
+    <loc>https://react-app-starter.com/en/about</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://react-app-starter.com/fr/about"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://react-app-starter.com/en/about"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://react-app-starter.com/fr/about"/>
+    <lastmod>2026-04-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- French Todos -->
+  <url>
+    <loc>https://react-app-starter.com/fr/todos</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://react-app-starter.com/en/todos"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://react-app-starter.com/fr/todos"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://react-app-starter.com/fr/todos"/>
+    <lastmod>2026-04-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <!-- English Todos -->
+  <url>
+    <loc>https://react-app-starter.com/en/todos</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://react-app-starter.com/fr/todos"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://react-app-starter.com/en/todos"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://react-app-starter.com/fr/todos"/>
+    <lastmod>2026-04-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+</urlset>

@@ -24,7 +24,7 @@ PGPASSWORD="$DB_PASSWORD" psql \
 EOSQL
 
 echo "==> Migrations Django..."
-uv run python manage.py migrate --noinput
+python manage.py migrate --noinput
 
 echo "==> Démarrage..."
 exec "$@"

@@ -182,4 +182,68 @@ class EmpruntViewSet(viewsets.ViewSet):
         except (ValueError, PermissionError) as e:
             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
+    # ------------------------------------------------------------------ #
+    # Endpoint — Historique des emprunts
+    # ------------------------------------------------------------------ #
+    @extend_schema(summary="Historique des emprunts", description="Retourne la liste de tous les emprunts. Filtrable par statut.")
+    def list(self, request):
+        statut = request.query_params.get('statut')
+        qs = Emprunt.objects.all().order_by('-date_emprunt')
+        if statut:
+            qs = qs.filter(statut=statut)
+        data = [
+            {
+                'id': str(e.id),
+                'utilisateur_id': e.utilisateur_id,
+                'utilisateur_nom': e.utilisateur_nom,
+                'utilisateur_email': e.utilisateur_email,
+                'livre_id': e.livre_id,
+                'livre_titre': e.livre_titre,
+                'livre_auteur': e.livre_auteur,
+                'date_emprunt': e.date_emprunt.isoformat() if e.date_emprunt else None,
+                'date_retour_prevue': str(e.date_retour_prevue) if e.date_retour_prevue else None,
+                'date_retour_effective': str(e.date_retour_effective) if e.date_retour_effective else None,
+                'statut': e.statut,
+                'jours_retard': e.jours_retard,
+                'rating': e.rating,
+            }
+            for e in qs
+        ]
+        return Response({'count': len(data), 'results': data})
+
+    # ------------------------------------------------------------------ #
+    # Endpoint — Export CSV pour le pipeline ML
+    # ------------------------------------------------------------------ #
+    @extend_schema(summary="Exporter les emprunts en CSV", description="Génère un fichier CSV de l'historique des emprunts pour le pipeline ML (DVC).")
+    @action(detail=False, methods=['get'], url_path='export-csv')
+    def export_csv(self, request):
+        qs = Emprunt.objects.all().order_by('-date_emprunt')
+        buffer = io.StringIO()
+        writer = csv.writer(buffer)
+        writer.writerow([
+            'loan_id', 'user_id', 'user_name', 'user_email',
+            'book_id', 'book_title', 'book_author',
+            'date_emprunt', 'date_retour_prevue', 'date_retour_effective',
+            'statut', 'jours_retard', 'rating',
+        ])
+        for e in qs:
+            writer.writerow([
+                str(e.id),
+                e.utilisateur_id,
+                e.utilisateur_nom,
+                e.utilisateur_email or '',
+                e.livre_id,
+                e.livre_titre,
+                e.livre_auteur,
+                e.date_emprunt.isoformat() if e.date_emprunt else '',
+                str(e.date_retour_prevue) if e.date_retour_prevue else '',
+                str(e.date_retour_effective) if e.date_retour_effective else '',
+                e.statut,
+                e.jours_retard,
+                e.rating if e.rating is not None else '',
+            ])
+        response = HttpResponse(buffer.getvalue(), content_type='text/csv; charset=utf-8')
+        response['Content-Disposition'] = 'attachment; filename="loans.csv"'
+        return response
+
         return Response({'message': 'Note enregistrée avec succès.'}, status=status.HTTP_200_OK)
