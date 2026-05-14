@@ -1,0 +1,32 @@
+dit-librairy-api.francecentral.cloudapp.azure.com {
+
+    # Service Utilisateurs
+    handle /api/users/* {
+        reverse_proxy localhost:8002
+    }
+
+    # Service Livres
+    handle /api/livres/* {
+        reverse_proxy localhost:8003
+    }
+
+    # Service Emprunts
+    handle /api/emprunts/* {
+        reverse_proxy localhost:8008
+    }
+
+    # Service Recommandation
+    handle /api/recommandations/* {
+        reverse_proxy localhost:8004
+    }
+
+    # Frontend (catch-all)
+    handle {
+        reverse_proxy localhost:3000
+    }
+
+    encode gzip
+    log {
+        output file /var/log/caddy/access.log
+    }
+}
