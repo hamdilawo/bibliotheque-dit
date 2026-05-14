@@ -1,6 +1,8 @@
 
 FROM python:3.12-slim
 
+ENV HOME=/tmp
+
 RUN groupadd -r appuser && useradd -r -g appuser appuser
 
 WORKDIR /app

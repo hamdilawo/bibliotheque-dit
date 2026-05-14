@@ -28,6 +28,7 @@ FROM python:3.14-slim AS runtime
 
 ENV UV_CACHE_DIR=/tmp/uv-cache
 ENV PYTHONPATH=/app/src
+ENV HOME=/tmp
 
 
 RUN groupadd -r appuser && useradd -r -g appuser appuser
