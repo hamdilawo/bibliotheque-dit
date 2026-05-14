@@ -185,10 +185,14 @@ class EmpruntViewSet(viewsets.ViewSet):
     # ------------------------------------------------------------------ #
     # Endpoint — Historique des emprunts
     # ------------------------------------------------------------------ #
-    @extend_schema(summary="Historique des emprunts", description="Retourne la liste de tous les emprunts. Filtrable par statut.")
+    @extend_schema(summary="Historique des emprunts", description="Retourne les emprunts de l'utilisateur connecté. Admin voit tout.")
     def list(self, request):
         statut = request.query_params.get('statut')
-        qs = Emprunt.objects.all().order_by('-date_emprunt')
+        user = request.authenticated_user
+        if user.role in ('STAFF', 'ADMIN', 'admin'):
+            qs = Emprunt.objects.all().order_by('-date_emprunt')
+        else:
+            qs = Emprunt.objects.filter(utilisateur_id=str(user.id)).order_by('-date_emprunt')
         if statut:
             qs = qs.filter(statut=statut)
         data = [

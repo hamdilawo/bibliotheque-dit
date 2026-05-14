@@ -1,35 +1,30 @@
 """
-Exceptions personnalisées du service Livres.
+Guards Litestar — protection JWT pour les endpoints d'écriture.
 """
-from litestar.exceptions import NotFoundException, HTTPException
+import jwt
+from litestar.connection import ASGIConnection
+from litestar.exceptions import NotAuthorizedException
+from litestar.handlers import BaseRouteHandler
+
+from core.settings import get_settings
 
 
-class LivreNotFoundException(NotFoundException):
-    def __init__(self, livre_id: int):
-        super().__init__(detail=f"Livre {livre_id} introuvable.")
+async def jwt_guard(connection: ASGIConnection, handler: BaseRouteHandler) -> None:
+    """Vérifie le JWT dans le header Authorization. Réservé aux admins (STAFF)."""
+    auth_header = connection.headers.get("Authorization", "")
+    if not auth_header.startswith("Bearer "):
+        raise NotAuthorizedException("Token d'authentification manquant.")
 
+    token = auth_header.removeprefix("Bearer ").strip()
+    settings = get_settings()
 
-class ISBNAlreadyExistsException(HTTPException):
-    status_code = 409
+    try:
+        payload = jwt.decode(token, settings.secret_key, algorithms=["HS256"])
+    except jwt.ExpiredSignatureError:
+        raise NotAuthorizedException("Token expiré.")
+    except jwt.InvalidTokenError:
+        raise NotAuthorizedException("Token invalide.")
 
-    def __init__(self, isbn: str):
-        super().__init__(detail=f"Un livre avec l'ISBN {isbn} existe déjà.")
-
-
-class StockInsuffisantException(HTTPException):
-    status_code = 400
-
-    def __init__(self, disponible: int, demande: int):
-        super().__init__(
-            detail=f"Stock insuffisant : {disponible} exemplaire(s) disponible(s), "
-                   f"{demande} demandé(s)."
-        )
-
-
-class StockDepaseeException(HTTPException):
-    status_code = 400
-
-    def __init__(self, total: int):
-        super().__init__(
-            detail=f"Impossible : dépasse le stock total ({total} exemplaires)."
-        )
+    role = payload.get("role", "")
+    if role != "STAFF":
+        raise NotAuthorizedException("Accès réservé au personnel DIT (STAFF).")

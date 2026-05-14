@@ -1,19 +1,20 @@
 import { useAtom, useAtomValue } from 'jotai'
-import { selectedBookAtom, loansAtom, booksAtom, borrowedBookIdsAtom } from '../store'
+import { useEffect, useState } from 'react'
+import { selectedBookAtom, loansAtom, booksAtom, borrowedBookIdsAtom, accessTokenAtom, currentUserAtom } from '../store'
 import { AnimatePresence, motion } from 'framer-motion'
-import { X, Star, BookOpen, Clock, Users, Download, TrendingUp } from 'lucide-react'
+import { X, Star, BookOpen, Clock, Users, Download, TrendingUp, Loader2 } from 'lucide-react'
 import { toast } from 'sonner'
 import { cn } from '@/lib/utils'
-import type { Loan } from '../mock-data'
+import { fetchBookDetail, borrowBook, returnBook, fetchMyLoans } from '../api'
 
 const GENRE_COLORS: Record<string, string> = {
+  'Data Engineering': '#0f766e',
+  'Data Science': '#0284c7',
   'Informatique': '#0369a1',
-  'Algorithmique': '#7c3aed',
-  'IA & Machine Learning': '#0891b2',
-  'Littérature africaine': '#b45309',
-  'Classique': '#be185d',
-  'Sciences': '#15803d',
-  'Développement personnel': '#c2410c',
+  'Intelligence Artificielle': '#7c3aed',
+  'Mathématiques': '#9333ea',
+  'Sciences': '#059669',
+  'Littérature': '#b45309',
 }
 
 export function BookDetailSheet() {
@@ -21,37 +22,55 @@ export function BookDetailSheet() {
   const [loans, setLoans] = useAtom(loansAtom)
   const [books, setBooks] = useAtom(booksAtom)
   const borrowedIds = useAtomValue(borrowedBookIdsAtom)
+  const token = useAtomValue(accessTokenAtom)
+  const currentUser = useAtomValue(currentUserAtom)
+  const [busy, setBusy] = useState(false)
 
   const isBorrowed = book ? borrowedIds.has(book.id) : false
 
-  const handleBorrow = () => {
+  useEffect(() => {
     if (!book) return
-    const newLoan: Loan = {
-      id: `l${Date.now()}`,
-      bookId: book.id,
-      borrowedAt: new Date().toISOString(),
-      dueAt: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString(),
-      returnedAt: null,
-      status: 'active',
+    fetchBookDetail(book.id).then((full) => setBook(full)).catch(() => {})
+  }, [book?.id])
+
+  const handleBorrow = async () => {
+    if (!book) return
+    if (!token || !currentUser) {
+      toast.error('Connectez-vous pour emprunter un livre')
+      return
     }
-    setLoans([...loans, newLoan])
-    setBooks(books.map((b) => (b.id === book.id ? { ...b, available: Math.max(0, b.available - 1) } : b)))
-    toast.success('Livre emprunté !', { description: `"${book.title}" · À rendre dans 14 jours` })
-    setBook(null)
+    setBusy(true)
+    try {
+      await borrowBook(book.id, token)
+      const fresh = await fetchMyLoans(token, currentUser.id)
+      setLoans(fresh)
+      setBooks(books.map((b) => (b.id === book.id ? { ...b, available: Math.max(0, b.available - 1) } : b)))
+      toast.success('Livre emprunté !', { description: `"${book.title}" · À rendre dans 14 jours` })
+      setBook(null)
+    } catch (e: any) {
+      toast.error(e.message)
+    } finally {
+      setBusy(false)
+    }
   }
 
-  const handleReturn = () => {
-    if (!book) return
-    setLoans(
-      loans.map((l) =>
-        l.bookId === book.id && l.status !== 'returned'
-          ? { ...l, status: 'returned', returnedAt: new Date().toISOString() }
-          : l
-      )
-    )
-    setBooks(books.map((b) => (b.id === book.id ? { ...b, available: b.available + 1 } : b)))
-    toast.success('Livre rendu !', { description: `"${book.title}" a été retourné` })
-    setBook(null)
+  const handleReturn = async () => {
+    if (!book || !token || !currentUser) return
+    const activeLoan = loans.find((l) => l.bookId === book.id && l.status !== 'returned')
+    if (!activeLoan) return
+    setBusy(true)
+    try {
+      await returnBook(activeLoan.id, token)
+      const fresh = await fetchMyLoans(token, currentUser.id)
+      setLoans(fresh)
+      setBooks(books.map((b) => (b.id === book.id ? { ...b, available: b.available + 1 } : b)))
+      toast.success('Livre rendu !', { description: `"${book.title}" a été retourné` })
+      setBook(null)
+    } catch (e: any) {
+      toast.error(e.message)
+    } finally {
+      setBusy(false)
+    }
   }
 
   const genreColor = book ? (GENRE_COLORS[book.genre] ?? '#004455') : '#004455'
@@ -200,16 +219,20 @@ export function BookDetailSheet() {
               {isBorrowed ? (
                 <button
                   onClick={handleReturn}
-                  className="w-full py-4 rounded-2xl bg-gray-100 text-gray-700 font-semibold text-base active:scale-[0.98] transition-transform cursor-pointer"
+                  disabled={busy}
+                  className="w-full py-4 rounded-2xl bg-gray-100 text-gray-700 font-semibold text-base active:scale-[0.98] transition-transform cursor-pointer disabled:opacity-60 flex items-center justify-center gap-2"
                 >
+                  {busy && <Loader2 className="w-4 h-4 animate-spin" />}
                   Rendre ce livre
                 </button>
               ) : book.available > 0 ? (
                 <button
                   onClick={handleBorrow}
-                  className="w-full py-4 rounded-2xl text-white font-semibold text-base active:scale-[0.98] transition-transform cursor-pointer"
+                  disabled={busy}
+                  className="w-full py-4 rounded-2xl text-white font-semibold text-base active:scale-[0.98] transition-transform cursor-pointer disabled:opacity-60 flex items-center justify-center gap-2"
                   style={{ backgroundColor: '#004455' }}
                 >
+                  {busy && <Loader2 className="w-4 h-4 animate-spin" />}
                   Emprunter · 14 jours
                 </button>
               ) : (

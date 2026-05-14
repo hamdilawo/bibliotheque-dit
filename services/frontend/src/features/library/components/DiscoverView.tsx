@@ -1,10 +1,12 @@
-import { useAtomValue } from 'jotai'
-import { filteredBooksAtom, searchAtom, genreFilterAtom, isAuthenticatedAtom, currentUserAtom } from '../store'
+import { useAtomValue, useSetAtom } from 'jotai'
+import { useEffect } from 'react'
+import { filteredBooksAtom, searchAtom, genreFilterAtom, isAuthenticatedAtom, currentUserAtom, booksAtom, booksLoadingAtom, booksErrorAtom } from '../store'
 import { SearchBar } from './SearchBar'
 import { GenreChips } from './GenreChips'
 import { RecommendationRow } from './RecommendationRow'
 import { BookCard } from './BookCard'
 import { BookOpen } from 'lucide-react'
+import { fetchBooks } from '../api'
 
 export function DiscoverView() {
   const books = useAtomValue(filteredBooksAtom)
@@ -13,6 +15,17 @@ export function DiscoverView() {
   const isFiltered = search || genre
   const isAuthenticated = useAtomValue(isAuthenticatedAtom)
   const currentUser = useAtomValue(currentUserAtom)
+  const setBooks = useSetAtom(booksAtom)
+  const setLoading = useSetAtom(booksLoadingAtom)
+  const setError = useSetAtom(booksErrorAtom)
+  const loading = useAtomValue(booksLoadingAtom)
+  const error = useAtomValue(booksErrorAtom)
+
+  useEffect(() => {
+    fetchBooks()
+      .then((data) => { setBooks(data); setLoading(false) })
+      .catch((e) => { setError(e.message); setLoading(false) })
+  }, [])
 
   const firstName = currentUser?.full_name?.split(' ')[0] ?? ''
 
@@ -48,7 +61,19 @@ export function DiscoverView() {
           </span>
         </div>
 
-        {books.length === 0 ? (
+        {loading ? (
+          <div className="grid grid-cols-2 gap-3">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <div key={i} className="rounded-2xl bg-gray-100 animate-pulse h-56" />
+            ))}
+          </div>
+        ) : error ? (
+          <div className="text-center py-16">
+            <BookOpen className="w-12 h-12 text-gray-200 mx-auto mb-3" />
+            <p className="text-gray-400 font-semibold">Service indisponible</p>
+            <p className="text-gray-300 text-sm mt-1">{error}</p>
+          </div>
+        ) : books.length === 0 ? (
           <div className="text-center py-16">
             <BookOpen className="w-12 h-12 text-gray-200 mx-auto mb-3" />
             <p className="text-gray-400 font-semibold">Aucun livre trouvé</p>

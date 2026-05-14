@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useAtom, useSetAtom } from 'jotai'
-import { loginSheetOpenAtom, isAuthenticatedAtom, currentUserAtom } from '../store'
+import { loginSheetOpenAtom, isAuthenticatedAtom, currentUserAtom, accessTokenAtom } from '../store'
 import { AnimatePresence, motion } from 'framer-motion'
 import { X, LogIn, Mail, Lock, AlertCircle } from 'lucide-react'
 
@@ -8,6 +8,7 @@ export function LoginSheet() {
   const [open, setOpen] = useAtom(loginSheetOpenAtom)
   const setAuthenticated = useSetAtom(isAuthenticatedAtom)
   const setCurrentUser = useSetAtom(currentUserAtom)
+  const setToken = useSetAtom(accessTokenAtom)
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -29,6 +30,7 @@ export function LoginSheet() {
         throw new Error(data.detail ?? 'Email ou mot de passe incorrect.')
       }
       setCurrentUser({ id: data.id, email: data.email, full_name: data.full_name, role: data.role })
+      setToken(data.access)
       setAuthenticated(true)
       setOpen(false)
       setEmail('')

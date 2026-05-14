@@ -1,5 +1,6 @@
+import { useState } from 'react'
 import { useAtomValue, useSetAtom } from 'jotai'
-import { loansAtom, isAuthenticatedAtom, loginSheetOpenAtom, currentUserAtom } from '../store'
+import { loansAtom, isAuthenticatedAtom, loginSheetOpenAtom, currentUserAtom, accessTokenAtom } from '../store'
 import { Award, BookOpen, GraduationCap, Lock, LogIn, LogOut, Mail } from 'lucide-react'
 
 export function AccountView() {
@@ -8,10 +9,14 @@ export function AccountView() {
   const currentUser = useAtomValue(currentUserAtom)
   const setAuthenticated = useSetAtom(isAuthenticatedAtom)
   const setCurrentUser = useSetAtom(currentUserAtom)
+  const setToken = useSetAtom(accessTokenAtom)
+  const [confirmLogout, setConfirmLogout] = useState(false)
 
   const handleLogout = () => {
     setAuthenticated(false)
     setCurrentUser(null)
+    setToken(null)
+    setConfirmLogout(false)
   }
   const loans = useAtomValue(loansAtom)
 
@@ -135,13 +140,33 @@ export function AccountView() {
         )}
       </div>
 
-      <button
-        onClick={handleLogout}
-        className="mt-6 w-full flex items-center justify-center gap-2 py-2.5 rounded-xl border border-red-200 text-red-500 text-sm font-medium hover:bg-red-50 transition-colors"
-      >
-        <LogOut className="w-4 h-4" />
-        Se déconnecter
-      </button>
+      {confirmLogout ? (
+        <div className="mt-6 rounded-2xl border border-red-200 bg-red-50 p-4 space-y-3">
+          <p className="text-sm text-red-700 font-medium text-center">Confirmer la déconnexion ?</p>
+          <div className="flex gap-2">
+            <button
+              onClick={() => setConfirmLogout(false)}
+              className="flex-1 py-2 rounded-xl border border-gray-200 text-gray-600 text-sm font-medium hover:bg-gray-50 transition-colors"
+            >
+              Annuler
+            </button>
+            <button
+              onClick={handleLogout}
+              className="flex-1 py-2 rounded-xl bg-red-500 text-white text-sm font-medium hover:bg-red-600 transition-colors"
+            >
+              Se déconnecter
+            </button>
+          </div>
+        </div>
+      ) : (
+        <button
+          onClick={() => setConfirmLogout(true)}
+          className="mt-6 w-full flex items-center justify-center gap-2 py-2.5 rounded-xl border border-red-200 text-red-500 text-sm font-medium hover:bg-red-50 transition-colors"
+        >
+          <LogOut className="w-4 h-4" />
+          Se déconnecter
+        </button>
+      )}
     </div>
   )
 }

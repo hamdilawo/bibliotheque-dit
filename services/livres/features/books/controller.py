@@ -14,6 +14,7 @@ from features.books.schemas import (
     CategorieOut, PaginatedOut, HealthOut,
 )
 from features.books import service
+from core.guards import jwt_guard
 
 
 # ─── Health Check ────────────────────────────────────────────
@@ -74,12 +75,12 @@ class LivreController(Controller):
         """Liste paginée de tous les livres actifs."""
         return await service.lister_livres(page, page_size, sort)
 
-    @post("")
+    @post("", guards=[jwt_guard])
     async def creer(
         self,
         data: Annotated[LivreIn, Body(media_type=RequestEncodingType.MULTI_PART)],
     ) -> LivreDetailOut:
-        """Crée un nouveau livre (multipart/form-data, couverture optionnelle)."""
+        """Crée un nouveau livre (multipart/form-data, couverture optionnelle). Réservé STAFF."""
         livre = await service.creer_livre(data)
         return LivreDetailOut(**livre)
 
@@ -105,15 +106,15 @@ class LivreController(Controller):
         livre = await service.get_livre(livre_id)
         return LivreDetailOut(**livre)
 
-    @patch("/{livre_id:uuid}")
+    @patch("/{livre_id:uuid}", guards=[jwt_guard])
     async def modifier_partiellement(self, livre_id: UUID, data: LivrePatchIn) -> LivreDetailOut:
-        """Modification partielle — ISBN non modifiable."""
+        """Modification partielle — ISBN non modifiable. Réservé STAFF."""
         livre = await service.modifier_partiellement(livre_id, data)
         return LivreDetailOut(**livre)
 
-    @delete("/{livre_id:uuid}", status_code=204)
+    @delete("/{livre_id:uuid}", status_code=204, guards=[jwt_guard])
     async def supprimer(self, livre_id: UUID) -> None:
-        """Soft delete + suppression couverture MinIO."""
+        """Soft delete + suppression couverture MinIO. Réservé STAFF."""
         await service.supprimer_livre(livre_id)
 
     @get("/{livre_id:uuid}/disponibilite")

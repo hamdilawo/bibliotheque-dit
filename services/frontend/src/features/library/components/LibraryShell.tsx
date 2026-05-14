@@ -1,5 +1,7 @@
+import { useState, useEffect } from 'react'
 import { useAtomValue, useSetAtom } from 'jotai'
-import { activeViewAtom, loginSheetOpenAtom, isAuthenticatedAtom, currentUserAtom } from '../store'
+import { activeViewAtom, loginSheetOpenAtom, isAuthenticatedAtom, currentUserAtom, accessTokenAtom, loansAtom } from '../store'
+import { fetchMyLoans } from '../api'
 import { FloatingNav } from './FloatingNav'
 import { DiscoverView } from './DiscoverView'
 import { LoansView } from './LoansView'
@@ -8,7 +10,7 @@ import { AdminView } from './AdminView'
 import { BookDetailSheet } from './BookDetailSheet'
 import { LoginSheet } from './LoginSheet'
 import { AnimatePresence, motion } from 'framer-motion'
-import { LogOut, ShieldCheck } from 'lucide-react'
+import { LogOut, ShieldCheck, X, Check } from 'lucide-react'
 
 const VIEWS = {
   discover: DiscoverView,
@@ -24,11 +26,22 @@ export function LibraryShell() {
   const currentUser = useAtomValue(currentUserAtom)
   const setAuthenticated = useSetAtom(isAuthenticatedAtom)
   const setCurrentUser = useSetAtom(currentUserAtom)
+  const token = useAtomValue(accessTokenAtom)
+  const setToken = useSetAtom(accessTokenAtom)
+  const setLoans = useSetAtom(loansAtom)
+  const [confirmLogout, setConfirmLogout] = useState(false)
   const ActiveView = VIEWS[active as keyof typeof VIEWS]
+
+  useEffect(() => {
+    if (!isAuthenticated || !token || !currentUser) return
+    fetchMyLoans(token, currentUser.id).then(setLoans).catch(() => {})
+  }, [isAuthenticated])
 
   const handleLogout = () => {
     setAuthenticated(false)
     setCurrentUser(null)
+    setToken(null)
+    setConfirmLogout(false)
   }
 
   return (
@@ -47,15 +60,33 @@ export function LibraryShell() {
               <span className="font-bold text-gray-900 text-sm tracking-tight">DIT Library</span>
             </div>
             {isAuthenticated ? (
-              <button
-                onClick={handleLogout}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-gray-200 bg-white/70 backdrop-blur-sm hover:bg-red-50 hover:border-red-200 transition-colors cursor-pointer group"
-              >
-                <span className="text-xs font-semibold text-gray-600 group-hover:text-red-500 transition-colors">
-                  {currentUser?.full_name?.split(' ')[0]}
-                </span>
-                <LogOut className="w-3.5 h-3.5 text-gray-400 group-hover:text-red-500 transition-colors" />
-              </button>
+              confirmLogout ? (
+                <div className="flex items-center gap-1.5">
+                  <button
+                    onClick={() => setConfirmLogout(false)}
+                    className="flex items-center justify-center w-7 h-7 rounded-full border border-gray-200 bg-white/70 hover:bg-gray-100 transition-colors"
+                  >
+                    <X className="w-3.5 h-3.5 text-gray-500" />
+                  </button>
+                  <button
+                    onClick={handleLogout}
+                    className="flex items-center gap-1 px-3 py-1.5 rounded-full bg-red-500 hover:bg-red-600 transition-colors text-white text-xs font-semibold"
+                  >
+                    <Check className="w-3 h-3" />
+                    Confirmer
+                  </button>
+                </div>
+              ) : (
+                <button
+                  onClick={() => setConfirmLogout(true)}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-gray-200 bg-white/70 backdrop-blur-sm hover:bg-red-50 hover:border-red-200 transition-colors cursor-pointer group"
+                >
+                  <span className="text-xs font-semibold text-gray-600 group-hover:text-red-500 transition-colors">
+                    {currentUser?.full_name?.split(' ')[0]}
+                  </span>
+                  <LogOut className="w-3.5 h-3.5 text-gray-400 group-hover:text-red-500 transition-colors" />
+                </button>
+              )
             ) : (
               <button
                 onClick={() => setLoginOpen(true)}

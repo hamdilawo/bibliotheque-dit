@@ -96,6 +96,9 @@ def delete_couverture(object_name: str) -> None:
     """
     if not object_name:
         return
+    if object_name.startswith("http"):
+        # URL externe (Open Library, etc.) — rien à supprimer dans MinIO
+        return
     try:
         settings = get_settings()
         client = get_minio_client()
@@ -104,7 +107,7 @@ def delete_couverture(object_name: str) -> None:
             object_name=object_name,
         )
         logger.info(f"Couverture supprimée : {object_name}")
-    except S3Error as e:
+    except Exception as e:
         logger.warning(f"Impossible de supprimer la couverture '{object_name}' : {e}")
 
 
@@ -120,5 +123,7 @@ def get_couverture_url(object_name: str) -> str:
     """
     if not object_name:
         return ""
+    if object_name.startswith("http"):
+        return object_name
     settings = get_settings()
     return f"{settings.minio_public_url}/{settings.minio_bucket_couvertures}/{object_name}"

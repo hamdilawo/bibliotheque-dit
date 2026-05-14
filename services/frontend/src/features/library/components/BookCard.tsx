@@ -1,6 +1,6 @@
 import { useSetAtom, useAtomValue } from 'jotai'
 import { selectedBookAtom, borrowedBookIdsAtom } from '../store'
-import type { Book } from '../mock-data'
+import type { Book } from '../types'
 import { Star, BookMarked } from 'lucide-react'
 import { cn } from '@/lib/utils'
 

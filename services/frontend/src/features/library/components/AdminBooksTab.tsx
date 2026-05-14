@@ -1,17 +1,30 @@
-import { useState } from 'react'
-import { useAtom } from 'jotai'
-import { booksAtom } from '../store'
-import { Plus, Pencil, Trash2, X, Check } from 'lucide-react'
+import { useState, useRef } from 'react'
+import { useAtom, useAtomValue } from 'jotai'
+import { booksAtom, accessTokenAtom } from '../store'
+import { Plus, Pencil, Trash2, X, Check, Loader2, ImagePlus } from 'lucide-react'
 import { toast } from 'sonner'
-import type { Book } from '../mock-data'
+import type { Book } from '../types'
+import { createBook, updateBook, deleteBook, fetchBooks } from '../api'
 
-type EditState = Partial<Book> & { id?: string }
+type FormState = {
+  id?: string
+  title: string; author: string; isbn: string
+  description: string; pages: string; year: string; total: string
+}
+
+const EMPTY: FormState = { title: '', author: '', isbn: '', description: '', pages: '', year: '', total: '1' }
 
 export function AdminBooksTab() {
   const [books, setBooks] = useAtom(booksAtom)
+  const token = useAtomValue(accessTokenAtom)
   const [search, setSearch] = useState('')
-  const [editing, setEditing] = useState<EditState | null>(null)
+  const [form, setForm] = useState<FormState | null>(null)
   const [isNew, setIsNew] = useState(false)
+  const [saving, setSaving] = useState(false)
+  const [deleting, setDeleting] = useState<string | null>(null)
+  const [coverFile, setCoverFile] = useState<File | null>(null)
+  const [coverPreview, setCoverPreview] = useState<string | null>(null)
+  const fileRef = useRef<HTMLInputElement>(null)
 
   const filtered = books.filter(
     (b) =>
@@ -19,56 +32,86 @@ export function AdminBooksTab() {
       b.author.toLowerCase().includes(search.toLowerCase())
   )
 
-  const openNew = () => {
-    setIsNew(true)
-    setEditing({ title: '', author: '', genre: 'Informatique', available: 1, total: 1, description: '' })
-  }
+  const set = (key: keyof FormState) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+    setForm((f) => f ? { ...f, [key]: e.target.value } : f)
 
+  const openNew = () => { setIsNew(true); setForm(EMPTY); setCoverFile(null); setCoverPreview(null) }
   const openEdit = (book: Book) => {
     setIsNew(false)
-    setEditing({ ...book })
+    setCoverFile(null)
+    setCoverPreview(book.coverUrl)
+    setForm({
+      id: book.id, title: book.title, author: book.author, isbn: '',
+      description: book.description, pages: String(book.pages || ''),
+      year: String(book.year || ''), total: String(book.total),
+    })
   }
 
-  const handleSave = () => {
-    if (!editing?.title || !editing?.author) return
-    if (isNew) {
-      const newBook: Book = {
-        id: `b${Date.now()}`,
-        title: editing.title!,
-        author: editing.author!,
-        genre: (editing.genre as Book['genre']) ?? 'Informatique',
-        available: editing.available ?? 1,
-        total: editing.total ?? 1,
-        coverUrl: `https://picsum.photos/seed/${Date.now()}/120/176`,
-        description: editing.description ?? '',
-        pages: editing.pages ?? 200,
-        year: editing.year ?? new Date().getFullYear(),
-        borrowCount: 0,
-        viewCount: 0,
+  const handleCoverChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setCoverFile(file)
+    setCoverPreview(URL.createObjectURL(file))
+  }
+
+  const handleSave = async () => {
+    if (!form || !token) return
+    if (!form.title || !form.author) { toast.error('Titre et auteur requis'); return }
+    if (isNew && form.isbn.replace(/\D/g, '').length !== 13) { toast.error('ISBN doit contenir 13 chiffres'); return }
+
+    setSaving(true)
+    try {
+      if (isNew) {
+        await createBook({
+          titre: form.title, auteur: form.author, isbn: form.isbn,
+          description: form.description || undefined,
+          nombre_pages: form.pages ? Number(form.pages) : undefined,
+          annee_publication: form.year ? Number(form.year) : undefined,
+          quantite_totale: form.total ? Number(form.total) : 1,
+          couverture: coverFile ?? undefined,
+        }, token)
+        toast.success('Livre ajouté')
+      } else {
+        await updateBook(form.id!, {
+          titre: form.title, auteur: form.author,
+          description: form.description || undefined,
+          nombre_pages: form.pages ? Number(form.pages) : undefined,
+          annee_publication: form.year ? Number(form.year) : undefined,
+          quantite_totale: form.total ? Number(form.total) : undefined,
+        }, token)
+        toast.success('Livre mis à jour')
       }
-      setBooks([newBook, ...books])
-      toast.success('Livre ajouté')
-    } else {
-      setBooks(books.map((b) => (b.id === editing.id ? { ...b, ...editing } as Book : b)))
-      toast.success('Livre mis à jour')
+      setBooks(await fetchBooks())
+      setForm(null)
+    } catch (e: any) {
+      toast.error(e.message)
+    } finally {
+      setSaving(false)
     }
-    setEditing(null)
   }
 
-  const handleDelete = (id: string, title: string) => {
-    setBooks(books.filter((b) => b.id !== id))
-    toast.success(`"${title}" supprimé`)
+  const handleDelete = async (id: string, title: string) => {
+    if (!token) return
+    setDeleting(id)
+    try {
+      await deleteBook(id, token)
+      setBooks(await fetchBooks())
+      toast.success(`"${title}" supprimé`)
+    } catch (e: any) {
+      toast.error(e.message)
+    } finally {
+      setDeleting(null)
+    }
   }
 
   return (
     <div className="px-5">
-      {/* toolbar */}
       <div className="flex items-center gap-2 mb-4">
         <input
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Rechercher un livre..."
-          className="flex-1 px-3 py-2 rounded-xl border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50"
+          className="flex-1 px-3 py-2 rounded-xl border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
         />
         <button
           onClick={openNew}
@@ -80,7 +123,7 @@ export function AdminBooksTab() {
         </button>
       </div>
 
-      <p className="text-xs text-gray-400 mb-3">{filtered.length} livre{filtered.length > 1 ? 's' : ''}</p>
+      <p className="text-xs text-gray-400 mb-3">{filtered.length} livre{filtered.length !== 1 ? 's' : ''}</p>
 
       <div className="space-y-2">
         {filtered.map((book) => (
@@ -104,44 +147,47 @@ export function AdminBooksTab() {
                 onClick={() => openEdit(book)}
                 className="w-8 h-8 rounded-lg bg-gray-50 border border-gray-200 flex items-center justify-center hover:bg-blue-50 hover:border-blue-200 transition-colors"
               >
-                <Pencil className="w-3.5 h-3.5 text-gray-500 hover:text-blue-500" />
+                <Pencil className="w-3.5 h-3.5 text-gray-500" />
               </button>
               <button
                 onClick={() => handleDelete(book.id, book.title)}
-                className="w-8 h-8 rounded-lg bg-gray-50 border border-gray-200 flex items-center justify-center hover:bg-red-50 hover:border-red-200 transition-colors"
+                disabled={deleting === book.id}
+                className="w-8 h-8 rounded-lg bg-gray-50 border border-gray-200 flex items-center justify-center hover:bg-red-50 hover:border-red-200 transition-colors disabled:opacity-50"
               >
-                <Trash2 className="w-3.5 h-3.5 text-gray-500 hover:text-red-500" />
+                {deleting === book.id
+                  ? <Loader2 className="w-3.5 h-3.5 animate-spin text-red-400" />
+                  : <Trash2 className="w-3.5 h-3.5 text-gray-500" />}
               </button>
             </div>
           </div>
         ))}
       </div>
 
-      {/* Edit / New sheet */}
-      {editing && (
+      {form && (
         <div className="fixed inset-0 z-50 flex flex-col justify-end">
-          <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setEditing(null)} />
-          <div className="relative z-10 bg-card rounded-t-3xl border-t border-border px-6 pt-5 pb-10 shadow-2xl max-w-2xl w-full mx-auto">
+          <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setForm(null)} />
+          <div className="relative z-10 bg-card rounded-t-3xl border-t border-border px-6 pt-5 pb-10 shadow-2xl max-w-2xl w-full mx-auto max-h-[85vh] overflow-y-auto">
             <div className="flex items-center justify-between mb-5">
-              <h2 className="text-lg font-semibold text-foreground">{isNew ? 'Ajouter un livre' : 'Modifier'}</h2>
-              <button onClick={() => setEditing(null)} className="w-8 h-8 rounded-full bg-muted flex items-center justify-center">
+              <h2 className="text-lg font-semibold">{isNew ? 'Ajouter un livre' : 'Modifier'}</h2>
+              <button onClick={() => setForm(null)} className="w-8 h-8 rounded-full bg-muted flex items-center justify-center">
                 <X className="w-4 h-4 text-muted-foreground" />
               </button>
             </div>
+
             <div className="space-y-3">
-              {[
-                { label: 'Titre', key: 'title', type: 'text' },
-                { label: 'Auteur', key: 'author', type: 'text' },
-                { label: 'Pages', key: 'pages', type: 'number' },
-                { label: 'Année', key: 'year', type: 'number' },
-                { label: 'Exemplaires total', key: 'total', type: 'number' },
-              ].map(({ label, key, type }) => (
+              {([
+                { label: 'Titre *', key: 'title' as const },
+                { label: 'Auteur *', key: 'author' as const },
+                ...(isNew ? [{ label: 'ISBN (13 chiffres) *', key: 'isbn' as const }] : []),
+                { label: 'Année', key: 'year' as const },
+                { label: 'Pages', key: 'pages' as const },
+                { label: 'Exemplaires', key: 'total' as const },
+              ]).map(({ label, key }) => (
                 <div key={key}>
                   <label className="text-xs font-medium text-muted-foreground uppercase tracking-wide">{label}</label>
                   <input
-                    type={type}
-                    value={(editing as any)[key] ?? ''}
-                    onChange={(e) => setEditing({ ...editing, [key]: type === 'number' ? Number(e.target.value) : e.target.value })}
+                    value={form[key]}
+                    onChange={set(key)}
                     className="mt-1 w-full px-3 py-2.5 rounded-xl border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
                   />
                 </div>
@@ -149,19 +195,42 @@ export function AdminBooksTab() {
               <div>
                 <label className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Description</label>
                 <textarea
-                  value={editing.description ?? ''}
-                  onChange={(e) => setEditing({ ...editing, description: e.target.value })}
+                  value={form.description}
+                  onChange={set('description')}
                   rows={2}
                   className="mt-1 w-full px-3 py-2.5 rounded-xl border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 resize-none"
                 />
               </div>
+
+              <div>
+                <label className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Couverture</label>
+                <input ref={fileRef} type="file" accept="image/*" onChange={handleCoverChange} className="hidden" />
+                <button
+                  type="button"
+                  onClick={() => fileRef.current?.click()}
+                  className="mt-1 w-full flex items-center gap-3 px-3 py-2.5 rounded-xl border border-dashed border-border hover:border-primary/50 bg-background transition-colors"
+                >
+                  {coverPreview ? (
+                    <img src={coverPreview} className="w-10 h-14 object-cover rounded-lg flex-shrink-0" />
+                  ) : (
+                    <div className="w-10 h-14 rounded-lg bg-muted flex items-center justify-center flex-shrink-0">
+                      <ImagePlus className="w-4 h-4 text-muted-foreground" />
+                    </div>
+                  )}
+                  <span className="text-sm text-muted-foreground">
+                    {coverFile ? coverFile.name : 'Choisir une image…'}
+                  </span>
+                </button>
+              </div>
             </div>
+
             <button
               onClick={handleSave}
-              className="mt-5 w-full flex items-center justify-center gap-2 rounded-full bg-primary py-2.5 text-sm font-medium text-primary-foreground shadow-sm hover:opacity-90"
+              disabled={saving}
+              className="mt-5 w-full flex items-center justify-center gap-2 rounded-full bg-primary py-2.5 text-sm font-medium text-primary-foreground shadow-sm hover:opacity-90 disabled:opacity-50"
             >
-              <Check className="w-4 h-4" />
-              {isNew ? 'Ajouter' : 'Enregistrer'}
+              {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
+              {saving ? 'Enregistrement...' : isNew ? 'Ajouter' : 'Enregistrer'}
             </button>
           </div>
         </div>

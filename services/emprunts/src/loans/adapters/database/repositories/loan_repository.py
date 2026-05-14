@@ -42,33 +42,29 @@ class LoanRepositoryImpl(LoanRepository):
 
     def find_by_id(self, loan_id: str) -> Optional[Loan]:
         try:
-
             emprunt = Emprunt.objects.get(id=loan_id)
-            loan = Loan(
-                id=emprunt.id,
-                borrower_id=emprunt.utilisateur_id,
-                book=Book(
-                    id=emprunt.livre_id,
-                    title=emprunt.livre_titre,
-                    isbn=emprunt.livre_isbn,
-                    author=emprunt.livre_auteur
-                ),
-                reader=Reader(
-                    id=emprunt.utilisateur_id,
-                    name=emprunt.utilisateur_nom,
-                    email=Email(
-                        emprunt.utilisateur_email) if emprunt.utilisateur_email else None
-                ),
-
-                term=emprunt.date_retour_prevue,
-                status=LoanStatus(emprunt.statut),
-                penalty=int(emprunt.penalite_fcfa),
-                jours_retard=emprunt.jours_retard,
-                comment=emprunt.comment
-            )
-            return loan
-        except:
+        except Emprunt.DoesNotExist:
             return None
+        return Loan(
+            id=emprunt.id,
+            borrower_id=emprunt.utilisateur_id,
+            book=Book(
+                id=emprunt.livre_id,
+                title=emprunt.livre_titre,
+                isbn=emprunt.livre_isbn,
+                author=emprunt.livre_auteur,
+            ),
+            reader=Reader(
+                id=emprunt.utilisateur_id,
+                name=emprunt.utilisateur_nom,
+                email=Email(emprunt.utilisateur_email) if emprunt.utilisateur_email else None,
+            ),
+            term=emprunt.date_retour_prevue,
+            status=LoanStatus(emprunt.statut),
+            penalty=int(emprunt.penalite_fcfa),
+            jours_retard=emprunt.jours_retard,
+            comment=emprunt.comment,
+        )
 
     def count_active_loans_by_book_id(self, book_id: str) -> int:
         return Emprunt.objects.filter(livre_id=book_id).exclude(statut=LoanStatus.COMPLETED).count()

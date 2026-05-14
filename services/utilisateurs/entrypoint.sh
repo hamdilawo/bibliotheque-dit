@@ -26,5 +26,26 @@ EOSQL
 echo "==> Migrations Django..."
 python manage.py migrate --noinput
 
+echo "==> Création des comptes par défaut..."
+python manage.py shell -c "
+from users.models import User
+
+accounts = [
+    dict(email='mamadou.diallo@dit.sn', password='dit2024!',
+         first_name='Mamadou', last_name='Diallo', role='STUDENT'),
+    dict(email='admin@dit.sn', password='admin2024!',
+         first_name='Admin', last_name='DIT', role='STAFF',
+         is_staff=True, is_superuser=True),
+]
+
+for data in accounts:
+    password = data.pop('password')
+    if not User.objects.filter(email=data['email']).exists():
+        User.objects.create_user(password=password, **data)
+        print(f'Créé : {data[\"email\"]}')
+    else:
+        print(f'Existe déjà : {data[\"email\"]}')
+"
+
 echo "==> Démarrage..."
 exec "$@"

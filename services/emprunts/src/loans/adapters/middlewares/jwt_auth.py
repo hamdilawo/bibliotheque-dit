@@ -23,8 +23,13 @@ class JWTAuthMiddleware:
         token = request.COOKIES.get(settings.JWT_COOKIE_NAME)
 
         if not token:
+            auth_header = request.headers.get("Authorization", "")
+            if auth_header.startswith("Bearer "):
+                token = auth_header.removeprefix("Bearer ").strip()
+
+        if not token:
             return JsonResponse(
-                {"error": "Cookie d'authentification manquant."},
+                {"error": "Authentification requise (cookie ou header Authorization)."},
                 status=401,
             )
 
@@ -41,7 +46,7 @@ class JWTAuthMiddleware:
 
         try:
             user = User(
-                id=payload["user_id"],
+                id=str(payload["user_id"]),
                 name=payload.get("full_name", "Unknown"),
                 email=payload["email"],
                 role=payload["role"],

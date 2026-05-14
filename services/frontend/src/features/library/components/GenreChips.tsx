@@ -1,16 +1,17 @@
 import { useAtom } from 'jotai'
 import { genreFilterAtom } from '../store'
-import { GENRES } from '../mock-data'
 import { cn } from '@/lib/utils'
 
+const GENRES = ['Data Engineering', 'Data Science', 'Intelligence Artificielle', 'Informatique', 'Mathématiques', 'Sciences', 'Littérature']
+
 const GENRE_COLORS: Record<string, string> = {
+  'Data Engineering': '#0f766e',
+  'Data Science': '#0284c7',
   Informatique: '#0369a1',
-  Algorithmique: '#7c3aed',
-  'IA & Machine Learning': '#0d9488',
-  'Littérature africaine': '#b45309',
-  Classique: '#be185d',
+  'Intelligence Artificielle': '#7c3aed',
+  Mathématiques: '#9333ea',
   Sciences: '#059669',
-  'Développement personnel': '#4338ca',
+  Littérature: '#b45309',
 }
 
 export function GenreChips() {
