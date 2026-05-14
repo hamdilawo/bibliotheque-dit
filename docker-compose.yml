@@ -335,12 +335,12 @@ services:
       context: ./services/frontend
       dockerfile: Dockerfile
       args:
-        VITE_APP_URL: http://localhost:3000
+        VITE_APP_URL: http://dit-librairy-api.francecentral.cloudapp.azure.com
         VITE_APP_NAME: DIT Library
-        VITE_USERS_API_URL_PROD: http://localhost:8002
-        VITE_BOOKS_API_URL_PROD: http://localhost:8003
-        VITE_LOANS_API_URL_PROD: http://localhost:8008
-        VITE_RECOMMENDATION_API_URL_PROD: http://localhost:8004
+        VITE_USERS_API_URL: http://dit-librairy-api.francecentral.cloudapp.azure.com
+        VITE_BOOKS_API_URL: http://dit-librairy-api.francecentral.cloudapp.azure.com
+        VITE_LOANS_API_URL: http://dit-librairy-api.francecentral.cloudapp.azure.com
+        VITE_RECOMMENDATION_API_URL: http://dit-librairy-api.francecentral.cloudapp.azure.com
     ports:
       - "3000:3000"
     networks:

@@ -20,7 +20,8 @@ export function LoginSheet() {
     setLoading(true)
     setError(null)
     try {
-      const res = await fetch('http://localhost:8002/api/auth/login/', {
+      const USERS_API = import.meta.env.VITE_USERS_API_URL ?? 'http://localhost:8002'
+      const res = await fetch(`${USERS_API}/api/auth/login/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
