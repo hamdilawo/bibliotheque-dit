@@ -1,23 +1,33 @@
 dit-librairy-api.francecentral.cloudapp.azure.com {
 
     # Service Utilisateurs
-    handle /api/users/* {
+    handle /api/users* {
+        reverse_proxy localhost:8002
+    }
+
+    # Auth (login, refresh, token)
+    handle /api/auth* {
         reverse_proxy localhost:8002
     }
 
     # Service Livres
-    handle /api/livres/* {
+    handle /api/livres* {
         reverse_proxy localhost:8003
     }
 
     # Service Emprunts
-    handle /api/emprunts/* {
+    handle /api/emprunts* {
         reverse_proxy localhost:8008
     }
 
     # Service Recommandation
-    handle /api/recommandations/* {
+    handle /api/recommandations* {
         reverse_proxy localhost:8004
+    }
+
+    # Docs Livres & Emprunts
+    handle /api/schema* {
+        reverse_proxy localhost:8008
     }
 
     # Frontend (catch-all)
