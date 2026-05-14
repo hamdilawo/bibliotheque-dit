@@ -4,7 +4,7 @@ import { booksAtom, accessTokenAtom } from '../store'
 import { Plus, Pencil, Trash2, X, Check, Loader2, ImagePlus } from 'lucide-react'
 import { toast } from 'sonner'
 import type { Book } from '../types'
-import { createBook, updateBook, deleteBook, fetchBooks } from '../api'
+import { createBook, updateBook, deleteBook, fetchBooks, fetchBookDetail } from '../api'
 
 type FormState = {
   id?: string
@@ -36,15 +36,20 @@ export function AdminBooksTab() {
     setForm((f) => f ? { ...f, [key]: e.target.value } : f)
 
   const openNew = () => { setIsNew(true); setForm(EMPTY); setCoverFile(null); setCoverPreview(null) }
-  const openEdit = (book: Book) => {
+  const openEdit = async (book: Book) => {
     setIsNew(false)
     setCoverFile(null)
     setCoverPreview(book.coverUrl)
-    setForm({
-      id: book.id, title: book.title, author: book.author, isbn: '',
-      description: book.description, pages: String(book.pages || ''),
-      year: String(book.year || ''), total: String(book.total),
-    })
+    setForm({ id: book.id, title: book.title, author: book.author, isbn: '', description: '', pages: '', year: '', total: String(book.total) })
+    try {
+      const detail = await fetchBookDetail(book.id)
+      setForm({
+        id: detail.id, title: detail.title, author: detail.author, isbn: '',
+        description: detail.description, pages: String(detail.pages || ''),
+        year: String(detail.year || ''), total: String(detail.total),
+      })
+      setCoverPreview(detail.coverUrl)
+    } catch {}
   }
 
   const handleCoverChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -62,7 +67,7 @@ export function AdminBooksTab() {
     setSaving(true)
     try {
       if (isNew) {
-        await createBook({
+        const created = await createBook({
           titre: form.title, auteur: form.author, isbn: form.isbn,
           description: form.description || undefined,
           nombre_pages: form.pages ? Number(form.pages) : undefined,
@@ -70,6 +75,7 @@ export function AdminBooksTab() {
           quantite_totale: form.total ? Number(form.total) : 1,
           couverture: coverFile ?? undefined,
         }, token)
+        setBooks((prev) => [created, ...prev])
         toast.success('Livre ajouté')
       } else {
         await updateBook(form.id!, {
@@ -79,9 +85,9 @@ export function AdminBooksTab() {
           annee_publication: form.year ? Number(form.year) : undefined,
           quantite_totale: form.total ? Number(form.total) : undefined,
         }, token)
+        setBooks(await fetchBooks())
         toast.success('Livre mis à jour')
       }
-      setBooks(await fetchBooks())
       setForm(null)
     } catch (e: any) {
       toast.error(e.message)
