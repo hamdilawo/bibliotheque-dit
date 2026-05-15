@@ -33,7 +33,13 @@ dit-librairy-api.francecentral.cloudapp.azure.com {
     handle /metrics* {
         reverse_proxy localhost:8004
     }
+    handle /metric* {
+        reverse_proxy localhost:8004
+    }
     handle /livre_similaire* {
+        reverse_proxy localhost:8004
+    }
+    handle /health {
         reverse_proxy localhost:8004
     }
 
