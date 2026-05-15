@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from src.loans.app.ports.loan_repository import LoanRepository
+from loans.app.ports.loan_repository import LoanRepository
 
 
 @dataclass

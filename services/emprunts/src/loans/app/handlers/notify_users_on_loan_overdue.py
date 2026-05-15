@@ -3,7 +3,7 @@ from datetime import date
 import logging
 
 from loans.app.ports.loan_repository import LoanRepository
-from src.loans.app.ports.email_service import EmailServiceInterface
+from loans.app.ports.email_service import EmailServiceInterface
 
 logger = logging.getLogger(__name__)
 

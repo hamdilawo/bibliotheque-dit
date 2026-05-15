@@ -1,7 +1,7 @@
 from datetime import date
 from typing import Optional, Protocol
 
-from src.loans.app.domain.book import Book
+from loans.app.domain.book import Book
 
 
 class BookServiceInterface(Protocol):

@@ -3,8 +3,8 @@
 from datetime import date
 from typing import List, Optional, Protocol
 
-from src.loans.app.domain.email import Email
-from src.loans.app.domain.loan import Loan
+from loans.app.domain.email import Email
+from loans.app.domain.loan import Loan
 
 
 class LoanRepository(Protocol):

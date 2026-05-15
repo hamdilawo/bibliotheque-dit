@@ -2,10 +2,10 @@ from concurrent.futures import Future, ThreadPoolExecutor
 import logging
 from typing import Callable
 
-from src.loans.app.domain.loan import Loan
-from src.loans.app.ports.book_service_interface import BookServiceInterface
-from src.loans.app.ports.loan_repository import LoanRepository
-from src.loans.app.ports.email_service import EmailServiceInterface
+from loans.app.domain.loan import Loan
+from loans.app.ports.book_service_interface import BookServiceInterface
+from loans.app.ports.loan_repository import LoanRepository
+from loans.app.ports.email_service import EmailServiceInterface
 
 logger = logging.getLogger(__name__)
 

@@ -2,7 +2,7 @@ import jwt
 from django.conf import settings
 from django.http import JsonResponse
 
-from src.loans.app.domain.user import User
+from loans.app.domain.user import User
 
 
 class JWTAuthMiddleware:

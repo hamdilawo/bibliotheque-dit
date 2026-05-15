@@ -5,9 +5,9 @@ import requests
 # httpx
 from typing import Optional
 
-from src.loans.app.domain.book import Book
-from src.loans.app.ports.book_service_interface import BookServiceInterface
-from src.loans.client import ServiceException
+from loans.app.domain.book import Book
+from loans.app.ports.book_service_interface import BookServiceInterface
+from loans.client import ServiceException
 
 BOOK_SERVICE_API_URL = os.getenv("SERVICE_LIVRES_URL", "http://not-found:8000")
 

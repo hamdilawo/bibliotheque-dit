@@ -1,7 +1,7 @@
 from time import sleep
 from typing import Dict
 
-from src.loans.app.ports.email_service import EmailServiceInterface
+from loans.app.ports.email_service import EmailServiceInterface
 
 
 class BrevoEmailService(EmailServiceInterface):

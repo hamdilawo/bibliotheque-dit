@@ -1,11 +1,11 @@
 
-from src.loans.app.handlers.notify_users_on_loan_overdue import NotifyUsersOnLoanOverdue
-from src.loans.app.handlers.notify_users_before_loan_due import NotifyUsers3DaysBeforeLoanDue
-from src.loans.adapters.services.brevo_email_service import BrevoEmailService
-from src.loans.app.handlers.return_loan import ReturnLoan
-from src.loans.adapters.database.repositories.loan_repository import LoanRepositoryImpl
-from src.loans.app.handlers.borrow_a_book import BorrowABook, BorrowCommand
-from src.loans.adapters.database.models.emprunt import Emprunt
+from loans.app.handlers.notify_users_on_loan_overdue import NotifyUsersOnLoanOverdue
+from loans.app.handlers.notify_users_before_loan_due import NotifyUsers3DaysBeforeLoanDue
+from loans.adapters.services.brevo_email_service import BrevoEmailService
+from loans.app.handlers.return_loan import ReturnLoan
+from loans.adapters.database.repositories.loan_repository import LoanRepositoryImpl
+from loans.app.handlers.borrow_a_book import BorrowABook, BorrowCommand
+from loans.adapters.database.models.emprunt import Emprunt
 from rest_framework import serializers, viewsets, status, filters
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -14,7 +14,7 @@ from django.http import HttpResponse
 from drf_spectacular.utils import extend_schema, OpenApiParameter
 import csv
 import io
-from src.loans.adapters.services.book import FakeBookService, BookService
+from loans.adapters.services.book import FakeBookService, BookService
 from .serializers import (
     BorrowABookResponseSerializer,
     CreerEmpruntSerializer, RetourEmpruntSerializer,
@@ -162,7 +162,7 @@ class EmpruntViewSet(viewsets.ViewSet):
     @extend_schema(request=RateBookSerializer, summary="Noter un livre/emprunt")
     @action(detail=False, methods=['post'], url_path="rate")
     def rate_book(self, request):
-        from src.loans.app.handlers.rate_book import RateBook, RateBookCommand
+        from loans.app.handlers.rate_book import RateBook, RateBookCommand
         from .serializers import RateBookSerializer
 
         try:

@@ -5,9 +5,9 @@ from typing import Any, Dict, List, Optional, Set
 from loans.app.domain.book import Book
 from loans.app.domain.email import Email
 from loans.app.domain.reader import Reader
-from src.loans.adapters.database.models.emprunt import Emprunt
-from src.loans.app.domain.loan import Loan, LoanStatus
-from src.loans.app.ports.loan_repository import LoanRepository
+from loans.adapters.database.models.emprunt import Emprunt
+from loans.app.domain.loan import Loan, LoanStatus
+from loans.app.ports.loan_repository import LoanRepository
 
 
 class LoanRepositoryImpl(LoanRepository):

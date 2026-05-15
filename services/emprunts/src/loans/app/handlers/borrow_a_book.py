@@ -4,13 +4,13 @@ from datetime import date
 import logging
 from typing import Callable, Optional
 
-from src.loans.app.domain.email import Email
-from src.loans.app.domain.loan import Loan
-from src.loans.app.domain.reader import Reader
-from src.loans.app.domain.user import User
-from src.loans.app.ports.book_service_interface import BookServiceInterface
-from src.loans.app.ports.loan_repository import LoanRepository
-from src.loans.app.ports.email_service import EmailServiceInterface
+from loans.app.domain.email import Email
+from loans.app.domain.loan import Loan
+from loans.app.domain.reader import Reader
+from loans.app.domain.user import User
+from loans.app.ports.book_service_interface import BookServiceInterface
+from loans.app.ports.loan_repository import LoanRepository
+from loans.app.ports.email_service import EmailServiceInterface
 
 logger = logging.getLogger(__name__)
 

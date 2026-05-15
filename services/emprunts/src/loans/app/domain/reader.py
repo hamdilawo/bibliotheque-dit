@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Optional
 
-from src.loans.app.domain.email import Email
+from loans.app.domain.email import Email
 
 
 @dataclass(kw_only=True, frozen=True)

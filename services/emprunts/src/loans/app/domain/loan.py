@@ -4,8 +4,8 @@ from datetime import date, datetime, timedelta, timezone
 from enum import Enum
 from typing import Optional, Self
 from uuid import UUID, uuid7
-from src.loans.app.domain.book import Book
-from src.loans.app.domain.reader import Reader
+from loans.app.domain.book import Book
+from loans.app.domain.reader import Reader
 
 
 class LoanStatus(str, Enum):
