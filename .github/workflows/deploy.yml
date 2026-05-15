@@ -80,5 +80,11 @@ jobs:
             done
             if [ -z "$MODELE" ]; then
               echo "  KO  Modèle ML non chargé après 3 minutes."
+              echo ""
+              echo "==> Logs loans-api (seed) :"
+              docker logs loans-api --tail 30
+              echo ""
+              echo "==> Logs recommandation (training) :"
+              docker logs recommandation --tail 30
               exit 1
             fi
