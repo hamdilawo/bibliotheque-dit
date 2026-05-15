@@ -35,5 +35,8 @@ jobs:
             # Rebuild et restart en mode prod
             docker compose --profile prod up --build -d --remove-orphans
 
+            # Reload Caddy pour prendre en compte les nouvelles routes
+            sudo caddy reload --config $REPO_DIR/Caddyfile
+
             # Nettoyage images inutilisées
             docker image prune -f
