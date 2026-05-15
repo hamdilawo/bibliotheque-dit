@@ -46,11 +46,7 @@ export const filteredBooksAtom = atom((get) => {
   )
 })
 
-export const recommendedBooksAtom = atom((get) =>
-  [...get(booksAtom)]
-    .sort((a, b) => b.borrowCount + b.viewCount - (a.borrowCount + a.viewCount))
-    .slice(0, 8)
-)
+export const recommendedBooksAtom = atom<Book[]>([])
 
 export const activeLoansAtom = atom((get) =>
   get(loansAtom).filter((l) => l.status === 'active' || l.status === 'overdue')

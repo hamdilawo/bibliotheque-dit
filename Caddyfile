@@ -21,7 +21,19 @@ dit-librairy-api.francecentral.cloudapp.azure.com {
     }
 
     # Service Recommandation
-    handle /api/recommandations* {
+    handle /recommendations* {
+        reverse_proxy localhost:8004
+    }
+    handle /popular* {
+        reverse_proxy localhost:8004
+    }
+    handle /train* {
+        reverse_proxy localhost:8004
+    }
+    handle /metrics* {
+        reverse_proxy localhost:8004
+    }
+    handle /livre_similaire* {
         reverse_proxy localhost:8004
     }
 

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useAtomValue, useSetAtom } from 'jotai'
-import { loansAtom, isAuthenticatedAtom, loginSheetOpenAtom, currentUserAtom, accessTokenAtom } from '../store'
+import { loansAtom, isAuthenticatedAtom, loginSheetOpenAtom, currentUserAtom, accessTokenAtom, activeViewAtom } from '../store'
 import { Award, BookOpen, GraduationCap, Lock, LogIn, LogOut, Mail } from 'lucide-react'
 
 export function AccountView() {
@@ -10,6 +10,7 @@ export function AccountView() {
   const setAuthenticated = useSetAtom(isAuthenticatedAtom)
   const setCurrentUser = useSetAtom(currentUserAtom)
   const setToken = useSetAtom(accessTokenAtom)
+  const setActiveView = useSetAtom(activeViewAtom)
   const [confirmLogout, setConfirmLogout] = useState(false)
 
   const handleLogout = () => {
@@ -17,6 +18,7 @@ export function AccountView() {
     setCurrentUser(null)
     setToken(null)
     setConfirmLogout(false)
+    setActiveView('discover')
   }
   const loans = useAtomValue(loansAtom)
 

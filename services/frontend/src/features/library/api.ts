@@ -2,6 +2,7 @@ import type { Book, Genre, Loan, LoanStatus } from './types'
 
 const BOOKS_API = import.meta.env.VITE_BOOKS_API_URL ?? 'http://localhost:8003'
 const LOANS_API = import.meta.env.VITE_LOANS_API_URL ?? 'http://localhost:8008'
+const RECO_API = import.meta.env.VITE_RECOMMENDATION_API_URL ?? 'http://localhost:8004'
 
 type ApiBookList = {
   id: string
@@ -192,4 +193,62 @@ export async function returnBook(loanId: string, token: string): Promise<void> {
     const err = await res.json().catch(() => ({}))
     throw new Error(err.error ?? 'Erreur retour')
   }
+}
+
+// ── Recommandations ─────────────────────────────────────────────────────────
+
+type ApiRecoItem = {
+  livre_id: number | null
+  score: number
+  titre: string | null
+  auteur: string | null
+  isbn: string | null
+  disponible: boolean | null
+  categorie: string | null
+}
+
+function mapRecoItem(item: ApiRecoItem, allBooks: Book[]): Book | null {
+  const found = allBooks.find((b) => b.id === String(item.livre_id))
+  if (found) return { ...found, rating: parseFloat(Math.min(5, Math.abs(item.score) * 3 + 3.5).toFixed(1)) }
+  if (!item.titre) return null
+  return {
+    id: String(item.livre_id ?? item.isbn ?? ''),
+    title: item.titre,
+    author: item.auteur ?? '',
+    genre: (item.categorie ?? 'Informatique') as Genre,
+    description: '',
+    coverUrl: `https://picsum.photos/seed/${item.isbn ?? item.livre_id}/300/450`,
+    rating: 4.0,
+    borrowCount: 0,
+    viewCount: 0,
+    available: item.disponible ? 1 : 0,
+    total: 1,
+    year: 0,
+    pages: 0,
+  }
+}
+
+export async function fetchRecommendations(userId: string, allBooks: Book[]): Promise<Book[]> {
+  const res = await fetch(`${RECO_API}/recommendations/${userId}`)
+  if (!res.ok) throw new Error(`Service recommandation indisponible (${res.status})`)
+  const data = await res.json()
+  const items: ApiRecoItem[] = data.recommandations ?? []
+  return items
+    .map((item) => mapRecoItem(item, allBooks))
+    .filter((b): b is Book => b !== null)
+}
+
+export async function fetchPopularBooks(allBooks: Book[]): Promise<Book[]> {
+  try {
+    const res = await fetch(`${RECO_API}/popular?n=8`)
+    if (!res.ok) throw new Error()
+    const data = await res.json()
+    const top: { livre_id: string | null }[] = data.top_livres ?? []
+    const result = top
+      .map((item) => allBooks.find((b) => b.id === String(item.livre_id)))
+      .filter((b): b is Book => b !== undefined)
+    if (result.length > 0) return result
+  } catch {}
+  // fallback : premiers livres du catalogue
+  return allBooks.slice(0, 8)
 }

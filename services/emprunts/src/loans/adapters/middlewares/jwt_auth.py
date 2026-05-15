@@ -11,7 +11,7 @@ class JWTAuthMiddleware:
     injecte user_id, user_email, user_role dans la request.
     """
 
-    EXCLUDED_PATHS = ["/", "/api/docs/", "/api/schema/"]
+    EXCLUDED_PATHS = ["/", "/api/docs/", "/api/schema/", "/api/emprunts/export-csv/"]
 
     def __init__(self, get_response):
         self.get_response = get_response

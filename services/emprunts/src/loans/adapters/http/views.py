@@ -226,7 +226,7 @@ class EmpruntViewSet(viewsets.ViewSet):
         writer = csv.writer(buffer)
         writer.writerow([
             'loan_id', 'user_id', 'user_name', 'user_email',
-            'book_id', 'book_title', 'book_author',
+            'book_id', 'isbn', 'book_title', 'book_author',
             'date_emprunt', 'date_retour_prevue', 'date_retour_effective',
             'statut', 'jours_retard', 'rating',
         ])
@@ -237,6 +237,7 @@ class EmpruntViewSet(viewsets.ViewSet):
                 e.utilisateur_nom,
                 e.utilisateur_email or '',
                 e.livre_id,
+                e.livre_isbn or '',
                 e.livre_titre,
                 e.livre_auteur,
                 e.date_emprunt.isoformat() if e.date_emprunt else '',
