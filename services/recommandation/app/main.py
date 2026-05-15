@@ -296,7 +296,7 @@ async def _charger_livres_service() -> Optional[pd.DataFrame]:
             # Première page avec page_size large pour tout récupérer
             resp = await client.get(
                 f"{SERVICE_LIVRES_URL}/api/livres/",
-                params={"page": 1, "page_size": 500},
+                params={"page": 1, "page_size": 100},
             )
             resp.raise_for_status()
             data = resp.json()
@@ -309,14 +309,13 @@ async def _charger_livres_service() -> Optional[pd.DataFrame]:
 
             rows = list(data.get("results") or [])
             total = data.get("count", len(rows))
-            page_size = data.get("page_size", 500)
 
             # Pages suivantes si nécessaire (Litestar ne retourne pas de champ "next")
             page = 2
             while len(rows) < total:
                 resp = await client.get(
                     f"{SERVICE_LIVRES_URL}/api/livres/",
-                    params={"page": page, "page_size": page_size},
+                    params={"page": page, "page_size": 100},
                 )
                 if resp.status_code != 200:
                     break
