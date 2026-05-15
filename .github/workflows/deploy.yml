@@ -56,7 +56,7 @@ jobs:
               fi
             }
 
-            check "$BASE/api/users/"          200
+            check "$BASE/api/users/"          401
             check "$BASE/api/livres/"         200
             check "$BASE/api/emprunts/"       401
             check "$BASE/health"              200
