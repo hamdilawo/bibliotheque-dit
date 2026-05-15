@@ -216,6 +216,8 @@ services:
     env_file:
       - .env
       - ./services/emprunts/.env.prod
+    environment:
+      SEED_LOANS: "true"
     command: ["uv", "run", "python", "manage.py", "runserver", "0.0.0.0:8000"]
     volumes:
       - ./services/emprunts:/app
@@ -238,6 +240,8 @@ services:
     env_file:
       - .env
       - ./services/emprunts/.env.prod
+    environment:
+      SEED_LOANS: "true"
     command: ["uv", "run", "gunicorn", "src.drf.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "3"]
     ports:
       - "8008:8000"
