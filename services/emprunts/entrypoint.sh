@@ -26,5 +26,14 @@ EOSQL
 echo "==> Migrations Django..."
 uv run python manage.py migrate --noinput
 
+echo "==> Vérification des données d'emprunts..."
+LOAN_COUNT=$(uv run python manage.py shell -c "from loans.adapters.database.models.emprunt import Emprunt; print(Emprunt.objects.count())" 2>/dev/null || echo "0")
+if [ "$LOAN_COUNT" = "0" ]; then
+  echo "==> Aucun emprunt trouvé — seed automatique..."
+  uv run python manage.py seed_loans || echo "==> Seed ignoré (service livres pas encore prêt ?)"
+else
+  echo "==> $LOAN_COUNT emprunts existants — seed ignoré."
+fi
+
 echo "==> Démarrage..."
 exec "$@"
