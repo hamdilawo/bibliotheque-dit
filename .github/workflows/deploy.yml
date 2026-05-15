@@ -61,3 +61,19 @@ jobs:
             check "$BASE/api/emprunts/"       401
             check "$BASE/health"              200
             echo "==> Tous les services répondent."
+
+            # Attendre que le modèle soit entraîné (max 3 min)
+            echo "==> Attente du modèle ML..."
+            for i in $(seq 1 18); do
+              MODELE=$(curl -s "$BASE/health" | grep -o '"modele_charge":true')
+              if [ -n "$MODELE" ]; then
+                echo "  OK  Modèle ML chargé et prêt."
+                break
+              fi
+              echo "  ... tentative $i/18 — modèle pas encore prêt"
+              sleep 10
+            done
+            if [ -z "$MODELE" ]; then
+              echo "  KO  Modèle ML non chargé après 3 minutes."
+              exit 1
+            fi
