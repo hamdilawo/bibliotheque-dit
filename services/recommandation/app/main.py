@@ -76,14 +76,16 @@ async def lifespan(app: FastAPI):
         else:
             model_state["ratings"] = model_state["model"].ratings
     except FileNotFoundError:
-        logger.warning(f"Pas de modèle pré-entraîné à {ARTIFACTS_PATH}. Entraînez-le via POST /train.")
+        logger.warning(f"Pas de modèle pré-entraîné à {ARTIFACTS_PATH}. Lancement de l'entraînement automatique...")
+        asyncio.create_task(_auto_train_on_startup())
     except Exception as exc:
         model_state["model"] = None
         model_state["ratings"] = None
         logger.warning(
             f"Impossible de charger le modèle ({exc}). "
-            "Lancez POST /train pour régénérer des artefacts compatibles."
+            "Lancement de l'entraînement automatique..."
         )
+        asyncio.create_task(_auto_train_on_startup())
     yield
     logger.info("Arrêt du service recommandation.")
 
@@ -354,6 +356,24 @@ async def telecharger_donnees_emprunts() -> pd.DataFrame:
         logger.info(f"Fallback : lecture depuis {DATA_PATH}")
         return pd.read_csv(DATA_PATH)
     raise HTTPException(status_code=503, detail="Impossible de récupérer les données d'emprunts.")
+
+
+async def _auto_train_on_startup():
+    """Attend que le service emprunts soit prêt puis entraîne le modèle."""
+    await asyncio.sleep(15)  # laisse le temps aux autres services de démarrer
+    for attempt in range(10):
+        try:
+            async with httpx.AsyncClient(timeout=5.0) as client:
+                resp = await client.get(f"{SERVICE_EMPRUNTS_URL}/api/emprunts/export-csv/")
+                if resp.status_code == 200 and len(resp.text) > 100:
+                    logger.info("Service emprunts prêt — démarrage de l'entraînement automatique.")
+                    await _entrainer()
+                    return
+        except Exception:
+            pass
+        logger.info(f"Auto-train : attente service emprunts (tentative {attempt + 1}/10)...")
+        await asyncio.sleep(10)
+    logger.warning("Auto-train abandonné : service emprunts inaccessible après 10 tentatives.")
 
 
 def entrainer_en_arriere_plan():
