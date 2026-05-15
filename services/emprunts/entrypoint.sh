@@ -27,8 +27,17 @@ echo "==> Migrations Django..."
 uv run python manage.py migrate --noinput
 
 if [ "${SEED_LOANS:-false}" = "true" ]; then
+  echo "==> Attente du service livres (book-api)..."
+  for i in $(seq 1 24); do
+    if curl -sf http://book-api:8001/api/livres/ > /dev/null 2>&1; then
+      echo "  book-api prêt."
+      break
+    fi
+    echo "  ... tentative $i/24"
+    sleep 5
+  done
   echo "==> SEED_LOANS=true — génération des données d'entraînement ML..."
-  uv run python manage.py seed_loans || echo "==> Seed ignoré (service livres pas encore prêt ?)"
+  uv run python manage.py seed_loans || echo "==> Seed échoué."
 fi
 
 echo "==> Démarrage..."
