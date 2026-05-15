@@ -45,7 +45,7 @@ Projet d'examen — Master 2 Intelligence Artificielle, Dakar Institute of Techn
 ### 1. Cloner le dépôt
 
 ```bash
-git clone https://github.com/hamdilawo/bibliotheque-dit.git
+git clone -b prod/v2 https://github.com/hamdilawo/bibliotheque-dit.git
 cd bibliotheque-dit
 ```
 
