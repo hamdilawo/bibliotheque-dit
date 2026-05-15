@@ -70,7 +70,7 @@ jobs:
             # Attendre que le modèle soit entraîné (max 3 min)
             echo "==> Attente du modèle ML..."
             for i in $(seq 1 18); do
-              MODELE=$(curl -s "$BASE/health" | grep -o '"modele_charge":true')
+              MODELE=$(curl -s "$BASE/health" | grep -o '"modele_charge":true' || true)
               if [ -n "$MODELE" ]; then
                 echo "  OK  Modèle ML chargé et prêt."
                 break
