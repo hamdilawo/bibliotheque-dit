@@ -306,6 +306,40 @@ services:
     profiles: [prod]
 
   # ══════════════════════════════════════════════════════════════
+  # Cron — Ré-entraînement automatique du modèle ML toutes les heures
+  # ══════════════════════════════════════════════════════════════
+
+  ml-cron:
+    image: alpine:3.19
+    container_name: dit-ml-cron
+    restart: unless-stopped
+    networks:
+      - bibliotheque-network
+    entrypoint: >
+      /bin/sh -c "
+        echo '0 * * * * wget -qO- --post-data=\"\" http://recommandation:8000/train > /proc/1/fd/1 2>&1' | crontab -
+        crond -f -l 2
+      "
+    depends_on:
+      - recommandation
+    profiles: [prod]
+
+  ml-cron-dev:
+    image: alpine:3.19
+    container_name: dit-ml-cron
+    restart: unless-stopped
+    networks:
+      - bibliotheque-network
+    entrypoint: >
+      /bin/sh -c "
+        echo '0 * * * * wget -qO- --post-data=\"\" http://recommandation:8000/train > /proc/1/fd/1 2>&1' | crontab -
+        crond -f -l 2
+      "
+    depends_on:
+      - recommandation-dev
+    profiles: [dev]
+
+  # ══════════════════════════════════════════════════════════════
   # Frontend — TanStack Start / React 19 / Tailwind v4 / Bun
   # ══════════════════════════════════════════════════════════════
 
