@@ -41,25 +41,30 @@ jobs:
             # Nettoyage images inutilisées
             docker image prune -f
 
-            # Vérification des services
+            # Vérification des services (retry 12x toutes les 10s = 2 min max)
             echo "==> Vérification des services..."
-            sleep 10
             BASE=https://dit-librairy-api.francecentral.cloudapp.azure.com
 
-            check() {
-              STATUS=$(curl -s -o /dev/null -w "%{http_code}" "$1")
-              if [ "$STATUS" = "$2" ]; then
-                echo "  OK  $1 → $STATUS"
-              else
-                echo "  KO  $1 → $STATUS (attendu $2)"
-                exit 1
-              fi
+            wait_for() {
+              URL=$1
+              EXPECTED=$2
+              for i in $(seq 1 12); do
+                STATUS=$(curl -s -o /dev/null -w "%{http_code}" "$URL")
+                if [ "$STATUS" = "$EXPECTED" ]; then
+                  echo "  OK  $URL → $STATUS"
+                  return 0
+                fi
+                echo "  ... $URL → $STATUS (attendu $EXPECTED), tentative $i/12"
+                sleep 10
+              done
+              echo "  KO  $URL → toujours $STATUS après 2 minutes."
+              exit 1
             }
 
-            check "$BASE/api/users/"          401
-            check "$BASE/api/livres/"         200
-            check "$BASE/api/emprunts/"       401
-            check "$BASE/health"              200
+            wait_for "$BASE/api/users/"     401
+            wait_for "$BASE/api/livres/"    200
+            wait_for "$BASE/api/emprunts/"  401
+            wait_for "$BASE/health"         200
             echo "==> Tous les services répondent."
 
             # Attendre que le modèle soit entraîné (max 3 min)
